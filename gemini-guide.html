@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your First App with Gemini</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #22223a;
+            --bg-card: #2a2a44;
+            --bg-code: #16162a;
+            --text-primary: #ececec;
+            --text-secondary: #b4b4c8;
+            --text-muted: #8888a0;
+            --accent-blue: #4285f4;
+            --accent-green: #34a853;
+            --accent-yellow: #fbbc04;
+            --accent-red: #ea4335;
+            --accent-teal: #5cb8b2;
+            --accent-purple: #b39ddb;
+            --border: #3a3a54;
+            --link: #8ab4f8;
+            --font-body: 'Source Serif 4', Georgia, serif;
+            --font-display: 'Sora', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+            --toc-width: 300px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.75;
+            font-size: 16px;
+            min-height: 100vh;
+        }
+
+        /* Reading progress */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green), var(--accent-yellow));
+            z-index: 1000;
+            transition: width 0.15s;
+            width: 0%;
+        }
+
+        /* ===== TOC SIDEBAR ===== */
+        #toc-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--toc-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 90;
+            transition: transform 0.25s ease;
+            padding: 24px 0;
+        }
+
+        body.toc-hidden #toc-panel { transform: translateX(-100%); }
+        .toc-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 89;
+        }
+
+        #toc-panel .toc-header {
+            padding: 0 20px 16px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        #toc-panel .toc-title {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        #toc-nav { padding: 0 12px; }
+
+        .toc-section { margin-bottom: 2px; }
+
+        .toc-h2 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        .toc-h2:hover { background: rgba(255,255,255,0.05); }
+
+        .toc-h2 a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .toc-h2 a.active { color: var(--accent-blue); }
+
+        .toc-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .toc-h2.expanded .toc-toggle { transform: rotate(90deg); }
+
+        .toc-h3-list {
+            display: none;
+            list-style: none;
+            padding: 0 0 0 20px;
+            margin: 0 0 4px;
+        }
+
+        .toc-h2.expanded + .toc-h3-list { display: block; }
+
+        .toc-h3 a {
+            display: block;
+            padding: 3px 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .toc-h3 a:hover { color: var(--text-secondary); }
+        .toc-h3 a.active { color: var(--accent-blue); }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 56px 80px;
+            transition: margin-left 0.25s;
+        }
+
+        body:not(.toc-hidden) .main-content {
+            margin-left: var(--toc-width);
+        }
+
+        /* Entry animation */
+        .main-content > * {
+            animation: rise-in 0.5s ease both;
+        }
+
+        @keyframes rise-in {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .main-content > * { animation: none; }
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem;
+            color: #fff;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 1.8rem 0 0.6rem;
+            color: var(--text-primary);
+        }
+
+        p { margin-bottom: 1rem; }
+
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        strong { color: #fff; }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 32px 0 40px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 { font-size: 2.4rem; margin-bottom: 0.8rem; }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+        }
+
+        .badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+        /* ===== PATH CARDS ===== */
+        .path-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 1.5rem 0;
+        }
+
+        .path-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .path-card.canvas::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); }
+        .path-card.studio::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); }
+
+        .path-card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .path-card .path-url {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--accent-teal);
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .path-card p { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.8rem; }
+
+        .path-card .pros-cons { font-size: 0.85rem; }
+        .path-card .pros-cons li { margin-bottom: 4px; color: var(--text-secondary); }
+        .path-card .pros-cons .pro::before { content: '✓ '; color: var(--accent-green); font-weight: 700; }
+        .path-card .pros-cons .con::before { content: '△ '; color: var(--accent-yellow); font-weight: 700; }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            background: var(--bg-code);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-teal);
+        }
+
+        .code-copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 2;
+        }
+
+        .code-copy-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-blue);
+        }
+
+        .code-copy-btn.copied {
+            color: #fff;
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        /* ===== EXPANDABLE SECTIONS ===== */
+        details {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 0.8rem 0;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 14px 20px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        summary::before {
+            content: '▸';
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        details[open] > summary::before { transform: rotate(90deg); }
+
+        summary:hover { background: rgba(255,255,255,0.03); }
+
+        .details-body { padding: 0 20px 16px; }
+
+        details .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            flex-shrink: 0;
+        }
+
+        details.prompt-card { border-left: 3px solid var(--accent-purple); }
+        details.canvas-step { border-left: 3px solid var(--accent-blue); }
+        details.studio-step { border-left: 3px solid var(--accent-teal); }
+        details.deploy-step { border-left: 3px solid var(--accent-green); }
+        details.troubleshoot { border-left: 3px solid var(--accent-yellow); }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .category-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(66, 133, 244, 0.15);
+            color: var(--accent-blue);
+        }
+
+        /* ===== BLOCKQUOTES / CALLOUTS ===== */
+        blockquote {
+            border-left: 3px solid var(--accent-blue);
+            background: rgba(66, 133, 244, 0.08);
+            padding: 12px 16px;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        blockquote.tip { border-left-color: var(--accent-green); background: rgba(52, 168, 83, 0.08); }
+        blockquote.warning { border-left-color: var(--accent-yellow); background: rgba(251, 188, 4, 0.08); }
+
+        /* ===== LISTS ===== */
+        ul, ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.4rem; }
+        li strong { color: var(--text-primary); }
+
+        /* ===== FLOATING ACTIONS ===== */
+        #floating-actions {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 80;
+        }
+
+        .fab {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .fab:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .fab svg { width: 18px; height: 18px; }
+
+        #back-to-top { opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.2s; }
+        #back-to-top.visible { opacity: 1; pointer-events: auto; }
+
+        /* ===== SEARCH MODAL ===== */
+        #search-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+
+        #search-modal.modal-hidden { display: none; }
+
+        .search-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .search-content {
+            position: relative;
+            width: 560px;
+            max-width: 90vw;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-input-wrapper svg { width: 18px; height: 18px; color: var(--text-muted); flex-shrink: 0; }
+
+        #search-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        #search-input::placeholder { color: var(--text-muted); }
+
+        .search-hint {
+            font-family: var(--font-display);
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            padding: 2px 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        #search-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+        }
+
+        .search-results {
+            max-height: 50vh;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .search-empty {
+            padding: 32px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+        }
+
+        .search-result-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: rgba(66, 133, 244, 0.12);
+        }
+
+        .search-result-section {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .search-result-context {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+            line-height: 1.5;
+        }
+
+        .search-result-context mark {
+            background: rgba(251, 188, 4, 0.3);
+            color: var(--text-primary);
+            border-radius: 2px;
+            padding: 0 2px;
+        }
+
+        /* ===== SHORTCUTS MODAL ===== */
+        #shortcuts-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #shortcuts-modal.modal-hidden { display: none; }
+
+        .shortcuts-content {
+            position: relative;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 32px;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .shortcuts-content h3 {
+            font-family: var(--font-display);
+            margin: 0 0 16px;
+            font-size: 1rem;
+        }
+
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        kbd {
+            display: inline-block;
+            padding: 3px 8px;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            :root { --toc-width: 280px; }
+            .main-content { padding: 32px 28px 60px; }
+            .path-grid { grid-template-columns: 1fr; }
+            body:not(.toc-hidden) .main-content { margin-left: 0; }
+            #toc-panel { box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+            body:not(.toc-hidden) .toc-backdrop { display: block; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.25rem; }
+        }
+
+        @media (max-width: 600px) {
+            .main-content { padding: 24px 18px 60px; }
+            h1 { font-size: 1.5rem; }
+            .hero .subtitle { font-size: 1rem; }
+            pre { font-size: 0.75rem; padding: 12px 14px; }
+        }
+
+        /* Scroll margin for anchor links */
+        h2[id], h3[id] { scroll-margin-top: 24px; }
+
+        /* Divider */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        /* Tab switcher for path steps */
+        .tab-switcher {
+            display: flex;
+            gap: 0;
+            margin: 1.5rem 0 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+
+        .tab-content { display: none; padding-top: 1rem; }
+        .tab-content.active { display: block; }
+
+        /* Prompt label */
+        .prompt-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .prompt-label.copy-me {
+            background: rgba(52, 168, 83, 0.15);
+            color: var(--accent-green);
+        }
+    </style>
+</head>
+<body class="toc-hidden">
+    <div id="reading-progress"></div>
+
+    <!-- TOC Sidebar -->
+    <div class="toc-backdrop" id="toc-backdrop"></div>
+    <div id="toc-panel">
+        <div class="toc-header">
+            <div class="toc-title">Contents</div>
+        </div>
+        <nav id="toc-nav"></nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Build Your First App with Gemini</h1>
+            <p class="subtitle">A hands-on guide for teachers and beginners. No coding experience needed — just a Google account and an idea.</p>
+            <div class="badge-row">
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    30 min to first app
+                </span>
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+                    Free — $0
+                </span>
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    No code knowledge
+                </span>
+            </div>
+        </div>
+
+        <!-- CHOOSE YOUR PATH -->
+        <h2 id="choose-your-path">Choose Your Path</h2>
+        <p>There are two ways to build apps with Gemini. Both work great — pick whichever feels easier, or try both.</p>
+
+        <blockquote class="warning"><strong>Use a personal Google account</strong> for both tools. School/Workspace for Education accounts have restrictions — notably, Workspace users <em>cannot share</em> Canvas creations. Personal accounts avoid all of these issues and are free.</blockquote>
+
+        <div class="path-grid">
+            <div class="path-card canvas">
+                <h3>Gemini + Canvas</h3>
+                <span class="path-url">gemini.google.com/canvas</span>
+                <p>Build and <strong>preview apps right in the chat</strong>. No file saving needed — Gemini renders your app live. The easiest starting point.</p>
+                <ul class="pros-cons">
+                    <li class="pro">Live preview — see your app instantly</li>
+                    <li class="pro">No file management needed</li>
+                    <li class="pro">Chat to iterate, or click elements to edit</li>
+                    <li class="pro">Free tier available (uses Flash model)</li>
+                    <li class="con">Workspace/school accounts can't share links</li>
+                    <li class="con">Lower daily usage limits than AI Studio</li>
+                </ul>
+            </div>
+            <div class="path-card studio">
+                <h3>Google AI Studio</h3>
+                <span class="path-url">aistudio.google.com</span>
+                <p>Paste a super prompt, describe your app, copy the code, save as an HTML file. <strong>More generous free tier</strong> and now has a "Build mode" with live preview too.</p>
+                <ul class="pros-cons">
+                    <li class="pro">Generous free usage (~500 req/day with Flash)</li>
+                    <li class="pro">Works with personal Google accounts</li>
+                    <li class="pro">Build mode has live preview + code editor</li>
+                    <li class="pro">See and understand the full code</li>
+                    <li class="con">Slightly more setup than Canvas</li>
+                    <li class="con">Workspace accounts have limited access</li>
+                </ul>
+            </div>
+        </div>
+
+        <blockquote class="tip"><strong>Which model?</strong> Both paths default to <strong>Gemini Flash</strong>, which is fast and great for building simple apps. Flash actually scores higher than Pro on coding benchmarks for this kind of task. Stick with the default — no need to upgrade.</blockquote>
+
+        <!-- THE SUPER PROMPT -->
+        <h2 id="the-super-prompt">The Super Prompt</h2>
+        <p>This prompt tells Gemini how to behave: generate a single HTML file, keep it simple, add helpful comments. <strong>Paste this before describing your app.</strong></p>
+
+        <blockquote class="tip"><strong>Canvas users:</strong> You can paste this super prompt in Gemini chat too — it works in both paths. It improves the quality of what Gemini generates.</blockquote>
+
+        <span class="prompt-label copy-me">Copy this entire block</span>
+        <pre><code>VIBE CODING ASSISTANT - Single File App Generator
+
+You are an expert at creating simple, functional single-file web apps for coding novices. Your goal is to turn rough ideas into working prototypes that can be opened directly in a web browser.
+
+CONSTRAINTS:
+- Generate ONE complete HTML file containing CSS and JavaScript
+- No external dependencies (libraries, APIs, or CDNs)
+- Apps must work when opened locally on desktop
+- Include clear, educational comments explaining key concepts
+- Keep all responses under 200 words (except code generation)
+
+CODE REQUIREMENTS:
+- Use semantic HTML structure
+- Include responsive CSS styling
+- Add JavaScript for interactivity
+- Comment major code sections and explain key functions
+- Use modern but widely-supported syntax
+
+SUGGESTED APP TYPES:
+- Productivity tools (timers, calculators, note-takers)
+- Simple games (memory, word games, puzzles)
+- Utilities (unit converters, password generators)
+- Trackers (habits, expenses, tasks)
+- Educational tools (flashcards, quizzes)
+
+WORKFLOW:
+1. If user gives vague idea, ask 1-2 clarifying questions
+2. Generate complete, commented code
+3. Offer brief explanation of how data flows through the app
+4. Suggest 2-3 simple modifications they could try
+
+USER INSTRUCTION: Simply describe what kind of app you want to build, even if your idea is rough or incomplete. I'll help you create something functional!
+
+What app would you like to build today?</code></pre>
+
+        <!-- STEP-BY-STEP -->
+        <h2 id="step-by-step">Step-by-Step Guide</h2>
+        <p>Pick your path and follow the steps. Both get you to a working app.</p>
+
+        <div class="tab-switcher">
+            <button class="tab-btn active" data-tab="canvas-steps">Gemini Canvas</button>
+            <button class="tab-btn" data-tab="studio-steps">AI Studio</button>
+        </div>
+
+        <!-- CANVAS STEPS -->
+        <div class="tab-content active" id="canvas-steps">
+            <details class="canvas-step" open>
+                <summary><span class="step-num">1</span> Open Gemini Canvas</summary>
+                <div class="details-body">
+                    <ol>
+                        <li>Go to <strong><a href="https://gemini.google.com/canvas" target="_blank">gemini.google.com/canvas</a></strong> (or open gemini.google.com and select "Canvas" from the input bar)</li>
+                        <li>Sign in with your <strong>personal</strong> Google account</li>
+                        <li>You'll see a chat interface with a Canvas workspace panel</li>
+                    </ol>
+                    <blockquote class="warning"><strong>Important:</strong> Use a personal Google account, not your school/Workspace account. Workspace for Education accounts cannot share Canvas creations.</blockquote>
+                </div>
+            </details>
+
+            <details class="canvas-step">
+                <summary><span class="step-num">2</span> Paste the super prompt + describe your app</summary>
+                <div class="details-body">
+                    <p>Copy the super prompt from above, then add your app description after it. Example:</p>
+                    <pre><code>[Paste super prompt here]
+
+Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. Let me copy everything to clipboard at the end.</code></pre>
+                    <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate code.</p>
+                </div>
+            </details>
+
+            <details class="canvas-step">
+                <summary><span class="step-num">3</span> See your app in Canvas</summary>
+                <div class="details-body">
+                    <p>When Gemini generates HTML code, the <strong>Canvas panel</strong> on the right automatically shows a live preview of your app.</p>
+                    <ul>
+                        <li><strong>Preview</strong> — see your working app, click buttons, enter text</li>
+                        <li><strong>Code view</strong> — see and edit the HTML/CSS/JS code directly</li>
+                        <li><strong>Click any element</strong> — describe what you want to change in plain English (annotation mode)</li>
+                    </ul>
+                    <p>Try your app right there — click every button, fill in every field. Note what works and what doesn't.</p>
+                </div>
+            </details>
+
+            <details class="canvas-step">
+                <summary><span class="step-num">4</span> Iterate in the chat</summary>
+                <div class="details-body">
+                    <p>To make changes, just type what you want in the chat. Be specific — one change at a time:</p>
+                    <pre><code>Make the background dark gray and the text white. Keep buttons green.</code></pre>
+                    <pre><code>The "add" button doesn't do anything when I click it. Fix just this.</code></pre>
+                    <pre><code>Add a "clear all" button that removes everything from the list.</code></pre>
+                    <p>Canvas will update the preview automatically after each change.</p>
+                </div>
+            </details>
+
+            <details class="canvas-step">
+                <summary><span class="step-num">5</span> Download your code</summary>
+                <div class="details-body">
+                    <p>When you're happy with your app:</p>
+                    <ol>
+                        <li>Click the <strong>Code tab</strong> in the Canvas panel</li>
+                        <li>Select all the code (<kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Cmd</kbd>+<kbd>A</kbd>)</li>
+                        <li>Copy it (<kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Cmd</kbd>+<kbd>C</kbd>)</li>
+                        <li>Save as <code>index.html</code> using the instructions in the deploy section below</li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+
+        <!-- AI STUDIO STEPS -->
+        <div class="tab-content" id="studio-steps">
+            <details class="studio-step" open>
+                <summary><span class="step-num">1</span> Open AI Studio</summary>
+                <div class="details-body">
+                    <ol>
+                        <li>Go to <strong><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></strong></li>
+                        <li>Sign in with your <strong>personal</strong> Google account (not school/work — fewer restrictions)</li>
+                        <li>Click <strong>"Create new prompt"</strong> in the top-left</li>
+                    </ol>
+                    <blockquote>If you see a popup about settings or model selection, dismiss it — the defaults are fine.</blockquote>
+                    <blockquote class="tip"><strong>AI Studio also has a "Build mode"</strong> at <a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a> with live preview, similar to Canvas. Either approach works — the prompt-based workflow below is the most beginner-friendly.</blockquote>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">2</span> Paste the super prompt</summary>
+                <div class="details-body">
+                    <ol>
+                        <li>Copy the entire super prompt from above</li>
+                        <li>Click into the message box at the bottom of AI Studio</li>
+                        <li>Paste it (<kbd>Ctrl</kbd>+<kbd>V</kbd> / <kbd>Cmd</kbd>+<kbd>V</kbd>)</li>
+                    </ol>
+                    <blockquote class="warning"><strong>Important:</strong> Click the <strong>save icon</strong> (floppy disk) in the top bar after pasting. AI Studio doesn't always auto-save.</blockquote>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">3</span> Describe your app and generate</summary>
+                <div class="details-body">
+                    <p>In the same message box (or a new message), type your app description:</p>
+                    <pre><code>Conference app to track people I meet. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. At the end, let me copy everything to clipboard.</code></pre>
+                    <p>Click <strong>Send</strong> and wait 30–90 seconds. You'll see Gemini "thinking" first — that's normal.</p>
+                    <p>When done, you'll see a big block of code starting with <code>&lt;!DOCTYPE html&gt;</code>.</p>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">4</span> Save the code as an HTML file</summary>
+                <div class="details-body">
+                    <p>Copy the generated code — from <code>&lt;!DOCTYPE html&gt;</code> to <code>&lt;/html&gt;</code>.</p>
+
+                    <details>
+                        <summary><strong>Mac instructions</strong></summary>
+                        <div class="details-body">
+                            <ol>
+                                <li>Open <strong>TextEdit</strong> (Cmd+Space, type "TextEdit")</li>
+                                <li>Go to <strong>Format → Make Plain Text</strong> (critical!)</li>
+                                <li>Paste your code (<kbd>Cmd</kbd>+<kbd>V</kbd>)</li>
+                                <li><strong>File → Save</strong>, name it <code>index.html</code></li>
+                                <li>Change "use .txt" to <strong>"Don't append"</strong></li>
+                                <li>Save to Desktop</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary><strong>Windows instructions</strong></summary>
+                        <div class="details-body">
+                            <ol>
+                                <li>Open <strong>Notepad</strong> (search in Start menu)</li>
+                                <li>Paste your code (<kbd>Ctrl</kbd>+<kbd>V</kbd>)</li>
+                                <li><strong>File → Save As</strong></li>
+                                <li>Change "Save as type" to <strong>"All Files (*.*)"</strong></li>
+                                <li>Name it <code>index.html</code></li>
+                                <li>Save to Desktop</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary><strong>VS Code (either platform — easiest)</strong></summary>
+                        <div class="details-body">
+                            <ol>
+                                <li>Open VS Code (free at <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a>)</li>
+                                <li>New file: <kbd>Ctrl</kbd>+<kbd>N</kbd> / <kbd>Cmd</kbd>+<kbd>N</kbd></li>
+                                <li>Paste your code</li>
+                                <li>Save: <kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Cmd</kbd>+<kbd>S</kbd>, name it <code>index.html</code></li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">5</span> Open and test locally</summary>
+                <div class="details-body">
+                    <ol>
+                        <li>Find <code>index.html</code> on your Desktop</li>
+                        <li>Double-click it — it opens in your browser</li>
+                        <li>Try every feature: click every button, fill every field</li>
+                        <li>Note what works and what doesn't</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">6</span> Iterate — make it better</summary>
+                <div class="details-body">
+                    <p>Go back to AI Studio and ask for specific changes. <strong>One change at a time. Paste your full code.</strong></p>
+                    <pre><code>Here's my current code: [paste code]
+The "add" button doesn't work. Fix just this issue, don't change anything else.</code></pre>
+                    <p>After each new version: copy the new code → paste into your file (replace all) → save → refresh browser.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- APP IDEAS -->
+        <h2 id="app-ideas">App Ideas</h2>
+        <p>Stuck? Pick one from the table and make it yours. Good first apps do <strong>one thing well</strong> with <strong>3 features or fewer</strong>.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>App Ideas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="category-badge">Calculate</span></td>
+                    <td>Tip splitter, unit converter, BMI calculator, loan payment estimator</td>
+                </tr>
+                <tr>
+                    <td><span class="category-badge">Track</span></td>
+                    <td>Habit streak, water intake, mood log, reading list, expense log</td>
+                </tr>
+                <tr>
+                    <td><span class="category-badge">Organize</span></td>
+                    <td>To-do list, packing checklist, meeting notes, contact tracker</td>
+                </tr>
+                <tr>
+                    <td><span class="category-badge">Time</span></td>
+                    <td>Pomodoro timer, countdown to event, stopwatch with laps</td>
+                </tr>
+                <tr>
+                    <td><span class="category-badge">Classroom</span></td>
+                    <td>Random name picker, quiz flashcards, exit ticket form, seating chart randomizer</td>
+                </tr>
+                <tr>
+                    <td><span class="category-badge">Fun</span></td>
+                    <td>Decision spinner, compliment generator, quote of the day, trivia game</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote class="tip"><strong>Pro tip:</strong> Describe your app with "I need a way to ___ so that ___." Example: "I need a way to <em>track the people I meet at conferences</em> so that <em>I remember who to follow up with</em>."</blockquote>
+
+        <!-- ITERATION TIPS -->
+        <h2 id="iteration-tips">Prompting & Iteration Tips</h2>
+        <p>The first version is never perfect — that's expected. The loop:</p>
+        <pre><code>Write prompt → Generate → Test → Find problem → Improve prompt → Repeat</code></pre>
+
+        <h3 id="golden-rules">Golden Rules</h3>
+        <ul>
+            <li><strong>One change at a time.</strong> Don't ask for 5 things at once.</li>
+            <li><strong>Always paste your full code</strong> when asking for changes (AI Studio). Canvas remembers context.</li>
+            <li><strong>Be specific.</strong> "Fix the button" → "The Add Entry button doesn't respond when clicked. Fix just this."</li>
+            <li><strong>Describe what you see vs. what you expect.</strong> "When I click Submit, nothing happens. I expected it to add a new row to the list."</li>
+        </ul>
+
+        <h3 id="prompt-templates">Useful Prompt Templates</h3>
+
+        <details>
+            <summary>Fix a bug</summary>
+            <div class="details-body">
+                <pre><code>The [feature] isn't working. When I [do X], [Y happens] instead of [Z]. Fix just this issue, don't change anything else.</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>Add a feature</summary>
+            <div class="details-body">
+                <pre><code>Here's my current code: [paste]. Add [specific feature]. Keep everything else the same.</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>Change the look</summary>
+            <div class="details-body">
+                <pre><code>Change the color scheme to dark mode with a navy background and white text. Don't change any functionality.</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>Understand the code</summary>
+            <div class="details-body">
+                <pre><code>Explain what the JavaScript section does in simple terms. I'm a complete beginner.</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>Start over</summary>
+            <div class="details-body">
+                <pre><code>Start over. New version with these changes: [list what you want different].</code></pre>
+            </div>
+        </details>
+
+        <!-- UNDERSTAND YOUR CODE -->
+        <h2 id="understand-your-code">Understand Your Code</h2>
+        <p>Your app works — now understand what you built. These 3 follow-up prompts go from big picture to hands-on. Use them in order, or jump to whichever you need.</p>
+
+        <details class="prompt-card">
+            <summary>Prompt 1: "What Did I Build?" — The Big Picture</summary>
+            <div class="details-body">
+                <p>Use right after your app works. No code knowledge needed — gives you a visual overview of what your app does.</p>
+                <span class="prompt-label copy-me">Copy this prompt, then paste your code after it</span>
+                <pre><code>I just built a web app with AI and I want to understand what it does at a HIGH LEVEL. Don't show me code — show me what happens from a user's perspective using simple diagrams.
+
+Here's what I need:
+
+1. THE APP IN ONE SENTENCE
+   What does this app do? (Plain English, one sentence.)
+
+2. WHAT CAN THE USER DO?
+   List every action a user can take and what happens when they do it. Use a simple table:
+
+   USER DOES THIS          | APP RESPONDS WITH
+   ------------------------|---------------------------
+   [action]                | [what happens]
+
+3. THE MAIN FLOW (Step by Step)
+   Walk through the most common use case like a story:
+
+   STEP 1: User opens the app. They see: ___
+   STEP 2: User does ___. The app: ___
+   STEP 3: The app saves/processes ___
+   STEP 4: User sees ___
+
+4. WHERE DOES DATA GO?
+   Show a simple diagram of how information flows:
+
+   User types something
+      ↓
+   App receives it
+      ↓
+   App stores it in ___
+      ↓
+   App shows it on screen as ___
+
+5. WHAT ARE THE "RULES"?
+   List 3-5 rules the app follows.
+   Example: "Names can't be empty" or "Data disappears when you refresh"
+
+6. WHAT HAPPENS IN UNUSUAL SITUATIONS?
+   Show a table:
+
+   WHAT IF...                     | WHAT HAPPENS
+   -------------------------------|---------------------------
+   User submits empty form?       | ___
+   User refreshes the page?       | ___
+   User clicks Submit 100 times?  | ___
+
+Keep the language simple — explain this to someone who has never coded before. Use diagrams made of text characters, not just paragraphs.
+
+Here's my code:
+[PASTE YOUR index.html CODE HERE]</code></pre>
+            </div>
+        </details>
+
+        <details class="prompt-card">
+            <summary>Prompt 2: "Walk Me Through the Code" — Guided Tour + Safe Experiments</summary>
+            <div class="details-body">
+                <p>Gives you a beginner-friendly code walkthrough plus <strong>5 safe things to change</strong> in your code to learn by doing.</p>
+                <span class="prompt-label copy-me">Copy this prompt, then paste your code after it</span>
+                <pre><code>I built this web app with AI and I want to understand how the code works. I'm a complete beginner — I don't know HTML, CSS, or JavaScript yet. Explain everything using simple language and visual diagrams.
+
+Here's what I need:
+
+PART A: THE LAYOUT (What's on screen)
+
+Show me every visible element in my app like a map:
++-----------------------------------+
+|  [header area]                    |
++-----------------------------------+
+|  [input area]                     |
+|  [buttons]                        |
++-----------------------------------+
+|  [results/display area]           |
++-----------------------------------+
+
+PART B: THE STYLES (How things look)
+
+Show me ONE example of how the CSS controls appearance:
+.button {
+  background-color: #4CAF50;  ← SAFE TO CHANGE: try "red" or "#FF5733"
+  padding: 10px 20px;         ← SAFE TO CHANGE: bigger number = more space
+  border-radius: 5px;         ← SAFE TO CHANGE: bigger = rounder corners
+}
+
+PART C: THE ACTIONS (What happens when you click things)
+
+For each button or interactive element, show a flowchart:
+User clicks button
+      ↓
+App reads the text box
+      ↓
+Is it empty?
+  YES → Show error
+  NO  → Save data → Update display
+
+PART D: 5 SAFE EXPERIMENTS TO TRY
+
+Give me 5 things I can change in the code that are safe and will teach me something:
+
+1. CHANGE A COLOR
+2. CHANGE A SIZE
+3. CHANGE A MESSAGE
+4. ADD A DEBUG MESSAGE (console.log)
+5. CHANGE A NUMBER
+
+PART E: THE CHEAT SHEET
+
+Show a translation table for common patterns in MY code:
+
+WHAT IT DOES IN PLAIN ENGLISH     | THE CODE THAT DOES IT
+----------------------------------|---------------------------
+"Find the button on the page"     | document.querySelector('#btn')
+"When button is clicked, do ___"  | btn.addEventListener('click', ...)
+
+Keep everything beginner-friendly. Quote the actual code from MY app.
+
+Here's my code:
+[PASTE YOUR index.html CODE HERE]</code></pre>
+                <blockquote class="tip"><strong>Scratch users:</strong> Add this line before pasting your code: <em>"Also: I know Scratch programming. When explaining JavaScript concepts, compare them to Scratch blocks."</em></blockquote>
+            </div>
+        </details>
+
+        <details class="prompt-card">
+            <summary>Prompt 3: "Help Me Fix or Change This" — The Tutor</summary>
+            <div class="details-body">
+                <p>Use when something is broken or you want to add a feature. This makes Gemini teach you, not just fix silently.</p>
+                <span class="prompt-label copy-me">Copy this prompt, paste your code, then describe your problem</span>
+                <pre><code>I'm a complete beginner who built this web app with AI. I need help with something specific. Here are your rules:
+
+YOUR ROLE:
+- You are a patient tutor, not just a code fixer
+- When I describe a problem, help me UNDERSTAND what's wrong — don't just fix it silently
+- When I want to add something, walk me through the steps — don't just give me new code
+- Celebrate what's already working before addressing what needs fixing
+- Keep explanations under 200 words, then ask if I want more detail
+
+HOW TO HELP ME DEBUG:
+1. First, tell me what the problem probably is in plain English
+2. Then show me exactly where to look (quote the code, don't use line numbers)
+3. Tell me to add a console.log() to confirm the problem
+4. Then show me the fix and explain WHY it fixes the problem
+
+HOW TO HELP ME ADD FEATURES:
+1. First, point out a similar pattern already in my code
+2. Then break the new feature into 3 simple steps
+3. Walk me through each step one at a time
+4. After each step, tell me to save and test before continuing
+
+WHAT NOT TO DO:
+- Don't rewrite my entire app
+- Don't add features I didn't ask for
+- Don't use technical jargon without explaining it
+
+Here's my code:
+[PASTE YOUR index.html CODE HERE]
+
+My question / what I want to change:
+[DESCRIBE YOUR PROBLEM OR WHAT YOU WANT TO ADD]</code></pre>
+            </div>
+        </details>
+
+        <!-- DEPLOY -->
+        <h2 id="deploy-your-app">Deploy Your App</h2>
+        <p>Your app works locally — now give it a URL anyone can open.</p>
+
+        <details class="deploy-step" open>
+            <summary>Option A: Google Sites — Easiest (5 min, no new accounts)</summary>
+            <div class="details-body">
+                <ol>
+                    <li>Go to <strong><a href="https://sites.google.com" target="_blank">sites.google.com</a></strong></li>
+                    <li>Click <strong>"Blank site"</strong> (the + button)</li>
+                    <li>Name your site (top left)</li>
+                    <li>Click <strong>Insert → Embed</strong> in the right sidebar</li>
+                    <li>Click the <strong>"Embed code"</strong> tab</li>
+                    <li>Paste your entire <code>index.html</code> code</li>
+                    <li>Click <strong>Next → Insert</strong></li>
+                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → Publish</li>
+                </ol>
+                <p>Your URL: <code>https://sites.google.com/view/YOUR-SITE-NAME</code></p>
+                <blockquote class="warning"><strong>Heads up:</strong> Some <code>localStorage</code> features may not work inside Google Sites embeds. If your app saves data between sessions and that breaks, try GitHub Pages instead.</blockquote>
+            </div>
+        </details>
+
+        <details class="deploy-step">
+            <summary>Option B: GitHub Pages — More robust (10–15 min, needs GitHub account)</summary>
+            <div class="details-body">
+                <ol>
+                    <li><strong>Create a GitHub account</strong> at <a href="https://github.com/signup" target="_blank">github.com/signup</a> (use a personal email, pick a username you'll keep — it's part of your URL)</li>
+                    <li><strong>Create a new repository:</strong> Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
+                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → Commit changes</li>
+                    <li><strong>Enable Pages:</strong> Settings → Pages → Source: "Deploy from a branch" → Branch: main, folder: / (root) → Save</li>
+                    <li><strong>Wait 2 minutes</strong>, then refresh the Pages settings — look for the green banner with your URL</li>
+                </ol>
+                <p>Your URL: <code>https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/</code></p>
+                <p><strong>To update:</strong> Click the file on GitHub → pencil icon → replace code → Commit → wait 1–2 min → hard refresh (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>)</p>
+            </div>
+        </details>
+
+        <details class="deploy-step">
+            <summary>Option C: Just email the file</summary>
+            <div class="details-body">
+                <p>Email <code>index.html</code> as an attachment. Recipient downloads it, double-clicks, and it opens in their browser. No accounts, no hosting.</p>
+            </div>
+        </details>
+
+        <!-- TROUBLESHOOTING -->
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <details class="troubleshoot">
+            <summary>File opened as text, not a web page</summary>
+            <div class="details-body">
+                <ul>
+                    <li><strong>Mac TextEdit:</strong> You forgot <strong>Format → Make Plain Text</strong>. Save again.</li>
+                    <li><strong>Windows:</strong> You saved as <code>.txt</code>. Rename the file and change <code>.txt</code> to <code>.html</code>.</li>
+                    <li><strong>Either:</strong> Right-click the file → Open With → Chrome (or Firefox)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>App doesn't do anything when I click buttons</summary>
+            <div class="details-body">
+                <ul>
+                    <li>Make sure you copied ALL the code — scroll to the bottom of Gemini's response and verify you got <code>&lt;/html&gt;</code></li>
+                    <li>Open browser console: press <kbd>F12</kbd> → Console tab → look for red errors</li>
+                    <li>Copy the error text and paste it back to Gemini: "I'm getting this error: [paste]. Fix it."</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>Gemini stopped generating partway through</summary>
+            <div class="details-body">
+                <ul>
+                    <li>Look for a "Continue" button and click it</li>
+                    <li>Or type: "Continue from where you left off — the code got cut off."</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>Google Sites shows a blank app</summary>
+            <div class="details-body">
+                <ul>
+                    <li>Make sure you pasted the FULL code including <code>&lt;!DOCTYPE html&gt;</code> at the start</li>
+                    <li>Try a hard refresh: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></li>
+                    <li>Some apps won't work inside Sites — try GitHub Pages instead</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>GitHub Pages shows 404</summary>
+            <div class="details-body">
+                <ul>
+                    <li>Make sure the file is named exactly <code>index.html</code> (lowercase, no spaces)</li>
+                    <li>Wait 3 minutes — Pages takes time on the first deploy</li>
+                    <li>Check Settings → Pages — is it showing the green banner yet?</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>I have no idea what to build</summary>
+            <div class="details-body">
+                <p>Pick one and add your name to make it yours:</p>
+                <ul>
+                    <li><strong>Tip calculator</strong> — enter bill + people + tip %, see split</li>
+                    <li><strong>Event countdown</strong> — days/hours/minutes until something you care about</li>
+                    <li><strong>Random name picker</strong> — paste a list, click to pick one randomly</li>
+                    <li><strong>Check-in log</strong> — record name + note + timestamp, copy all to clipboard</li>
+                    <li><strong>Habit tracker</strong> — daily checklist that saves between sessions</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
+            <summary>I want to start completely over</summary>
+            <div class="details-body">
+                <ul>
+                    <li>Start a <strong>new chat</strong> (don't reuse the same one)</li>
+                    <li>Paste the super prompt again</li>
+                    <li>Describe the same app differently, or try a new idea</li>
+                </ul>
+            </div>
+        </details>
+
+        <!-- CHAT COMPANION -->
+        <h2 id="chat-companion">Chat Companion Prompt</h2>
+        <p>Want to explore this guide <em>inside</em> Gemini (or any AI chat)? Copy the prompt below and paste it into a new conversation. It turns the AI into an interactive workshop coach that walks you through building your first app — at your own pace, with Q&amp;A built in.</p>
+
+        <blockquote class="tip"><strong>Different ways to use this:</strong> Paste it into Gemini, ChatGPT, Claude, or any AI chat. Great for self-paced learning, teacher prep, or running a workshop where participants chat with AI as their guide.</blockquote>
+
+        <span class="prompt-label copy-me">Copy this entire block into any AI chat</span>
+        <pre><code>INTERACTIVE WORKSHOP COACH — Build Your First App with AI
+
+You are a friendly, patient workshop coach helping a complete beginner build their first web app using AI. You have deep knowledge of the workshop material below. Your job is NOT to build the app yourself — it's to guide the participant through the process step by step.
+
+YOUR STYLE:
+- Warm, encouraging, zero jargon
+- Ask one question at a time — don't overwhelm
+- Celebrate small wins ("Nice! You've got a working app!")
+- If they're stuck, offer 2-3 concrete options to pick from
+- Keep responses short (under 150 words) unless they ask for detail
+
+THE WORKSHOP FLOW:
+You'll guide them through these phases. Don't skip ahead — go at their pace.
+
+PHASE 1: PICK AN IDEA (2 min)
+- Ask what problem they'd like to solve, or what would be useful in their day
+- Help them fill in: "I need a way to ___ so that ___"
+- Narrow to 3 core features max
+- If stuck, offer these categories: Calculate | Track | Organize | Time | Classroom | Fun
+- Example ideas: tip calculator, habit tracker, pomodoro timer, random name picker, contact tracker
+
+PHASE 2: GENERATE THE APP
+- Tell them to open gemini.google.com/canvas OR aistudio.google.com (their choice)
+- If they're unsure which: Canvas = easiest (live preview in chat), AI Studio = more usage/control
+- Give them this super prompt to paste first:
+
+---
+VIBE CODING ASSISTANT - Single File App Generator
+
+You are an expert at creating simple, functional single-file web apps for coding novices. Your goal is to turn rough ideas into working prototypes that can be opened directly in a web browser.
+
+CONSTRAINTS:
+- Generate ONE complete HTML file containing CSS and JavaScript
+- No external dependencies (libraries, APIs, or CDNs)
+- Apps must work when opened locally on desktop
+- Include clear, educational comments explaining key concepts
+- Keep all responses under 200 words (except code generation)
+
+CODE REQUIREMENTS:
+- Use semantic HTML structure
+- Include responsive CSS styling
+- Add JavaScript for interactivity
+- Comment major code sections and explain key functions
+- Use modern but widely-supported syntax
+
+WORKFLOW:
+1. If user gives vague idea, ask 1-2 clarifying questions
+2. Generate complete, commented code
+3. Offer brief explanation of how data flows through the app
+4. Suggest 2-3 simple modifications they could try
+
+USER INSTRUCTION: Simply describe what kind of app you want to build, even if your idea is rough or incomplete. I'll help you create something functional!
+
+What app would you like to build today?
+---
+
+- Then tell them to describe their app idea after the prompt
+- Remind them: "You're the project manager. The AI is your developer."
+
+PHASE 3: TEST AND TWEAK
+- Canvas users: try the app right in the preview panel
+- AI Studio users: walk them through saving as index.html and opening in browser
+- Ask: "What works? What's missing? What's broken?"
+- Teach iteration rules:
+  * One change at a time
+  * Be specific ("The Add button doesn't respond" not "fix it")
+  * Describe what you see vs. what you expected
+  * For AI Studio: always paste your full code when asking for changes
+
+PHASE 4: UNDERSTAND (optional but valuable)
+- If they want to learn what they built, offer these options:
+  A) "Want a big-picture overview of what your app does?" (no code)
+  B) "Want a guided tour of the code with safe things to try changing?" (beginner-friendly)
+  C) "Want help fixing or adding something specific?" (tutor mode)
+- Guide them to paste their code + the appropriate follow-up prompt
+
+PHASE 5: DEPLOY
+- Ask if they want to share it with a URL
+- Two options:
+  A) Google Sites (5 min, no accounts): sites.google.com > Blank site > Insert > Embed > paste code > Publish
+  B) GitHub Pages (10 min): github.com/signup > new repo > upload index.html > Settings > Pages > main branch
+- Walk through whichever they pick, one step at a time
+
+IMPORTANT NOTES:
+- Use a personal Google account (not school/work) — school accounts have sharing restrictions
+- Gemini Flash (the default free model) is great for this — no need to upgrade
+- If they get an error, don't panic — copy the error text and paste it back to Gemini
+- If code gets cut off, say "Continue from where you left off"
+
+START THE CONVERSATION:
+Introduce yourself briefly (2-3 sentences), then ask what they'd like to build today. If they don't have an idea, offer the category list. Keep it light and fun — this is about building something cool, not about being perfect.</code></pre>
+
+        <!-- FOOTER -->
+        <hr>
+        <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+            You are the <strong>project manager</strong>. The AI is your developer. Your job is to describe what you want clearly, test it, and say what needs to change. You don't need to know how to code.
+        </p>
+
+    </div>
+
+    <!-- Floating Actions -->
+    <div id="floating-actions">
+        <button class="fab" id="back-to-top" aria-label="Back to top" title="Back to top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <button class="fab" id="search-btn" aria-label="Search" title="Search (⌘K)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button class="fab" id="toc-btn" aria-label="Table of contents" title="Contents (T)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal-hidden">
+        <div class="search-backdrop" id="search-backdrop"></div>
+        <div class="search-content">
+            <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" id="search-input" placeholder="Search this guide..." autocomplete="off">
+                <span class="search-hint">ESC</span>
+                <button id="search-close" aria-label="Close search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="search-results" class="search-results">
+                <div class="search-empty">Type to search across the entire guide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shortcuts Modal -->
+    <div id="shortcuts-modal" class="modal-hidden">
+        <div class="search-backdrop" id="shortcuts-backdrop"></div>
+        <div class="shortcuts-content">
+            <h3>Keyboard Shortcuts</h3>
+            <div class="shortcut-row"><span>Search</span><kbd>⌘K</kbd></div>
+            <div class="shortcut-row"><span>Toggle contents</span><kbd>T</kbd></div>
+            <div class="shortcut-row"><span>Show shortcuts</span><kbd>⌘/</kbd></div>
+            <div class="shortcut-row"><span>Close / back</span><kbd>Esc</kbd></div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // DOM refs
+        const mainContent = document.getElementById('main-content');
+        const tocPanel = document.getElementById('toc-panel');
+        const tocNav = document.getElementById('toc-nav');
+        const tocBackdrop = document.getElementById('toc-backdrop');
+        const readingProgress = document.getElementById('reading-progress');
+        const searchModal = document.getElementById('search-modal');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const shortcutsModal = document.getElementById('shortcuts-modal');
+        const backToTop = document.getElementById('back-to-top');
+
+        // ===== TOC GENERATION =====
+        function generateTOC() {
+            const headings = mainContent.querySelectorAll('h2[id], h3[id]');
+            const toc = [];
+            let currentSection = null;
+
+            headings.forEach(heading => {
+                const level = heading.tagName.toLowerCase();
+                const text = heading.textContent.trim();
+                const id = heading.id;
+
+                if (level === 'h2') {
+                    currentSection = { id, text, children: [] };
+                    toc.push(currentSection);
+                } else if (level === 'h3' && currentSection) {
+                    currentSection.children.push({ id, text });
+                }
+            });
+
+            let html = '';
+            toc.forEach(section => {
+                const hasChildren = section.children.length > 0;
+                html += `<div class="toc-section">`;
+                html += `<div class="toc-h2${hasChildren ? ' has-children' : ''}">`;
+                html += `<a href="#${section.id}" data-id="${section.id}">${section.text}</a>`;
+                if (hasChildren) {
+                    html += `<button class="toc-toggle" aria-label="Toggle subsections"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>`;
+                }
+                html += `</div>`;
+                if (hasChildren) {
+                    html += `<ul class="toc-h3-list">`;
+                    section.children.forEach(child => {
+                        html += `<li class="toc-h3"><a href="#${child.id}" data-id="${child.id}">${child.text}</a></li>`;
+                    });
+                    html += `</ul>`;
+                }
+                html += `</div>`;
+            });
+
+            tocNav.innerHTML = html;
+
+            // Toggle handlers
+            tocNav.querySelectorAll('.toc-toggle').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    btn.closest('.toc-h2').classList.toggle('expanded');
+                });
+            });
+
+            // Link click handlers
+            tocNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 900) closeTOC();
+                });
+            });
+        }
+
+        // ===== TOC TOGGLE =====
+        function openTOC() {
+            document.body.classList.remove('toc-hidden');
+        }
+        function closeTOC() {
+            document.body.classList.add('toc-hidden');
+        }
+        function toggleTOC() {
+            document.body.classList.toggle('toc-hidden');
+        }
+
+        tocBackdrop.addEventListener('click', closeTOC);
+        document.getElementById('toc-btn').addEventListener('click', toggleTOC);
+
+        // ===== ACTIVE SECTION TRACKING =====
+        let currentActiveId = null;
+        function updateActiveSection() {
+            const headings = mainContent.querySelectorAll('h2[id], h3[id]');
+            let newActiveId = null;
+
+            headings.forEach(heading => {
+                if (heading.getBoundingClientRect().top <= 80) {
+                    newActiveId = heading.id;
+                }
+            });
+
+            if (newActiveId !== currentActiveId) {
+                currentActiveId = newActiveId;
+                tocNav.querySelectorAll('a').forEach(link => {
+                    link.classList.toggle('active', link.dataset.id === currentActiveId);
+                    // Auto-expand parent if h3 is active
+                    if (link.dataset.id === currentActiveId) {
+                        const parentSection = link.closest('.toc-section');
+                        if (parentSection) {
+                            const h2 = parentSection.querySelector('.toc-h2');
+                            if (h2 && !h2.classList.contains('expanded')) {
+                                h2.classList.add('expanded');
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // ===== READING PROGRESS =====
+        function updateProgress() {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+            readingProgress.style.width = Math.min(progress, 100) + '%';
+        }
+
+        // ===== BACK TO TOP =====
+        function updateBackToTop() {
+            backToTop.classList.toggle('visible', window.scrollY > 400);
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== SCROLL HANDLER (throttled) =====
+        let scrollRaf;
+        window.addEventListener('scroll', () => {
+            if (scrollRaf) cancelAnimationFrame(scrollRaf);
+            scrollRaf = requestAnimationFrame(() => {
+                updateActiveSection();
+                updateProgress();
+                updateBackToTop();
+            });
+        });
+
+        // ===== COPY BUTTONS =====
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text).then(() => true).catch(() => false);
+            }
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch(e) {}
+            document.body.removeChild(ta);
+            return Promise.resolve(ok);
+        }
+
+        function attachCopyButtons() {
+            document.querySelectorAll('pre').forEach(pre => {
+                if (pre.querySelector('.code-copy-btn')) return;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'code-copy-btn';
+                btn.textContent = 'Copy';
+                btn.setAttribute('aria-label', 'Copy code');
+
+                const codeEl = pre.querySelector('code');
+                btn.addEventListener('click', async () => {
+                    const raw = codeEl ? codeEl.textContent : pre.textContent;
+                    const text = (raw || '').replace(/\n$/, '');
+                    if (!text) return;
+                    const copied = await copyText(text);
+                    if (!copied) return;
+                    btn.classList.add('copied');
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.textContent = 'Copy';
+                    }, 1500);
+                });
+                pre.appendChild(btn);
+            });
+        }
+
+        // ===== TAB SWITCHER =====
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // ===== SEARCH =====
+        let searchResultsData = [];
+        let selectedSearchIndex = -1;
+
+        function openSearch() {
+            searchModal.classList.remove('modal-hidden');
+            searchInput.value = '';
+            searchInput.focus();
+            searchResults.innerHTML = '<div class="search-empty">Type to search across the entire guide</div>';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSearch() {
+            searchModal.classList.add('modal-hidden');
+            document.body.style.overflow = '';
+        }
+
+        function findParentSection(el) {
+            let node = el;
+            while (node && node !== mainContent) {
+                if (node.previousElementSibling && (node.previousElementSibling.tagName === 'H2' || node.previousElementSibling.tagName === 'H3')) {
+                    return node.previousElementSibling.textContent.trim();
+                }
+                node = node.parentElement;
+            }
+            // Fallback: find closest preceding h2
+            const allH2 = [...mainContent.querySelectorAll('h2')];
+            for (let i = allH2.length - 1; i >= 0; i--) {
+                if (allH2[i].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) {
+                    return allH2[i].textContent.trim();
+                }
+            }
+            return 'Introduction';
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function performSearch(query) {
+            if (!query.trim()) {
+                searchResults.innerHTML = '<div class="search-empty">Type to search across the entire guide</div>';
+                searchResultsData = [];
+                selectedSearchIndex = -1;
+                return;
+            }
+
+            const results = [];
+            const searchable = mainContent.querySelectorAll('h2, h3, p, li, td, summary, code');
+            const lower = query.toLowerCase();
+
+            searchable.forEach(el => {
+                const text = el.textContent;
+                const idx = text.toLowerCase().indexOf(lower);
+                if (idx === -1) return;
+
+                // Dedupe: skip if parent already matched
+                if (el.tagName === 'CODE' && el.closest('pre')) return;
+
+                const section = findParentSection(el);
+                const start = Math.max(0, idx - 40);
+                const end = Math.min(text.length, idx + query.length + 40);
+                let ctx = text.substring(start, end);
+                if (start > 0) ctx = '...' + ctx;
+                if (end < text.length) ctx += '...';
+
+                const mIdx = ctx.toLowerCase().indexOf(lower);
+                if (mIdx !== -1) {
+                    const before = escapeHtml(ctx.substring(0, mIdx));
+                    const match = escapeHtml(ctx.substring(mIdx, mIdx + query.length));
+                    const after = escapeHtml(ctx.substring(mIdx + query.length));
+                    ctx = before + '<mark>' + match + '</mark>' + after;
+                }
+
+                results.push({ element: el, section, context: ctx });
+            });
+
+            searchResultsData = results;
+            selectedSearchIndex = results.length > 0 ? 0 : -1;
+
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-empty">No results found</div>';
+                return;
+            }
+
+            let html = '';
+            results.slice(0, 30).forEach((r, i) => {
+                html += `<div class="search-result-item${i === 0 ? ' selected' : ''}" data-index="${i}">
+                    <div class="search-result-section">${escapeHtml(r.section)}</div>
+                    <div class="search-result-context">${r.context}</div>
+                </div>`;
+            });
+            searchResults.innerHTML = html;
+
+            searchResults.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const idx = parseInt(item.dataset.index);
+                    jumpToResult(idx);
+                });
+            });
+        }
+
+        function jumpToResult(idx) {
+            const result = searchResultsData[idx];
+            if (!result) return;
+            closeSearch();
+
+            // Open parent details if collapsed
+            let el = result.element;
+            let parent = el.closest('details');
+            while (parent) {
+                parent.open = true;
+                parent = parent.parentElement.closest('details');
+            }
+
+            // Make sure the right tab is showing
+            let tabContent = el.closest('.tab-content');
+            if (tabContent && !tabContent.classList.contains('active')) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tabContent.classList.add('active');
+                const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabContent.id}"]`);
+                if (tabBtn) tabBtn.classList.add('active');
+            }
+
+            setTimeout(() => {
+                el.scrollIntoView({ behavior: 'instant', block: 'center' });
+                el.style.outline = '2px solid var(--accent-yellow)';
+                el.style.outlineOffset = '4px';
+                el.style.borderRadius = '4px';
+                setTimeout(() => {
+                    el.style.outline = '';
+                    el.style.outlineOffset = '';
+                    el.style.borderRadius = '';
+                }, 2000);
+            }, 50);
+        }
+
+        function updateSearchSelection() {
+            searchResults.querySelectorAll('.search-result-item').forEach((item, i) => {
+                item.classList.toggle('selected', i === selectedSearchIndex);
+                if (i === selectedSearchIndex) item.scrollIntoView({ block: 'nearest' });
+            });
+        }
+
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => performSearch(searchInput.value), 150);
+        });
+
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (selectedSearchIndex < searchResultsData.length - 1) {
+                    selectedSearchIndex++;
+                    updateSearchSelection();
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (selectedSearchIndex > 0) {
+                    selectedSearchIndex--;
+                    updateSearchSelection();
+                }
+            } else if (e.key === 'Enter' && selectedSearchIndex >= 0) {
+                e.preventDefault();
+                jumpToResult(selectedSearchIndex);
+            }
+        });
+
+        document.getElementById('search-btn').addEventListener('click', openSearch);
+        document.getElementById('search-close').addEventListener('click', closeSearch);
+        document.getElementById('search-backdrop').addEventListener('click', closeSearch);
+        document.getElementById('shortcuts-backdrop').addEventListener('click', () => {
+            shortcutsModal.classList.add('modal-hidden');
+        });
+
+        // ===== KEYBOARD SHORTCUTS =====
+        document.addEventListener('keydown', e => {
+            // Cmd+K search
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+                return;
+            }
+            // Cmd+/ shortcuts
+            if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+                e.preventDefault();
+                shortcutsModal.classList.toggle('modal-hidden');
+                return;
+            }
+            // T for TOC
+            if ((e.key === 't' || e.key === 'T') && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                toggleTOC();
+                return;
+            }
+            // Escape
+            if (e.key === 'Escape') {
+                if (!searchModal.classList.contains('modal-hidden')) closeSearch();
+                else if (!shortcutsModal.classList.contains('modal-hidden')) shortcutsModal.classList.add('modal-hidden');
+                else if (window.innerWidth <= 900 && !document.body.classList.contains('toc-hidden')) closeTOC();
+            }
+        });
+
+        // ===== INIT =====
+        function init() {
+            generateTOC();
+            attachCopyButtons();
+            updateProgress();
+            updateBackToTop();
+
+            // Open TOC on desktop
+            if (window.innerWidth > 900) openTOC();
+
+            // Responsive TOC
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 900) openTOC();
+                else closeTOC();
+            });
+        }
+
+        init();
+    })();
+    </script>
+</body>
+</html>
