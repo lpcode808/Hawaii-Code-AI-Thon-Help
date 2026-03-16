@@ -780,6 +780,7 @@
         <div class="hero">
             <h1>Build Your First App with Gemini</h1>
             <p class="subtitle">A hands-on guide for teachers and beginners. No coding experience needed — just a Google account and an idea.</p>
+            <p style="color: var(--accent-teal); font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; margin: 0.5rem 0 1.2rem;">You are the project manager. The AI is your developer.</p>
             <div class="badge-row">
                 <span class="badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -796,9 +797,20 @@
             </div>
         </div>
 
+        <!-- WHAT YOU'LL DO -->
+        <h2 id="how-it-works">How It Works</h2>
+        <p>Here's the whole process in four steps. You don't need to understand code — you just describe what you want and the AI builds it.</p>
+        <ol>
+            <li><strong>Describe your idea</strong> in plain English — "I need a tip calculator that splits the bill"</li>
+            <li><strong>AI writes the code</strong> — you'll get a working app in about 60 seconds</li>
+            <li><strong>Test and improve</strong> — try it out, tell the AI what to fix or change</li>
+            <li><strong>Share it</strong> — put it online with a link anyone can open</li>
+        </ol>
+        <p>That's it. Now pick which AI tool to use:</p>
+
         <!-- CHOOSE YOUR PATH -->
         <h2 id="choose-your-path">Choose Your Path</h2>
-        <p>There are two ways to build apps with Gemini. Both work great — pick whichever feels easier, or try both.</p>
+        <p><strong>Not sure which to pick? Start with Gemini Canvas</strong> — it's the easiest path and you'll see your app instantly. You can always try AI Studio later.</p>
 
         <blockquote class="warning"><strong>Use a personal Google account</strong> for both tools. School/Workspace for Education accounts have restrictions — notably, Workspace users <em>cannot share</em> Canvas creations. Personal accounts avoid all of these issues and are free.</blockquote>
 
@@ -821,25 +833,25 @@
                 <span class="path-url">aistudio.google.com</span>
                 <p>Paste a super prompt, describe your app, copy the code, save as an HTML file. <strong>More generous free tier</strong> and now has a "Build mode" with live preview too.</p>
                 <ul class="pros-cons">
-                    <li class="pro">Generous free usage (~500 req/day with Flash)</li>
+                    <li class="pro">Very generous free usage (hundreds of uses per day)</li>
                     <li class="pro">Works with personal Google accounts</li>
                     <li class="pro">Build mode has live preview + code editor</li>
                     <li class="pro">See and understand the full code</li>
                     <li class="con">Slightly more setup than Canvas</li>
-                    <li class="con">Workspace accounts have limited access</li>
+                    <li class="con">School accounts have limited access</li>
                 </ul>
             </div>
         </div>
 
-        <blockquote class="tip"><strong>Which model?</strong> Both paths default to <strong>Gemini Flash</strong>, which is fast and great for building simple apps. Flash actually scores higher than Pro on coding benchmarks for this kind of task. Stick with the default — no need to upgrade.</blockquote>
+        <blockquote class="tip"><strong>Which model?</strong> Both paths use <strong>Gemini Flash</strong> by default, which is free and great for building apps. Stick with it — no need to upgrade or change anything.</blockquote>
 
         <!-- THE SUPER PROMPT -->
         <h2 id="the-super-prompt">The Super Prompt</h2>
-        <p>This prompt tells Gemini how to behave: generate a single HTML file, keep it simple, add helpful comments. <strong>Paste this before describing your app.</strong></p>
+        <p>This prompt tells Gemini how to behave. It produces a single <strong>HTML file</strong> — that's just a text file your browser knows how to display as a web page. Think of it as a recipe your browser follows.</p>
 
-        <blockquote class="tip"><strong>Canvas users:</strong> You can paste this super prompt in Gemini chat too — it works in both paths. It improves the quality of what Gemini generates.</blockquote>
+        <blockquote class="tip"><strong>You do NOT need to understand the text below.</strong> It's a set of instructions for the AI, not for you. Just click "Copy" and paste the whole thing. It works in both Gemini Canvas and AI Studio.</blockquote>
 
-        <span class="prompt-label copy-me">Copy this entire block</span>
+        <p><strong>Click the "Copy" button</strong> in the top-right corner of the box below — it copies everything for you. Then paste it into Gemini before describing your app.</p>
         <pre><code>VIBE CODING ASSISTANT - Single File App Generator
 
 You are an expert at creating simple, functional single-file web apps for coding novices. Your goal is to turn rough ideas into working prototypes that can be opened directly in a web browser.
@@ -877,10 +889,10 @@ What app would you like to build today?</code></pre>
 
         <!-- STEP-BY-STEP -->
         <h2 id="step-by-step">Step-by-Step Guide</h2>
-        <p>Pick your path and follow the steps. Both get you to a working app.</p>
+        <p>Click the tab for your chosen path, then follow the numbered steps.</p>
 
         <div class="tab-switcher">
-            <button class="tab-btn active" data-tab="canvas-steps">Gemini Canvas</button>
+            <button class="tab-btn active" data-tab="canvas-steps">Gemini Canvas (easiest)</button>
             <button class="tab-btn" data-tab="studio-steps">AI Studio</button>
         </div>
 
@@ -894,18 +906,19 @@ What app would you like to build today?</code></pre>
                         <li>Sign in with your <strong>personal</strong> Google account</li>
                         <li>You'll see a chat interface with a Canvas workspace panel</li>
                     </ol>
-                    <blockquote class="warning"><strong>Important:</strong> Use a personal Google account, not your school/Workspace account. Workspace for Education accounts cannot share Canvas creations.</blockquote>
+                    <blockquote class="tip"><strong>Already logged into your school account?</strong> Open a private/incognito window (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in Chrome) and sign in with your personal Gmail there.</blockquote>
                 </div>
             </details>
 
             <details class="canvas-step">
                 <summary><span class="step-num">2</span> Paste the super prompt + describe your app</summary>
                 <div class="details-body">
-                    <p>Copy the super prompt from above, then add your app description after it. Example:</p>
-                    <pre><code>[Paste super prompt here]
+                    <p>Paste the super prompt you copied (<a href="#the-super-prompt">from above</a>), then press Enter twice and type your app idea below it — all in one message. Example of what the full message looks like:</p>
+                    <pre><code>[the super prompt you already copied]
 
 Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. Let me copy everything to clipboard at the end.</code></pre>
                     <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate code.</p>
+                    <blockquote class="tip"><strong>If Gemini asks you a question</strong> instead of generating code, that's normal — it's trying to understand what you want. Just answer it and the code will come next.</blockquote>
                 </div>
             </details>
 
@@ -954,10 +967,9 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                 <div class="details-body">
                     <ol>
                         <li>Go to <strong><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></strong></li>
-                        <li>Sign in with your <strong>personal</strong> Google account (not school/work — fewer restrictions)</li>
-                        <li>Click <strong>"Create new prompt"</strong> in the top-left</li>
+                        <li>Sign in with your personal Google account (remember: not school/work). Already logged into a school account? Use an <strong>incognito window</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).</li>
+                        <li>Click <strong>"Create new prompt"</strong> in the top-left (if you see a popup about settings or model selection, dismiss it — defaults are fine)</li>
                     </ol>
-                    <blockquote>If you see a popup about settings or model selection, dismiss it — the defaults are fine.</blockquote>
                     <blockquote class="tip"><strong>AI Studio also has a "Build mode"</strong> at <a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a> with live preview, similar to Canvas. Either approach works — the prompt-based workflow below is the most beginner-friendly.</blockquote>
                 </div>
             </details>
@@ -977,10 +989,10 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
             <details class="studio-step">
                 <summary><span class="step-num">3</span> Describe your app and generate</summary>
                 <div class="details-body">
-                    <p>In the same message box (or a new message), type your app description:</p>
+                    <p>After the super prompt sends, type your app description in the next message:</p>
                     <pre><code>Conference app to track people I meet. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. At the end, let me copy everything to clipboard.</code></pre>
                     <p>Click <strong>Send</strong> and wait 30–90 seconds. You'll see Gemini "thinking" first — that's normal.</p>
-                    <p>When done, you'll see a big block of code starting with <code>&lt;!DOCTYPE html&gt;</code>.</p>
+                    <blockquote class="tip"><strong>If Gemini asks a question</strong> instead of generating code, just answer it — the code will come next. When it's done, you'll see a big block of code.</blockquote>
                 </div>
             </details>
 
@@ -1032,7 +1044,7 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
             </details>
 
             <details class="studio-step">
-                <summary><span class="step-num">5</span> Open and test locally</summary>
+                <summary><span class="step-num">5</span> Open and test your app</summary>
                 <div class="details-body">
                     <ol>
                         <li>Find <code>index.html</code> on your Desktop</li>
@@ -1146,8 +1158,15 @@ The "add" button doesn't work. Fix just this issue, don't change anything else.<
         </details>
 
         <!-- UNDERSTAND YOUR CODE -->
-        <h2 id="understand-your-code">Understand Your Code</h2>
-        <p>Your app works — now understand what you built. These 3 follow-up prompts go from big picture to hands-on. Use them in order, or jump to whichever you need.</p>
+        <h2 id="understand-your-code">Peek Under the Hood (Optional)</h2>
+        <p>Curious how your app works? These prompts help you explore — totally optional. Pick whichever sounds useful:</p>
+        <ul>
+            <li><strong>Just got it working?</strong> → Try Prompt 1 for a plain-English overview</li>
+            <li><strong>Want to tinker?</strong> → Try Prompt 2 for safe things to change in your code</li>
+            <li><strong>Need to fix or add something?</strong> → Jump to Prompt 3</li>
+        </ul>
+
+        <blockquote><strong>Where's my code?</strong> Canvas users: click the Code tab in the Canvas panel and copy everything. AI Studio users: open your saved <code>index.html</code> file in a text editor and copy everything.</blockquote>
 
         <details class="prompt-card">
             <summary>Prompt 1: "What Did I Build?" — The Big Picture</summary>
@@ -1315,8 +1334,8 @@ My question / what I want to change:
         </details>
 
         <!-- DEPLOY -->
-        <h2 id="deploy-your-app">Deploy Your App</h2>
-        <p>Your app works locally — now give it a URL anyone can open.</p>
+        <h2 id="share-your-app">Share Your App Online</h2>
+        <p>Your app works — now put it on the internet so anyone can open it with a link.</p>
 
         <details class="deploy-step" open>
             <summary>Option A: Google Sites — Easiest (5 min, no new accounts)</summary>
@@ -1332,7 +1351,7 @@ My question / what I want to change:
                     <li>Click <strong>Publish</strong> (top right) → choose a URL slug → Publish</li>
                 </ol>
                 <p>Your URL: <code>https://sites.google.com/view/YOUR-SITE-NAME</code></p>
-                <blockquote class="warning"><strong>Heads up:</strong> Some <code>localStorage</code> features may not work inside Google Sites embeds. If your app saves data between sessions and that breaks, try GitHub Pages instead.</blockquote>
+                <blockquote class="warning"><strong>Heads up:</strong> If your app saves data between visits (like a to-do list that remembers your items), that feature might not work inside Google Sites. If it seems broken after embedding, try GitHub Pages instead — it's more reliable.</blockquote>
             </div>
         </details>
 
@@ -1341,9 +1360,9 @@ My question / what I want to change:
             <div class="details-body">
                 <ol>
                     <li><strong>Create a GitHub account</strong> at <a href="https://github.com/signup" target="_blank">github.com/signup</a> (use a personal email, pick a username you'll keep — it's part of your URL)</li>
-                    <li><strong>Create a new repository:</strong> Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
-                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → Commit changes</li>
-                    <li><strong>Enable Pages:</strong> Settings → Pages → Source: "Deploy from a branch" → Branch: main, folder: / (root) → Save</li>
+                    <li><strong>Create a new repository</strong> (a repository is like a project folder on GitHub): Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
+                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → click <strong>Commit changes</strong> (that's GitHub's word for "Save")</li>
+                    <li><strong>Enable Pages:</strong> Settings → Pages → Source: "Deploy from a branch" → Branch: main → folder: / (root) → Save</li>
                     <li><strong>Wait 2 minutes</strong>, then refresh the Pages settings — look for the green banner with your URL</li>
                 </ol>
                 <p>Your URL: <code>https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/</code></p>
@@ -1418,14 +1437,7 @@ My question / what I want to change:
         <details class="troubleshoot">
             <summary>I have no idea what to build</summary>
             <div class="details-body">
-                <p>Pick one and add your name to make it yours:</p>
-                <ul>
-                    <li><strong>Tip calculator</strong> — enter bill + people + tip %, see split</li>
-                    <li><strong>Event countdown</strong> — days/hours/minutes until something you care about</li>
-                    <li><strong>Random name picker</strong> — paste a list, click to pick one randomly</li>
-                    <li><strong>Check-in log</strong> — record name + note + timestamp, copy all to clipboard</li>
-                    <li><strong>Habit tracker</strong> — daily checklist that saves between sessions</li>
-                </ul>
+                <p>Check the <a href="#app-ideas">App Ideas table</a> above for a full list of starter projects by category. Pick one that solves a problem you actually have — you'll be more motivated to finish it.</p>
             </div>
         </details>
 
@@ -1440,13 +1452,27 @@ My question / what I want to change:
             </div>
         </details>
 
+        <details class="troubleshoot">
+            <summary>I'm completely stuck and nothing is working</summary>
+            <div class="details-body">
+                <p>Start fresh with the simplest possible test:</p>
+                <ol>
+                    <li>Open a <strong>brand new</strong> Gemini chat</li>
+                    <li>Paste the <a href="#the-super-prompt">super prompt</a></li>
+                    <li>Type: <code>Make me a button that says "Hello!" when I click it.</code></li>
+                    <li>If that works, you know the tool is working — now try your real idea again with a simpler description</li>
+                </ol>
+                <p>If even that doesn't work, ask your facilitator for help or try switching between Canvas and AI Studio.</p>
+            </div>
+        </details>
+
         <!-- CHAT COMPANION -->
-        <h2 id="chat-companion">Chat Companion Prompt</h2>
-        <p>Want to explore this guide <em>inside</em> Gemini (or any AI chat)? Copy the prompt below and paste it into a new conversation. It turns the AI into an interactive workshop coach that walks you through building your first app — at your own pace, with Q&amp;A built in.</p>
+        <h2 id="ai-workshop-coach">Your Personal AI Workshop Coach</h2>
+        <p>Want a guide that walks you through everything step-by-step, answers your questions, and cheers you on? Copy the prompt below and <strong>paste it into a brand-new Gemini chat</strong> (separate from the one where you're building your app). It turns Gemini into an interactive coach.</p>
 
-        <blockquote class="tip"><strong>Different ways to use this:</strong> Paste it into Gemini, ChatGPT, Claude, or any AI chat. Great for self-paced learning, teacher prep, or running a workshop where participants chat with AI as their guide.</blockquote>
+        <blockquote class="tip"><strong>Works everywhere:</strong> Paste this into Gemini, ChatGPT, Claude, or any AI chat. Great for self-paced learning, teacher prep, or running a workshop where participants learn at their own pace. Yes, this includes the super prompt you already saw — that's intentional so the coach prompt is self-contained.</blockquote>
 
-        <span class="prompt-label copy-me">Copy this entire block into any AI chat</span>
+        <span class="prompt-label copy-me">Copy this entire block into a new AI chat</span>
         <pre><code>INTERACTIVE WORKSHOP COACH — Build Your First App with AI
 
 You are a friendly, patient workshop coach helping a complete beginner build their first web app using AI. You have deep knowledge of the workshop material below. Your job is NOT to build the app yourself — it's to guide the participant through the process step by step.
@@ -1542,7 +1568,7 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
         <!-- FOOTER -->
         <hr>
         <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
-            You are the <strong>project manager</strong>. The AI is your developer. Your job is to describe what you want clearly, test it, and say what needs to change. You don't need to know how to code.
+            Remember: you describe what you want, the AI builds it. Have fun!
         </p>
 
     </div>
