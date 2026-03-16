@@ -759,6 +759,70 @@
             background: rgba(52, 168, 83, 0.15);
             color: var(--accent-green);
         }
+
+        /* Vocab hints */
+        .vocab {
+            border-bottom: 1.5px dotted var(--accent-teal);
+            cursor: help;
+            position: relative;
+        }
+
+        .vocab::after {
+            content: attr(data-term);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-code);
+            color: var(--accent-teal);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s;
+            z-index: 10;
+        }
+
+        .vocab:hover::after,
+        .vocab.tapped::after {
+            opacity: 1;
+        }
+
+        /* Glossary */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .glossary-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .glossary-term {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--accent-teal);
+            font-weight: 500;
+        }
+
+        .glossary-def {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        @media (max-width: 600px) {
+            .glossary-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body class="toc-hidden">
@@ -802,9 +866,9 @@
         <p>Here's the whole process in four steps. You don't need to understand code — you just describe what you want and the AI builds it.</p>
         <ol>
             <li><strong>Describe your idea</strong> in plain English — "I need a tip calculator that splits the bill"</li>
-            <li><strong>AI writes the code</strong> — you'll get a working app in about 60 seconds</li>
-            <li><strong>Test and improve</strong> — try it out, tell the AI what to fix or change</li>
-            <li><strong>Share it</strong> — put it online with a link anyone can open</li>
+            <li><strong>AI writes the <span class="vocab" data-term="code">instructions</span></strong> — you'll get a working app in about 60 seconds</li>
+            <li><strong>Test and <span class="vocab" data-term="iterate">improve</span></strong> — try it out, tell the AI what to fix or change</li>
+            <li><strong><span class="vocab" data-term="deploy">Share it</span></strong> — put it online with a link anyone can open</li>
         </ol>
         <p>That's it. Now pick which AI tool to use:</p>
 
@@ -847,7 +911,7 @@
 
         <!-- THE SUPER PROMPT -->
         <h2 id="the-super-prompt">The Super Prompt</h2>
-        <p>This prompt tells Gemini how to behave. It produces a single <strong>HTML file</strong> — that's just a text file your browser knows how to display as a web page. Think of it as a recipe your browser follows.</p>
+        <p>This prompt tells Gemini how to behave. It produces a single <strong><span class="vocab" data-term="HTML file">HTML file</span></strong> — that's just a text file your browser knows how to display as a web page. Think of it as a recipe your browser follows.</p>
 
         <blockquote class="tip"><strong>You do NOT need to understand the text below.</strong> It's a set of instructions for the AI, not for you. Just click "Copy" and paste the whole thing. It works in both Gemini Canvas and AI Studio.</blockquote>
 
@@ -928,7 +992,7 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                     <p>When Gemini generates HTML code, the <strong>Canvas panel</strong> on the right automatically shows a live preview of your app.</p>
                     <ul>
                         <li><strong>Preview</strong> — see your working app, click buttons, enter text</li>
-                        <li><strong>Code view</strong> — see and edit the HTML/CSS/JS code directly</li>
+                        <li><strong>Code view</strong> — see and edit the <span class="vocab" data-term="HTML = structure, CSS = styling, JS = interactivity">HTML/CSS/JS</span> code directly</li>
                         <li><strong>Click any element</strong> — describe what you want to change in plain English (annotation mode)</li>
                     </ul>
                     <p>Try your app right there — click every button, fill in every field. Note what works and what doesn't.</p>
@@ -1335,7 +1399,7 @@ My question / what I want to change:
 
         <!-- DEPLOY -->
         <h2 id="share-your-app">Share Your App Online</h2>
-        <p>Your app works — now put it on the internet so anyone can open it with a link.</p>
+        <p>Your app works — now <span class="vocab" data-term="deploy">put it on the internet</span> so anyone can open it with a link.</p>
 
         <details class="deploy-step" open>
             <summary>Option A: Google Sites — Easiest (5 min, no new accounts)</summary>
@@ -1360,8 +1424,8 @@ My question / what I want to change:
             <div class="details-body">
                 <ol>
                     <li><strong>Create a GitHub account</strong> at <a href="https://github.com/signup" target="_blank">github.com/signup</a> (use a personal email, pick a username you'll keep — it's part of your URL)</li>
-                    <li><strong>Create a new repository</strong> (a repository is like a project folder on GitHub): Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
-                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → click <strong>Commit changes</strong> (that's GitHub's word for "Save")</li>
+                    <li><strong>Create a new <span class="vocab" data-term="repository">project folder</span>:</strong> Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
+                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → click <strong><span class="vocab" data-term="commit">Save</span></strong></li>
                     <li><strong>Enable Pages:</strong> Settings → Pages → Source: "Deploy from a branch" → Branch: main → folder: / (root) → Save</li>
                     <li><strong>Wait 2 minutes</strong>, then refresh the Pages settings — look for the green banner with your URL</li>
                 </ol>
@@ -1564,6 +1628,52 @@ IMPORTANT NOTES:
 
 START THE CONVERSATION:
 Introduce yourself briefly (2-3 sentences), then ask what they'd like to build today. If they don't have an idea, offer the category list. Keep it light and fun — this is about building something cool, not about being perfect.</code></pre>
+
+        <!-- GLOSSARY -->
+        <h2 id="glossary">Glossary</h2>
+        <p>Real terms you'll hear developers use. You've already been doing all of this — now you know the words for it.</p>
+        <div class="glossary-grid">
+            <div class="glossary-item">
+                <div class="glossary-term">HTML</div>
+                <div class="glossary-def">The language that defines the structure of a web page — headings, buttons, text fields. Your app is one HTML file.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">CSS</div>
+                <div class="glossary-def">The part that controls how things look — colors, fonts, spacing, layout. "Make it dark mode" is a CSS change.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">JavaScript (JS)</div>
+                <div class="glossary-def">The part that makes things happen — button clicks, calculations, saving data. The "brain" of your app.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Deploy</div>
+                <div class="glossary-def">Putting your app on the internet so anyone can open it with a URL. You did this with Google Sites or GitHub Pages.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Repository (repo)</div>
+                <div class="glossary-def">A project folder on GitHub. It holds your files and tracks every change you make.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Commit</div>
+                <div class="glossary-def">Saving a change on GitHub. Each commit is a snapshot you can go back to — like version history in Google Docs.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Code</div>
+                <div class="glossary-def">Text instructions that tell a computer what to do. Your HTML file is code — but the AI wrote it for you.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Iterate</div>
+                <div class="glossary-def">Making something better one small change at a time. Test → find a problem → fix it → repeat. That's iteration.</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">Prompt</div>
+                <div class="glossary-def">What you type to tell the AI what to do. A good prompt is specific: "Add a dark mode toggle" beats "make it better."</div>
+            </div>
+            <div class="glossary-item">
+                <div class="glossary-term">localhost</div>
+                <div class="glossary-def">Your own computer. When you double-click your HTML file and it opens in the browser, that's running "locally."</div>
+            </div>
+        </div>
 
         <!-- FOOTER -->
         <hr>
@@ -2018,10 +2128,30 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
             }
         });
 
+        // ===== VOCAB TOOLTIPS (tap for mobile) =====
+        function attachVocabTaps() {
+            document.querySelectorAll('.vocab').forEach(el => {
+                el.addEventListener('click', e => {
+                    e.preventDefault();
+                    document.querySelectorAll('.vocab.tapped').forEach(v => {
+                        if (v !== el) v.classList.remove('tapped');
+                    });
+                    el.classList.toggle('tapped');
+                });
+            });
+            // Close on tap elsewhere
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.vocab')) {
+                    document.querySelectorAll('.vocab.tapped').forEach(v => v.classList.remove('tapped'));
+                }
+            });
+        }
+
         // ===== INIT =====
         function init() {
             generateTOC();
             attachCopyButtons();
+            attachVocabTaps();
             updateProgress();
             updateBackToTop();
 
