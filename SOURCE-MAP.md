@@ -16,7 +16,7 @@ This documents the source materials from the ~/Coding/ portfolio that were synth
   - The **PRD concept** ("put it into a PRD so that AI can generate it")
   - **Student as project manager** framing ("teachers are preparing the AI partner/developer")
   - Real micro-app examples: Plywood Cutting Visualizer, Scrip Calculator, AI Model Comparison, Ideation App
-  - The link [bit.ly/LP0603](https://bit.ly/LP0603) for the original slides
+
 - **`claude-export/.../Atlas/Dots/Concepts/Vibe Coding.md`** — Conceptual note on vibe coding as pedagogy. Sourced:
   - "Problem first, creativity throughout, syntax as needed" framing
   - Contrast with traditional coding education
