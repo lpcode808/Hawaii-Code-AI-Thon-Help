@@ -16,7 +16,7 @@ Workshop materials for a **beginner AI vibe-coding hackathon** (teachers and K-1
 | File | Purpose | Audience |
 |------|---------|---------|
 | `gemini-guide.html` | **Primary deliverable** — interactive guide with TOC, search, copy blocks, expandable steps, chat companion prompt | Participants (self-paced or projected) |
-| `index.html` | Original docs hub — renders markdown docs in a sidebar nav (uses marked.js + highlight.js CDN) | Facilitators |
+| `index.html` | **Redirect only** — `<meta refresh>` to `gemini-guide.html`. Root URL goes straight to the guide. | — |
 | `README.md` | Facilitator event guide — 5-phase agenda, setup checklist, teaching notes | Facilitators |
 | `superprompt.md` | The core prompt to paste into Gemini before describing an app | Participants |
 | `quick-start.md` | Step-by-step participant walkthrough for AI Studio path | Participants |
@@ -46,7 +46,7 @@ Single-file HTML, no build step, GitHub Pages-ready.
 **Features:**
 - Dark theme (Google accent colors: `--accent-blue: #4285f4`, green, yellow, red)
 - TOC sidebar (auto-generated from `h2[id]`/`h3[id]`, expand/collapse, active tracking)
-- Cmd+K search modal (searches `h2, h3, p, li, td, summary, code`, opens parent `<details>` + tabs on jump)
+- Cmd+K search modal (searches `h2, h3, p, li, td, summary, pre`, opens parent `<details>` + correct tab on jump)
 - Copy buttons on all `<pre>` blocks (injected via `attachCopyButtons()`)
 - Expandable `<details>` sections (steps, prompts, troubleshooting, deploy)
 - Tab switcher for Canvas vs AI Studio paths (`data-tab` attribute pattern)
@@ -56,17 +56,19 @@ Single-file HTML, no build step, GitHub Pages-ready.
 
 **Fonts:** Sora (display) + Source Serif 4 (body) + JetBrains Mono (code) via Google Fonts
 
-**Sections in order:**
-1. Hero + badges
-2. Choose Your Path (two-column cards)
-3. The Super Prompt (giant copy block)
-4. Step-by-Step Guide (tabbed Canvas / AI Studio)
-5. App Ideas (category table)
-6. Iteration Tips (expandable templates)
-7. Understand Your Code (3 prompts as expandable copy blocks)
-8. Deploy Your App (3 options, expandable)
-9. Troubleshooting (7 items, expandable)
-10. Chat Companion Prompt (paste into any AI chat for interactive coaching)
+**Sections in order (by `h2[id]`):**
+1. Hero — tagline, "You are the project manager" mantra, badges
+2. `#how-it-works` — 4-step plain-English overview (added for beginner orientation)
+3. `#choose-your-path` — two-column path cards + opinionated "start with Canvas" rec
+4. `#the-super-prompt` — giant copy block with "this is for the AI, not you" note
+5. `#step-by-step` — tabbed Canvas / AI Studio step-by-step
+6. `#app-ideas` — category table
+7. `#iteration-tips` — expandable prompt templates
+8. `#understand-your-code` — reframed as optional/curiosity; 3 prompts as expandable copy blocks
+9. `#share-your-app` — renamed from "Deploy"; 3 options, expandable
+10. `#troubleshooting` — 8 items including "completely stuck" nuclear option
+11. `#ai-workshop-coach` — renamed from "Chat Companion"; full coaching prompt for any AI chat
+12. `#glossary` — 10 terms, 2-column card grid
 
 ---
 
@@ -74,8 +76,11 @@ Single-file HTML, no build step, GitHub Pages-ready.
 
 - **Lean & tactical** — no facilitator logistics, phase timing, or pedagogy rationale in `gemini-guide.html`. Those live in `README.md`.
 - **All 3 understand-your-code prompts** are in `gemini-guide.html` as full copy blocks (don't trim them — the verbosity is the point).
-- **Chat Companion Prompt** (`#chat-companion`) embeds the full 5-phase flow + super prompt inline so it's self-contained when pasted into any AI chat.
+- **AI Workshop Coach** (`#ai-workshop-coach`) embeds the full 5-phase flow + super prompt inline so it's self-contained when pasted into any AI chat. (Previously named "Chat Companion".)
 - `pre` blocks use `white-space: pre-wrap` — intentional, wraps long prompt lines.
+- **Vocab hints** (`.vocab` span + `data-term` attribute) — dotted teal underline, tooltip on hover/tap shows real developer term. `attachVocabTaps()` handles mobile tap-to-reveal. Currently on: HTML file, code, iterate, deploy, repository, commit, HTML/CSS/JS.
+- **Glossary** at `#glossary` — 10 terms (HTML, CSS, JavaScript, Deploy, Repository, Commit, Code, Iterate, Prompt, localhost). Framed as "you've already been doing this — now you know the words."
+- **No PII** — bit.ly/LP0603 removed from all files including SOURCE-MAP.md.
 
 ---
 
