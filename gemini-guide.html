@@ -1838,16 +1838,13 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
             }
 
             const results = [];
-            const searchable = mainContent.querySelectorAll('h2, h3, p, li, td, summary, code');
+            const searchable = mainContent.querySelectorAll('h2, h3, p, li, td, summary, pre');
             const lower = query.toLowerCase();
 
             searchable.forEach(el => {
                 const text = el.textContent;
                 const idx = text.toLowerCase().indexOf(lower);
                 if (idx === -1) return;
-
-                // Dedupe: skip if parent already matched
-                if (el.tagName === 'CODE' && el.closest('pre')) return;
 
                 const section = findParentSection(el);
                 const start = Math.max(0, idx - 40);
