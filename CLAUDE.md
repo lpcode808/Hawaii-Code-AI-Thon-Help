@@ -15,7 +15,8 @@ Workshop materials for a **beginner AI vibe-coding hackathon** (teachers and K-1
 
 | File | Purpose | Audience |
 |------|---------|---------|
-| `gemini-guide.html` | **Primary deliverable** — interactive guide with TOC, search, copy blocks, expandable steps, chat companion prompt | Participants (self-paced or projected) |
+| `gemini-guide.html` | **Primary deliverable** — interactive guide with TOC, search, copy blocks, expandable steps, chat companion prompt. Links to journey map at footer. | Participants (self-paced or projected) |
+| `guide-map.html` | **Journey map** — pannable/zoomable canvas with 13 clickable card nodes showing workshop flow. Fork visualization, phase labels, color-coded sections. Companion to the main guide. | Participants + Facilitators (for projection) |
 | `index.html` | **Redirect only** — `<meta refresh>` to `gemini-guide.html`. Root URL goes straight to the guide. | — |
 | `README.md` | Facilitator event guide — 5-phase agenda, setup checklist, teaching notes | Facilitators |
 | `superprompt.md` | The core prompt to paste into Gemini before describing an app | Participants |
@@ -69,6 +70,41 @@ Single-file HTML, no build step, GitHub Pages-ready.
 10. `#troubleshooting` — 8 items including "completely stuck" nuclear option
 11. `#ai-workshop-coach` — renamed from "Chat Companion"; full coaching prompt for any AI chat
 12. `#glossary` — 10 terms, 2-column card grid
+13. Footer — "View as Journey Map →" link to `guide-map.html`
+
+---
+
+## guide-map.html Architecture
+
+Single-file HTML, no build step, GitHub Pages-ready. Pannable/zoomable canvas with clickable card nodes.
+
+**Canvas:** 3000×2100px. Pan via pointer events, zoom via wheel/pinch. `will-change: transform` on canvas div.
+
+**Initial view:** First-time visitors see the first row (Start Here → How It Works → Choose Your Path) at readable zoom. "Overview" button shows the full canvas. Mobile (<768px) zooms into first row. State saved to `sessionStorage`.
+
+**Card layout (6 rows + support column):**
+1. Start Here → How It Works → Choose Your Path (y=200)
+2. Gemini Canvas | OR | AI Studio (y=470) — fork with "OR" divider
+3. The Super Prompt (y=700) — convergence point
+4. Step-by-Step Guide (y=960)
+5. App Ideas | Iteration Tips | Understand Your Code (y=1210) — fan-out
+6. Share Your App (y=1470) — convergence
+- Support column (x=1900): Troubleshooting, AI Workshop Coach, Glossary
+
+**Features:**
+- Dark theme matching guide (Sora font, Google accent colors for card borders)
+- Animated dashed SVG flow lines showing progression direction
+- Horizontal phase labels above each row (01 ORIENT → 04 SHIP IT)
+- Color-coded card types: blue (content), gold (AI/tool), green (action), teal (reference), coral (help)
+- "Start Here" card has infinite pulsing glow animation
+- Orientation banner for direct visitors ("Start the full guide →")
+- Keyboard: arrow keys pan, +/- zoom, 0 = overview. Screen-reader-safe (arrows skip when link/button focused)
+- Touch: `touch-action: none`, 10px drag threshold, multi-touch guard for pinch
+- `prefers-reduced-motion` disables all animations
+- "More below" pulsing indicator on mobile
+- Welcome-back hint on sessionStorage restore
+
+**Critical implementation note:** `setPointerCapture()` must NOT be called when pointerdown target is inside `a.node` — otherwise the browser won't synthesize a click event and card links silently fail. Guard with `if (!e.target.closest('a.node'))`.
 
 ---
 
@@ -86,10 +122,14 @@ Single-file HTML, no build step, GitHub Pages-ready.
 
 ## What's Left / Ideas
 
-- [ ] Add `?path=canvas` URL param to auto-select the Canvas tab on load (useful for sharing path-specific links)
+- [ ] Add `?path=canvas` URL param to auto-select the Canvas tab on load (fork cards on journey map would use this)
+- [ ] Move guide-to-map link higher in gemini-guide.html (TOC sidebar header or hero section) for better discoverability
+- [ ] localStorage-based progress tracking on journey map (visited cards get checkmark/dim)
 - [ ] "Open in Gemini" button that pre-fills the chat companion prompt (deep link via `https://gemini.google.com/?q=...`)
 - [ ] Print/PDF stylesheet for handout version
 - [ ] Facilitator cheat sheet one-pager (separate HTML)
+- [ ] Colorblind support on journey map: add shape/icon indicators per card category (not just border color)
+- [ ] Projector mode: `@media (min-width: 1800px)` font bump or phase-by-phase presentation view
 - [ ] Translations / accessibility audit
 
 ---

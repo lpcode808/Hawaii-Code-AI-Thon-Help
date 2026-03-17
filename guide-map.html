@@ -11,68 +11,165 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
   body {
-    background: #08081a;
-    overflow: hidden;
-    font-family: 'Sora', system-ui, sans-serif;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  body.grabbing { cursor: grabbing; }
-
-  .viewport { width: 100vw; height: 100vh; overflow: hidden; position: relative; touch-action: none; }
-
-  .canvas {
-    position: absolute;
-    width: 3000px;
-    height: 2100px;
-    transform-origin: 0 0;
-    will-change: transform;
-  }
-  .canvas::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-color: #08081a;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.015) 1px, transparent 1px);
     background-size: 40px 40px;
+    background-attachment: fixed;
+    font-family: 'Sora', system-ui, sans-serif;
+    color: #e8e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === SCROLL PROGRESS === */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4285f4, #34a853);
+    z-index: 200;
+    width: 0%;
     pointer-events: none;
   }
 
-  /* === SVG LAYER === */
-  .connections {
-    position: absolute;
-    top: 0; left: 0;
-    width: 3000px; height: 2100px;
-    pointer-events: none;
+  /* === FIXED NAV === */
+  .back {
+    position: fixed;
+    top: 14px; left: 14px;
+    color: #4285f4;
+    font-size: 0.75rem;
+    text-decoration: none;
+    z-index: 100;
+    padding: 8px 16px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    background: rgba(12,12,26,0.95);
+    border-radius: 8px;
+    border: 1px solid #1e1e3a;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.2s;
   }
-  @keyframes flowDash {
-    to { stroke-dashoffset: -240; }
+  .back:hover { background: #1e1e3a; }
+  .back:focus-visible { outline: 2px solid #4285f4; outline-offset: 2px; }
+
+  /* === HEADER === */
+  .header {
+    text-align: center;
+    padding: 72px 24px 16px;
   }
-  .flow { stroke-dasharray: 8,6; animation: flowDash 15s linear infinite; }
+  .header h1 {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .header .tagline {
+    color: #9898b2;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+  .header .sub {
+    color: #555570;
+    font-size: 0.7rem;
+  }
+
+  /* Orientation banner */
+  .orient-banner {
+    max-width: 480px;
+    margin: 16px auto 0;
+    background: rgba(18,18,42,0.8);
+    border: 1px solid #1e1e3a;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    position: relative;
+    transition: opacity 0.4s;
+  }
+  .orient-banner p {
+    color: #9898b2;
+    font-size: 0.7rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .orient-banner a { color: #4285f4; text-decoration: none; font-weight: 600; }
+  .orient-banner a:hover { text-decoration: underline; }
+  .orient-banner .dismiss {
+    background: none; border: none; color: #555570;
+    font-size: 0.9rem; cursor: pointer;
+    position: absolute; top: 4px; right: 8px;
+    padding: 4px; line-height: 1;
+  }
+
+  /* === ROADMAP CONTAINER === */
+  .roadmap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* === CONNECTORS (animated dashed lines) === */
+  @keyframes flowDown {
+    from { background-position-y: 0; }
+    to { background-position-y: 14px; }
+  }
+
+  .connector {
+    width: 2.5px;
+    height: 36px;
+    flex-shrink: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      #353560 0, #353560 8px,
+      transparent 8px, transparent 14px
+    );
+    background-size: 2.5px 14px;
+    animation: flowDown 4s linear infinite;
+  }
+  .connector.short { height: 20px; }
+  .connector.tall { height: 48px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .flow { animation: none; }
+    .connector { animation: none; }
     .start-pulse { animation: none; }
-    .more-indicator::after { animation: none; }
   }
 
-  /* === PHASE LABELS (small horizontal, above each row) === */
-  .phase {
-    position: absolute;
+  /* === PHASE LABELS === */
+  .phase-label {
+    padding: 20px 0 16px;
+  }
+  .phase-label span {
+    display: inline-block;
     color: #4a4a70;
     font-size: 0.65rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    white-space: nowrap;
-    pointer-events: none;
+    padding: 6px 20px;
+    border: 1px solid #1a1a35;
+    border-radius: 20px;
+    background: rgba(12,12,30,0.6);
+  }
+
+  /* === STEP (single centered card) === */
+  .step {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
   }
 
   /* === NODE CARDS === */
   a.node {
-    position: absolute;
-    width: 250px;
+    display: block;
+    width: 100%;
     background: #12122a;
     border: 1px solid #1e1e3a;
     border-left: 4px solid var(--accent, #4285f4);
@@ -81,7 +178,6 @@
     cursor: pointer;
     transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     text-decoration: none;
-    display: block;
     color: inherit;
   }
   a.node:hover {
@@ -94,11 +190,9 @@
     outline-offset: 3px;
     transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-    border-color: var(--accent, #4285f4);
   }
   a.node:active {
     transform: translateY(-1px);
-    border-color: var(--accent, #4285f4);
     box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   }
 
@@ -114,8 +208,6 @@
     font-size: 0.7rem;
     line-height: 1.5;
     margin: 0;
-    user-select: text;
-    -webkit-user-select: text;
   }
   .node .time {
     display: inline-block;
@@ -142,14 +234,14 @@
   .tag.flex { background: rgba(66,133,244,0.12); color: #4285f4; }
   .tag.opt { background: rgba(255,255,255,0.05); color: #8888a0; }
 
-  /* Node accent colors */
-  .node.blue   { --accent: #4285f4; }
-  .node.gold   { --accent: #fbbc04; }
-  .node.green  { --accent: #34a853; }
-  .node.teal   { --accent: #2dd4bf; }
-  .node.coral  { --accent: #ea4335; }
+  /* Accent colors */
+  .node.blue  { --accent: #4285f4; }
+  .node.gold  { --accent: #fbbc04; }
+  .node.green { --accent: #34a853; }
+  .node.teal  { --accent: #2dd4bf; }
+  .node.coral { --accent: #ea4335; }
 
-  /* Start Here — glow to anchor attention */
+  /* Start Here glow */
   @keyframes startGlow {
     0%, 100% { box-shadow: 0 0 8px 1px rgba(66,133,244,0.2); }
     50% { box-shadow: 0 0 24px 6px rgba(66,133,244,0.25); }
@@ -159,35 +251,21 @@
     animation: startGlow 3s ease-in-out infinite;
   }
 
-  /* Support nodes — slightly different style */
+  /* Support nodes — dashed border */
   a.node.support {
-    width: 230px;
     background: #0e0e22;
     border-style: dashed;
     border-left-style: solid;
   }
 
-  /* === OR DIVIDER (fork) === */
-  .fork-or {
-    position: absolute;
-    color: #7a7a90;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    pointer-events: none;
-    text-align: center;
-    width: 60px;
-  }
-
   /* === MANTRA === */
   .mantra {
-    position: absolute;
     text-align: center;
-    pointer-events: none;
+    padding: 8px 16px;
   }
   .mantra q {
-    color: #35355a;
-    font-size: 1.4rem;
+    color: #3a3a62;
+    font-size: 1.1rem;
     font-weight: 700;
     font-style: italic;
     quotes: "\201C" "\201D";
@@ -195,717 +273,388 @@
   .mantra .sub {
     display: block;
     color: #2a2a50;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     margin-top: 4px;
   }
 
-  /* === FIXED UI === */
-  .back {
-    position: fixed;
-    top: 14px; left: 14px;
-    color: #4285f4;
-    font-size: 0.75rem;
-    text-decoration: none;
-    z-index: 100;
-    padding: 8px 16px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    background: rgba(12,12,26,0.95);
-    border-radius: 8px;
-    border: 1px solid #1e1e3a;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: background 0.2s;
-  }
-  .back:hover { background: #1e1e3a; }
-  .back:focus-visible { outline: 2px solid #4285f4; outline-offset: 2px; }
-
-  /* Orientation banner for direct visitors */
-  .orient-banner {
-    position: fixed;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    background: rgba(12,12,26,0.95);
-    border: 1px solid #1e1e3a;
-    border-radius: 10px;
-    padding: 10px 20px;
-    text-align: center;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: opacity 0.5s;
-    white-space: nowrap;
-  }
-  .orient-banner p {
-    color: #9898b2;
-    font-size: 0.65rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-  .orient-banner a {
-    color: #4285f4;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .orient-banner a:hover { text-decoration: underline; }
-  .orient-banner .dismiss {
-    background: none;
-    border: none;
-    color: #555570;
-    font-size: 0.9rem;
-    cursor: pointer;
-    position: absolute;
-    top: 4px; right: 8px;
-    padding: 4px;
-    line-height: 1;
-  }
-
-  .title-bar {
-    position: fixed;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    text-align: center;
-    pointer-events: none;
-  }
-  .title-bar h1 {
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 600;
-    opacity: 0.7;
-  }
-  .title-bar .tagline {
-    color: #8888a0;
-    font-size: 0.6rem;
-    margin-top: 2px;
-  }
-  .title-bar .sub {
-    color: #555570;
-    font-size: 0.55rem;
-    margin-top: 1px;
-  }
-
-  .controls {
-    position: fixed;
-    bottom: 16px; right: 16px;
-    display: flex;
-    gap: 3px;
-    z-index: 100;
-    background: rgba(12,12,26,0.95);
-    border-radius: 10px;
-    border: 1px solid #1e1e3a;
-    padding: 4px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  .controls button {
-    height: 44px;
-    border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: #8888a0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s;
-  }
-  .controls button.icon-btn {
-    width: 44px;
-    font-size: 1.1rem;
-  }
-  .controls button.text-btn {
-    padding: 0 14px;
-    font-size: 0.6rem;
-    font-weight: 600;
-    font-family: inherit;
-    letter-spacing: 0.03em;
-  }
-  .controls button:hover { background: #1e1e3a; color: #fff; }
-  .controls button:focus-visible { outline: 2px solid #4285f4; outline-offset: -2px; }
-
-  .zoom-level {
-    position: fixed;
-    bottom: 68px; right: 24px;
-    color: #555570;
-    font-size: 0.55rem;
-    z-index: 100;
-    pointer-events: none;
-  }
-
-  .hint {
-    position: fixed;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #7a7a90;
-    font-size: 0.7rem;
-    z-index: 100;
-    pointer-events: none;
-    transition: opacity 1s;
-    white-space: nowrap;
-  }
-
-  /* === MORE BELOW (mobile) === */
-  .more-indicator {
-    position: fixed;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #7a7a90;
-    font-size: 0.65rem;
-    z-index: 100;
-    text-align: center;
-    pointer-events: none;
-    transition: opacity 0.5s;
-    display: none;
-  }
-  .more-indicator::after {
-    content: '\25BE';
+  /* === FORK/FAN SVG CONNECTORS === */
+  .branch-svg {
     display: block;
-    font-size: 1.2rem;
-    animation: bobDown 1.5s ease-in-out infinite;
-  }
-  @keyframes bobDown {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(4px); }
-  }
-
-  /* === LEGEND (fixed overlay) === */
-  .legend {
-    position: fixed;
-    bottom: 16px;
-    left: 16px;
-    z-index: 100;
-    background: rgba(14,14,34,0.95);
-    border: 1px solid #1e1e3a;
-    border-radius: 10px;
-    padding: 12px 16px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  .legend h4 {
-    color: #7a7a90;
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-  .legend-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-  .legend-line {
-    width: 20px; height: 2px;
-    border-radius: 1px;
+    overflow: visible;
     flex-shrink: 0;
   }
-  .legend-label { font-size: 0.55rem; color: #8888a0; }
-
-  /* Hide legend + some UI on small screens */
-  @media (max-width: 768px) {
-    .legend { display: none; }
-    .title-bar .tagline,
-    .title-bar .sub { display: none; }
-    .orient-banner { display: none; }
-    .more-indicator { display: block; }
+  .branch-svg path {
+    stroke: #353560;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-dasharray: 8, 6;
+    animation: flowDash 15s linear infinite;
   }
+  @keyframes flowDash {
+    to { stroke-dashoffset: -240; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .branch-svg path { animation: none; }
+  }
+
+  /* === FORK ROW (Canvas OR Studio) === */
+  .fork-row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 580px;
+  }
+  .fork-row a.node { flex: 1; min-width: 0; }
+  .fork-or {
+    display: flex;
+    align-items: center;
+    color: #7a7a90;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    padding: 0 2px;
+  }
+
+  /* === FAN ROW (3 cards) === */
+  .fan-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 720px;
+  }
+  .fan-row a.node { flex: 1; min-width: 0; }
+
+  /* === SUPPORT SECTION === */
+  .support-divider {
+    padding: 48px 0 20px;
+  }
+  .support-divider span {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #555570;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .support-divider span::before,
+  .support-divider span::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: #1e1e3a;
+  }
+
+  .support-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 720px;
+  }
+  .support-row a.node { flex: 1; min-width: 0; }
+
+  /* === LEGEND (compact horizontal) === */
+  .legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 48px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 16px; height: 3px;
+    border-radius: 1.5px;
+    flex-shrink: 0;
+  }
+  .legend-label { font-size: 0.55rem; color: #555570; }
+
+  /* === MOBILE === */
+  @media (max-width: 640px) {
+    .header { padding-top: 60px; }
+    .header h1 { font-size: 1.1rem; }
+    .orient-banner { display: none; }
+
+    .step { max-width: none; }
+
+    .fork-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      max-width: 320px;
+    }
+    .fork-or { padding: 2px 0; }
+
+    .fan-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      max-width: 320px;
+    }
+
+    .support-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      max-width: 320px;
+    }
+
+    /* Hide branch SVGs when stacked */
+    .branch-svg { display: none; }
+
+    /* Show simple connectors instead */
+    .mobile-connector { display: block !important; }
+  }
+
+  /* Hidden by default, shown on mobile as fallback for branch SVGs */
+  .mobile-connector { display: none; }
 </style>
 </head>
 <body>
 
+<div class="progress" id="progress"></div>
+
 <a href="gemini-guide.html" class="back">&larr; Back to guide</a>
 
-<div class="title-bar">
+<div class="header">
   <h1>Workshop Journey Map</h1>
   <p class="tagline">Build a web app by describing it to AI &mdash; no coding needed</p>
   <p class="sub">Hawaii Code AI-Thon &middot; Click any card to jump to that section</p>
+
+  <div class="orient-banner" id="orient-banner">
+    <button class="dismiss" onclick="this.parentElement.style.opacity='0';setTimeout(()=>this.parentElement.style.display='none',400)" aria-label="Dismiss">&times;</button>
+    <p>This is a visual overview of the workshop. <a href="gemini-guide.html">Start the full step-by-step guide &rarr;</a></p>
+  </div>
 </div>
 
-<!-- Orientation banner for people who land here directly -->
-<div class="orient-banner" id="orient-banner">
-  <button class="dismiss" onclick="document.getElementById('orient-banner').style.opacity='0';setTimeout(()=>document.getElementById('orient-banner').style.display='none',500)" aria-label="Dismiss">&times;</button>
-  <p>This is a visual overview of the workshop. <a href="gemini-guide.html">Start the full step-by-step guide &rarr;</a></p>
-</div>
+<div class="roadmap">
 
-<div class="viewport" id="viewport">
-<div class="canvas" id="canvas">
+  <!-- ========== PHASE 01: ORIENT ========== -->
+  <div class="phase-label"><span>01 &mdash; Orient</span></div>
 
-  <!-- === SVG CONNECTIONS === -->
-  <svg class="connections" viewBox="0 0 3000 2100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <marker id="dot" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4">
-        <circle cx="3" cy="3" r="2.5" fill="#353560"/>
-      </marker>
-    </defs>
+  <div class="step">
+    <a class="node blue start-pulse" href="gemini-guide.html">
+      <h3>Start Here</h3>
+      <p>Build your first web app with AI &mdash; no coding experience needed. All you need is a laptop and a personal Google account.</p>
+      <span class="time">~2 hours total</span>
+    </a>
+  </div>
 
-    <!-- MAIN FLOW — animated dashes -->
-    <!-- Start → How It Works -->
-    <path class="flow" d="M 520,280 C 570,280 600,280 650,280" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <!-- How It Works → Choose Path -->
-    <path class="flow" d="M 900,280 C 950,280 1000,280 1050,280" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <div class="connector"></div>
 
-    <!-- Choose Path → Canvas (fork left) -->
-    <path class="flow" d="M 1120,360 C 1120,410 970,410 970,470" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <!-- Choose Path → AI Studio (fork right) -->
-    <path class="flow" d="M 1230,360 C 1230,410 1370,410 1370,470" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <div class="step">
+    <a class="node blue" href="gemini-guide.html#how-it-works">
+      <h3>How It Works</h3>
+      <p>Four steps: Describe what you want &rarr; AI generates code &rarr; Test it &rarr; Ask for changes. Repeat.</p>
+      <span class="time">4 steps</span>
+    </a>
+  </div>
 
-    <!-- Canvas → Super Prompt (converge) -->
-    <path class="flow" d="M 970,600 C 970,650 1145,650 1145,700" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <!-- AI Studio → Super Prompt (converge) -->
-    <path class="flow" d="M 1370,600 C 1370,650 1145,650 1145,700" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <div class="connector"></div>
 
-    <!-- Super Prompt → Step by Step -->
-    <path class="flow" d="M 1145,850 C 1145,890 1145,920 1145,960" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <div class="step">
+    <a class="node blue" href="gemini-guide.html#choose-your-path">
+      <h3>Choose Your Path</h3>
+      <p>Two ways to use Gemini. Pick one and go &mdash; you can always switch later.</p>
+      <span class="time">~5 min</span>
+    </a>
+  </div>
 
-    <!-- Step by Step → fan out to iterate row -->
-    <path class="flow" d="M 1060,1100 C 1060,1150 690,1150 690,1210" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <path class="flow" d="M 1145,1100 C 1145,1150 1145,1160 1145,1210" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <path class="flow" d="M 1230,1100 C 1230,1150 1575,1150 1575,1210" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <div class="connector tall"></div>
 
-    <!-- Iterate row → Share (converge) -->
-    <path class="flow" d="M 690,1370 C 690,1420 1145,1420 1145,1470" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <path class="flow" d="M 1145,1370 C 1145,1410 1145,1440 1145,1470" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
-    <path class="flow" d="M 1575,1370 C 1575,1420 1145,1420 1145,1470" stroke="#353560" stroke-width="2.5" fill="none" marker-end="url(#dot)"/>
+  <!-- ========== PHASE 02: CHOOSE ========== -->
+  <div class="phase-label"><span>02 &mdash; Choose One Path</span></div>
 
-    <!-- SUPPORT cross-connections (subtle, dashed) -->
-    <line x1="1900" y1="570" x2="1310" y2="1010" stroke="#252540" stroke-width="1" stroke-dasharray="4,6" opacity="0.5"/>
-    <line x1="1900" y1="870" x2="1310" y2="1060" stroke="#252540" stroke-width="1" stroke-dasharray="4,6" opacity="0.5"/>
-    <line x1="1900" y1="1130" x2="1510" y2="1260" stroke="#252540" stroke-width="1" stroke-dasharray="4,6" opacity="0.4"/>
-
-    <!-- Phase dividers (faint horizontal lines) -->
-    <line x1="120" y1="430" x2="1700" y2="430" stroke="#151530" stroke-width="1"/>
-    <line x1="120" y1="670" x2="1700" y2="670" stroke="#151530" stroke-width="1"/>
-    <line x1="120" y1="1170" x2="1700" y2="1170" stroke="#151530" stroke-width="1"/>
-    <line x1="120" y1="1430" x2="1700" y2="1430" stroke="#151530" stroke-width="1"/>
-  </svg>
-
-  <!-- === PHASE LABELS (horizontal, above each row) === -->
-  <div class="phase" style="left: 270px; top: 175px;">01 ORIENT</div>
-  <div class="phase" style="left: 840px; top: 445px;">02 CHOOSE ONE PATH</div>
-  <div class="phase" style="left: 1020px; top: 675px;">03 BUILD &amp; TWEAK</div>
-  <div class="phase" style="left: 1020px; top: 1445px;">04 SHIP IT</div>
-
-  <!-- === MANTRA === -->
-  <div class="mantra" style="left: 620px; top: 400px; width: 400px;">
+  <div class="mantra">
     <q>You are the project manager.</q>
     <span class="sub">The AI is the developer. Your job: describe, test, direct.</span>
   </div>
 
-  <!-- === OR DIVIDER between fork cards === -->
-  <div class="fork-or" style="left: 1130px; top: 520px;">OR</div>
+  <div class="connector short"></div>
 
-  <!-- === ROW 1: ORIENT === -->
-  <a class="node blue start-pulse" href="gemini-guide.html" style="left: 270px; top: 200px;">
-    <h3>Start Here</h3>
-    <p>Build your first web app with AI &mdash; no coding experience needed. All you need is a laptop and a personal Google account.</p>
-    <span class="time">~2 hours total</span>
-  </a>
+  <!-- Fork split -->
+  <svg class="branch-svg" viewBox="0 0 400 32" width="400" height="32" aria-hidden="true">
+    <path d="M200,0 C200,16 70,16 70,32"/>
+    <path d="M200,0 C200,16 330,16 330,32"/>
+  </svg>
 
-  <a class="node blue" href="gemini-guide.html#how-it-works" style="left: 650px; top: 200px;">
-    <h3>How It Works</h3>
-    <p>Four steps: Describe what you want &rarr; AI generates code &rarr; Test it &rarr; Ask for changes. Repeat.</p>
-    <span class="time">4 steps</span>
-  </a>
-
-  <a class="node blue" href="gemini-guide.html#choose-your-path" style="left: 1050px; top: 200px;">
-    <h3>Choose Your Path</h3>
-    <p>Two ways to use Gemini. Pick one and go &mdash; you can always switch later.</p>
-    <span class="time">~5 min</span>
-  </a>
-
-  <!-- === ROW 2: THE FORK === -->
-  <a class="node green" href="gemini-guide.html#choose-your-path" style="left: 840px; top: 470px;">
-    <h3>Gemini Canvas</h3>
-    <p>Live preview right in the chat. Easiest starting point &mdash; type and see your app instantly.</p>
-    <span class="time">gemini.google.com</span>
-    <span class="tag rec">Recommended</span>
-  </a>
-
-  <a class="node green" href="gemini-guide.html#choose-your-path" style="left: 1240px; top: 470px;">
-    <h3>AI Studio</h3>
-    <p>See the full code, more free usage (~500 req/day). Save as a file and open in your browser.</p>
-    <span class="time">aistudio.google.com</span>
-    <span class="tag flex">More control</span>
-  </a>
-
-  <!-- === ROW 3: SUPER PROMPT === -->
-  <a class="node gold" href="gemini-guide.html#the-super-prompt" style="left: 1020px; top: 700px; width: 260px;">
-    <h3>The Super Prompt</h3>
-    <p>Copy this starter text and paste it into Gemini <em>before</em> describing your app. It gives the AI instructions so your app works well on the first try.</p>
-    <span class="time">Copy + paste</span>
-    <span class="tag rec">Key step</span>
-  </a>
-
-  <!-- === ROW 4: BUILD === -->
-  <a class="node blue" href="gemini-guide.html#step-by-step" style="left: 1020px; top: 960px; width: 260px;">
-    <h3>Step-by-Step Guide</h3>
-    <p>Follow along for your chosen path &mdash; Canvas or AI Studio. Covers setup, first generation, and saving your code.</p>
-    <span class="time">~20 min</span>
-  </a>
-
-  <!-- === ROW 5: ITERATE (spread) === -->
-  <a class="node teal" href="gemini-guide.html#app-ideas" style="left: 560px; top: 1210px;">
-    <h3>App Ideas</h3>
-    <p>Not sure what to build? Browse categories: Calculate, Track, Organize, Time, Classroom, Fun. Pick one and go.</p>
-    <span class="time">Inspiration</span>
-    <span class="tag opt">Need an idea?</span>
-  </a>
-
-  <a class="node gold" href="gemini-guide.html#iteration-tips" style="left: 1020px; top: 1210px;">
-    <h3>Iteration Tips</h3>
-    <p>One change at a time. Be specific. Paste your full code. Ready-to-use prompt templates inside.</p>
-    <span class="time">~60 min</span>
-    <span class="tag rec">Most of your time</span>
-  </a>
-
-  <a class="node teal" href="gemini-guide.html#understand-your-code" style="left: 1450px; top: 1210px;">
-    <h3>Understand Your Code</h3>
-    <p>3 prompts: &ldquo;What did I build?&rdquo; &rarr; &ldquo;Walk me through&rdquo; &rarr; &ldquo;Help me fix.&rdquo; Curiosity, not required.</p>
-    <span class="time">Optional</span>
-    <span class="tag opt">Curious?</span>
-  </a>
-
-  <!-- === ROW 6: SHIP === -->
-  <a class="node green" href="gemini-guide.html#share-your-app" style="left: 1020px; top: 1470px; width: 260px;">
-    <h3>Share Your App</h3>
-    <p>Three options: Google Sites (5 min, easiest), GitHub Pages (15 min, robust), or just download the file.</p>
-    <span class="time">~20 min</span>
-  </a>
-
-  <!-- === SUPPORT NODES (right column) === -->
-  <a class="node coral support" href="gemini-guide.html#troubleshooting" style="left: 1900px; top: 480px;">
-    <h3>Troubleshooting</h3>
-    <p>8 common issues: blank screen, cut-off code, saving problems, &ldquo;completely stuck&rdquo; nuclear option.</p>
-    <span class="time">Use anytime</span>
-  </a>
-
-  <a class="node gold support" href="gemini-guide.html#ai-workshop-coach" style="left: 1900px; top: 760px;">
-    <h3>AI Workshop Coach</h3>
-    <p>A helper you can set up in Gemini or ChatGPT. It answers your questions and walks you through each step &mdash; like having a patient tutor.</p>
-    <span class="time">Personal tutor</span>
-  </a>
-
-  <a class="node teal support" href="gemini-guide.html#glossary" style="left: 1900px; top: 1040px;">
-    <h3>Glossary</h3>
-    <p>10 real developer terms you&rsquo;ve already been using: HTML, CSS, JS, deploy, iterate, prompt, and more.</p>
-    <span class="time">10 terms</span>
-  </a>
-
-  <!-- === SUPPORT LABELS === -->
-  <div style="position:absolute; left:1920px; top:420px; color:#555570; font-size:0.6rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">Help &amp; Reference</div>
-
-</div>
-</div>
-
-<!-- Fixed UI -->
-<div class="controls">
-  <button class="icon-btn" onclick="zoomBy(1.3)" aria-label="Zoom in" title="Zoom in">+</button>
-  <button class="icon-btn" onclick="zoomBy(0.77)" aria-label="Zoom out" title="Zoom out">&minus;</button>
-  <button class="text-btn" onclick="resetView()" aria-label="See all cards" title="See all cards">Overview</button>
-</div>
-<div class="zoom-level" id="zoom-level"></div>
-<div class="hint" id="hint"></div>
-<div class="more-indicator" id="more-ind">Scroll down for more steps</div>
-
-<!-- Legend (fixed overlay, always visible) -->
-<div class="legend">
-  <h4>Map Key</h4>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#353560;"></div>
-    <span class="legend-label">Main flow</span>
+  <div class="fork-row">
+    <a class="node green" href="gemini-guide.html#choose-your-path">
+      <h3>Gemini Canvas</h3>
+      <p>Live preview right in the chat. Easiest starting point &mdash; type and see your app instantly.</p>
+      <span class="time">gemini.google.com</span>
+      <span class="tag rec">Recommended</span>
+    </a>
+    <div class="fork-or">OR</div>
+    <a class="node green" href="gemini-guide.html#choose-your-path">
+      <h3>AI Studio</h3>
+      <p>See the full code, more free usage (~500 req/day). Save as a file and open in your browser.</p>
+      <span class="time">aistudio.google.com</span>
+      <span class="tag flex">More control</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#252540; border-top: 1px dashed #252540; height:0;"></div>
-    <span class="legend-label">Support link</span>
+
+  <!-- Fork merge -->
+  <svg class="branch-svg" viewBox="0 0 400 32" width="400" height="32" aria-hidden="true">
+    <path d="M70,0 C70,16 200,16 200,32"/>
+    <path d="M330,0 C330,16 200,16 200,32"/>
+  </svg>
+
+  <!-- Mobile fallback connector (hidden on desktop) -->
+  <div class="connector mobile-connector"></div>
+
+  <div class="connector short"></div>
+
+  <!-- ========== PHASE 03: BUILD ========== -->
+  <div class="phase-label"><span>03 &mdash; Build &amp; Tweak</span></div>
+
+  <div class="step">
+    <a class="node gold" href="gemini-guide.html#the-super-prompt">
+      <h3>The Super Prompt</h3>
+      <p>Copy this starter text and paste it into Gemini <em>before</em> describing your app. It gives the AI instructions so your app works well on the first try.</p>
+      <span class="time">Copy + paste</span>
+      <span class="tag rec">Key step</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#4285f4; height:3px;"></div>
-    <span class="legend-label">Content</span>
+
+  <div class="connector"></div>
+
+  <div class="step">
+    <a class="node blue" href="gemini-guide.html#step-by-step">
+      <h3>Step-by-Step Guide</h3>
+      <p>Follow along for your chosen path &mdash; Canvas or AI Studio. Covers setup, first generation, and saving your code.</p>
+      <span class="time">~20 min</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#fbbc04; height:3px;"></div>
-    <span class="legend-label">AI / tool</span>
+
+  <div class="connector"></div>
+
+  <!-- Fan split -->
+  <svg class="branch-svg" viewBox="0 0 480 32" width="480" height="32" aria-hidden="true">
+    <path d="M240,0 C240,16 72,16 72,32"/>
+    <path d="M240,0 C240,16 240,12 240,32"/>
+    <path d="M240,0 C240,16 408,16 408,32"/>
+  </svg>
+
+  <div class="fan-row">
+    <a class="node teal" href="gemini-guide.html#app-ideas">
+      <h3>App Ideas</h3>
+      <p>Not sure what to build? Browse categories: Calculate, Track, Organize, Time, Classroom, Fun.</p>
+      <span class="time">Inspiration</span>
+      <span class="tag opt">Need an idea?</span>
+    </a>
+    <a class="node gold" href="gemini-guide.html#iteration-tips">
+      <h3>Iteration Tips</h3>
+      <p>One change at a time. Be specific. Paste your full code. Ready-to-use prompt templates inside.</p>
+      <span class="time">~60 min</span>
+      <span class="tag rec">Most of your time</span>
+    </a>
+    <a class="node teal" href="gemini-guide.html#understand-your-code">
+      <h3>Understand Your Code</h3>
+      <p>3 prompts: &ldquo;What did I build?&rdquo; &rarr; &ldquo;Walk me through&rdquo; &rarr; &ldquo;Help me fix.&rdquo;</p>
+      <span class="time">Optional</span>
+      <span class="tag opt">Curious?</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#34a853; height:3px;"></div>
-    <span class="legend-label">Action</span>
+
+  <!-- Fan merge -->
+  <svg class="branch-svg" viewBox="0 0 480 32" width="480" height="32" aria-hidden="true">
+    <path d="M72,0 C72,16 240,16 240,32"/>
+    <path d="M240,0 C240,20 240,16 240,32"/>
+    <path d="M408,0 C408,16 240,16 240,32"/>
+  </svg>
+
+  <!-- Mobile fallback connector -->
+  <div class="connector mobile-connector"></div>
+
+  <div class="connector short"></div>
+
+  <!-- ========== PHASE 04: SHIP ========== -->
+  <div class="phase-label"><span>04 &mdash; Ship It</span></div>
+
+  <div class="step">
+    <a class="node green" href="gemini-guide.html#share-your-app">
+      <h3>Share Your App</h3>
+      <p>Three options: Google Sites (5 min, easiest), GitHub Pages (15 min, robust), or just download the file.</p>
+      <span class="time">~20 min</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#2dd4bf; height:3px;"></div>
-    <span class="legend-label">Reference</span>
+
+  <!-- ========== HELP & REFERENCE ========== -->
+  <div class="support-divider"><span>Help &amp; Reference</span></div>
+
+  <div class="support-row">
+    <a class="node coral support" href="gemini-guide.html#troubleshooting">
+      <h3>Troubleshooting</h3>
+      <p>8 common issues: blank screen, cut-off code, saving problems, &ldquo;completely stuck&rdquo; nuclear option.</p>
+      <span class="time">Use anytime</span>
+    </a>
+    <a class="node gold support" href="gemini-guide.html#ai-workshop-coach">
+      <h3>AI Workshop Coach</h3>
+      <p>A helper you can set up in Gemini or ChatGPT &mdash; like having a patient tutor.</p>
+      <span class="time">Personal tutor</span>
+    </a>
+    <a class="node teal support" href="gemini-guide.html#glossary">
+      <h3>Glossary</h3>
+      <p>10 real developer terms you&rsquo;ve already been using: HTML, CSS, JS, deploy, iterate, and more.</p>
+      <span class="time">10 terms</span>
+    </a>
   </div>
-  <div class="legend-row">
-    <div class="legend-line" style="background:#ea4335; height:3px;"></div>
-    <span class="legend-label">Help</span>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#4285f4;"></div>
+      <span class="legend-label">Content</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#fbbc04;"></div>
+      <span class="legend-label">AI / Tool</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#34a853;"></div>
+      <span class="legend-label">Action</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#2dd4bf;"></div>
+      <span class="legend-label">Reference</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#ea4335;"></div>
+      <span class="legend-label">Help</span>
+    </div>
   </div>
+
 </div>
 
 <script>
-const viewport = document.getElementById('viewport');
-const canvas   = document.getElementById('canvas');
-const hint     = document.getElementById('hint');
-const zoomEl   = document.getElementById('zoom-level');
-const moreInd  = document.getElementById('more-ind');
+// Scroll progress bar
+const progressEl = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressEl.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+}, { passive: true });
 
-// Touch-aware hint text
-const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-const isMobile = viewport.clientWidth < 768;
-
-function setHintText(variant) {
-  if (variant === 'welcome-back') {
-    hint.textContent = isTouch
-      ? 'Welcome back \u00b7 Tap Overview \u2198 to see the full map'
-      : 'Welcome back \u00b7 Click Overview \u2198 to see the full map';
-  } else {
-    hint.textContent = isTouch
-      ? 'Drag to pan \u00b7 Pinch to zoom \u00b7 Tap Overview \u2198 to see the full map'
-      : 'Drag to pan \u00b7 Scroll to zoom \u00b7 Click Overview \u2198 to see the full map';
-  }
-}
-setHintText('default');
-
-let zoom = 1, pan = { x: 0, y: 0 };
-let dragging = false, didDrag = false;
-let dragStart = { x: 0, y: 0 }, panStart = { x: 0, y: 0 };
-let activeTouches = 0;
-const DRAG_THRESHOLD = isTouch ? 10 : 5;
-
-// rAF gating for smooth rendering
-let rafPending = false;
-function apply() {
-  if (rafPending) return;
-  rafPending = true;
-  requestAnimationFrame(() => {
-    canvas.style.transform = `translate(${pan.x}px,${pan.y}px) scale(${zoom})`;
-    zoomEl.textContent = Math.round(zoom * 100) + '%';
-    rafPending = false;
-    // Update mobile "more below" indicator
-    updateMoreIndicator();
-  });
-}
-
-// Show/hide "more below" on mobile
-function updateMoreIndicator() {
-  if (!isMobile || !moreInd) return;
-  // If the user has panned down significantly, hide the indicator
-  const canvasBottom = pan.y + 1600 * zoom; // approximate bottom of main content
-  if (canvasBottom < viewport.clientHeight * 0.5) {
-    moreInd.style.opacity = '0';
-  }
-}
-
-// Save/restore pan state
-function saveState() {
-  try { sessionStorage.setItem('map-state', JSON.stringify({ zoom, pan })); } catch(e) {}
-}
-function restoreState() {
-  try {
-    const s = JSON.parse(sessionStorage.getItem('map-state'));
-    if (s && s.zoom && s.pan) { zoom = s.zoom; pan = s.pan; return true; }
-  } catch(e) {}
-  return false;
-}
-
-function resetView() {
-  const vw = viewport.clientWidth, vh = viewport.clientHeight;
-  if (vw === 0 || vh === 0) return;
-
-  if (vw < 768) {
-    // Mobile: zoom into first row so cards are tappable
-    zoom = Math.min(vw / 1100, vh / 500) * 0.85;
-    pan.x = -180 * zoom + (vw - 900 * zoom) / 2;
-    pan.y = -120 * zoom;
-  } else {
-    // Desktop first visit: zoom into the first row so text is readable
-    // Shows Start Here → How It Works → Choose Your Path at ~0.7-0.9x
-    zoom = Math.min(vw / 1200, vh / 500) * 0.82;
-    pan.x = -200 * zoom + (vw - 1100 * zoom) / 2;
-    pan.y = -130 * zoom + vh * 0.12;
-  }
-  apply();
-  saveState();
-}
-
-// Full overview — shows the entire canvas (old resetView behavior)
-function showOverview() {
-  const vw = viewport.clientWidth, vh = viewport.clientHeight;
-  if (vw === 0 || vh === 0) return;
-  zoom = Math.min(vw / 3000, vh / 2100) * 0.92;
-  pan.x = (vw - 3000 * zoom) / 2;
-  pan.y = (vh - 2100 * zoom) / 2;
-  apply();
-  saveState();
-}
-
-function zoomAt(newZ, cx, cy) {
-  newZ = Math.max(0.2, Math.min(4, newZ));
-  pan.x = cx - (cx - pan.x) * (newZ / zoom);
-  pan.y = cy - (cy - pan.y) * (newZ / zoom);
-  zoom = newZ;
-  apply();
-}
-
-function zoomBy(f) {
-  zoomAt(zoom * f, viewport.clientWidth / 2, viewport.clientHeight / 2);
-}
-
-// Scroll focused card into view
-function scrollCardIntoView(el) {
-  const rect = el.getBoundingClientRect();
-  const vw = viewport.clientWidth, vh = viewport.clientHeight;
-  const margin = 60;
-  let dx = 0, dy = 0;
-  if (rect.left < margin) dx = margin - rect.left;
-  else if (rect.right > vw - margin) dx = (vw - margin) - rect.right;
-  if (rect.top < margin + 50) dy = (margin + 50) - rect.top;
-  else if (rect.bottom > vh - margin) dy = (vh - margin) - rect.bottom;
-  if (dx || dy) {
-    pan.x += dx;
-    pan.y += dy;
-    apply();
-  }
-}
-
-// Focus handler — bring card into view
-document.querySelectorAll('a.node').forEach(a => {
-  a.addEventListener('focus', () => scrollCardIntoView(a));
-});
-
-// Track touches for multi-touch guard
-viewport.addEventListener('touchstart', e => { activeTouches = e.touches.length; }, { passive: true });
-viewport.addEventListener('touchend', e => { activeTouches = e.touches.length; }, { passive: true });
-viewport.addEventListener('touchcancel', e => { activeTouches = e.touches.length; }, { passive: true });
-
-// Pointer pan
-viewport.addEventListener('pointerdown', e => {
-  if (e.target.closest('.controls, .back, .legend, .orient-banner')) return;
-  if (e.pointerType === 'touch' && activeTouches > 1) return;
-  dragging = true;
-  didDrag = false;
-  dragStart = { x: e.clientX, y: e.clientY };
-  panStart  = { ...pan };
-  document.body.classList.add('grabbing');
-  // Only capture pointer for background drags — not on cards,
-  // otherwise setPointerCapture prevents the native click/link navigation
-  if (!e.target.closest('a.node')) {
-    viewport.setPointerCapture(e.pointerId);
-  }
-});
-viewport.addEventListener('pointermove', e => {
-  if (!dragging) return;
-  const dx = e.clientX - dragStart.x, dy = e.clientY - dragStart.y;
-  if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) didDrag = true;
-  pan.x = panStart.x + dx;
-  pan.y = panStart.y + dy;
-  apply();
-});
-viewport.addEventListener('pointerup', () => {
-  dragging = false;
-  document.body.classList.remove('grabbing');
-  saveState();
-  // Clean up didDrag after click events fire
-  requestAnimationFrame(() => { didDrag = false; });
-});
-
-// Prevent click-through to links when dragging
-document.querySelectorAll('a.node').forEach(a => {
-  a.addEventListener('click', e => {
-    if (didDrag) { e.preventDefault(); didDrag = false; }
-  });
-});
-
-// Scroll zoom
-viewport.addEventListener('wheel', e => {
-  e.preventDefault();
-  zoomAt(zoom * (e.deltaY > 0 ? 0.92 : 1.09), e.clientX, e.clientY);
-  saveState();
-  dismissHint();
-}, { passive: false });
-
-// Pinch zoom
-let lastDist = 0;
-viewport.addEventListener('touchstart', e => {
-  if (e.touches.length === 2) {
-    e.preventDefault();
-    const dx = e.touches[1].clientX - e.touches[0].clientX;
-    const dy = e.touches[1].clientY - e.touches[0].clientY;
-    lastDist = Math.hypot(dx, dy);
-  }
-}, { passive: false });
-viewport.addEventListener('touchmove', e => {
-  if (e.touches.length === 2 && lastDist) {
-    e.preventDefault();
-    const dx = e.touches[1].clientX - e.touches[0].clientX;
-    const dy = e.touches[1].clientY - e.touches[0].clientY;
-    const dist = Math.hypot(dx, dy);
-    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    zoomAt(zoom * (dist / lastDist), cx, cy);
-    lastDist = dist;
-  }
-}, { passive: false });
-viewport.addEventListener('touchend', () => { lastDist = 0; saveState(); });
-
-// Keyboard navigation
-document.addEventListener('keydown', e => {
-  const tag = e.target.tagName;
-  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-  // Don't hijack arrows when a link/button has focus (screen reader compat)
-  if ((tag === 'A' || tag === 'BUTTON') && e.key.startsWith('Arrow')) return;
-
-  const PAN_STEP = 80;
-  switch(e.key) {
-    case 'ArrowUp':    pan.y += PAN_STEP; apply(); saveState(); e.preventDefault(); break;
-    case 'ArrowDown':  pan.y -= PAN_STEP; apply(); saveState(); e.preventDefault(); break;
-    case 'ArrowLeft':  pan.x += PAN_STEP; apply(); saveState(); e.preventDefault(); break;
-    case 'ArrowRight': pan.x -= PAN_STEP; apply(); saveState(); e.preventDefault(); break;
-    case '+': case '=': zoomBy(1.2); saveState(); e.preventDefault(); break;
-    case '-':           zoomBy(0.83); saveState(); e.preventDefault(); break;
-    case '0':           showOverview(); e.preventDefault(); break;
-  }
-});
-
-// Hint management
-let hintGone = false;
-function dismissHint() {
-  if (!hintGone) { hint.style.opacity = '0'; hintGone = true; }
-}
-function showHint(variant) {
-  setHintText(variant || 'default');
-  hint.style.opacity = '1';
-  hintGone = false;
-}
-// Dismiss only on actual interaction (drag or zoom), not tap
-viewport.addEventListener('pointermove', () => {
-  if (dragging && didDrag) dismissHint();
-});
-
-// Init: restore previous state or zoom into Start Here
-if (!restoreState()) {
-  resetView();
-} else {
-  apply();
-  // Returning user — briefly re-show hint so they can re-orient
-  showHint('welcome-back');
-  setTimeout(() => dismissHint(), 5000);
-}
-
-// Dismiss orientation banner after user starts interacting
+// Dismiss orientation banner on first scroll
 const banner = document.getElementById('orient-banner');
 if (banner) {
-  viewport.addEventListener('pointerdown', () => {
+  window.addEventListener('scroll', () => {
     if (banner.style.display !== 'none') {
       banner.style.opacity = '0';
-      setTimeout(() => { banner.style.display = 'none'; }, 500);
+      setTimeout(() => { banner.style.display = 'none'; }, 400);
     }
-  }, { once: true });
+  }, { once: true, passive: true });
 }
 </script>
 </body>
