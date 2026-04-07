@@ -84,6 +84,16 @@ The process: **Research → Generate → Tweak → Deploy**
 - [ ] Super prompt ready to paste (in `gemini-guide.html` or a shared Doc)
 - [ ] You've confirmed Gemini works on venue WiFi
 
+### Backup / Contingency Plan
+
+**If Gemini is down or WiFi is unavailable:**
+- Have the super prompt pre-loaded in a shared Google Doc so participants can copy it without opening the guide
+- If both Canvas and AI Studio are unreachable, switch to **Google AI Studio on mobile hotspot** — each participant can tether to their phone
+- As a last resort: use **ChatGPT (chat.openai.com)** or **Claude (claude.ai)** — the super prompt works in any AI chat, just paste it the same way
+
+**If Canvas links fail to share (common with school accounts):**
+- Switch all participants to the AI Studio path — save as `index.html`, deploy via GitHub Pages or email the file directly
+
 ---
 
 ## Phase 1: Research (20 min)
