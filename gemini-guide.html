@@ -302,6 +302,24 @@
         .path-card .pros-cons .pro::before { content: '✓ '; color: var(--accent-green); font-weight: 700; }
         .path-card .pros-cons .con::before { content: '△ '; color: var(--accent-yellow); font-weight: 700; }
 
+        .path-cta {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            border: none;
+            font-family: var(--font-display);
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: opacity 0.15s;
+        }
+        .path-cta:hover { opacity: 0.85; }
+        .path-card.canvas .path-cta { background: var(--accent-blue); color: #fff; }
+        .path-card.studio .path-cta { background: var(--accent-purple); color: #fff; }
+
         /* ===== CODE BLOCKS ===== */
         pre {
             background: var(--bg-code);
@@ -860,6 +878,9 @@
                     No code knowledge
                 </span>
             </div>
+            <p style="margin-top: 1.2rem; margin-bottom: 0;">
+                <a href="guide-map.html" style="font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); text-decoration: none; border-bottom: 1px dotted var(--border);" onmouseover="this.style.color='var(--accent-blue)'" onmouseout="this.style.color='var(--text-muted)'">View as Journey Map &rarr;</a>
+            </p>
         </div>
 
         <!-- WHAT YOU'LL DO -->
@@ -892,6 +913,7 @@
                     <li class="con">Workspace/school accounts can't share links</li>
                     <li class="con">Lower daily usage limits than AI Studio</li>
                 </ul>
+                <button class="path-cta" data-goto-tab="canvas-steps">Go to Canvas steps &rarr;</button>
             </div>
             <div class="path-card studio">
                 <h3>Google AI Studio</h3>
@@ -905,6 +927,7 @@
                     <li class="con">Slightly more setup than Canvas</li>
                     <li class="con">School accounts have limited access</li>
                 </ul>
+                <button class="path-cta" data-goto-tab="studio-steps">Go to AI Studio steps &rarr;</button>
             </div>
         </div>
 
@@ -1073,9 +1096,8 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                                 <li>Open <strong>TextEdit</strong> (Cmd+Space, type "TextEdit")</li>
                                 <li>Go to <strong>Format → Make Plain Text</strong> (critical!)</li>
                                 <li>Paste your code (<kbd>Cmd</kbd>+<kbd>V</kbd>)</li>
-                                <li><strong>File → Save</strong>, name it <code>index.html</code></li>
-                                <li>Change "use .txt" to <strong>"Don't append"</strong></li>
-                                <li>Save to Desktop</li>
+                                <li><strong>File → Save</strong>, name it <code>index.html</code>, save to Desktop</li>
+                                <li>A dialog pops up asking about the file extension — click <strong>"Don't Append"</strong> (this keeps the <code>.html</code> extension instead of adding <code>.txt</code>)</li>
                             </ol>
                         </div>
                     </details>
@@ -1135,6 +1157,8 @@ The "add" button doesn't work. Fix just this issue, don't change anything else.<
         <h2 id="app-ideas">App Ideas</h2>
         <p>Stuck? Pick one from the table and make it yours. Good first apps do <strong>one thing well</strong> with <strong>3 features or fewer</strong>.</p>
 
+        <blockquote class="tip"><strong>Frame it first:</strong> Before picking, fill in this sentence — "I need a way to ___ so that ___." Example: "I need a way to <em>track the people I meet at conferences</em> so that <em>I remember who to follow up with</em>." This becomes your app description.</blockquote>
+
         <table>
             <thead>
                 <tr>
@@ -1169,8 +1193,6 @@ The "add" button doesn't work. Fix just this issue, don't change anything else.<
                 </tr>
             </tbody>
         </table>
-
-        <blockquote class="tip"><strong>Pro tip:</strong> Describe your app with "I need a way to ___ so that ___." Example: "I need a way to <em>track the people I meet at conferences</em> so that <em>I remember who to follow up with</em>."</blockquote>
 
         <!-- ITERATION TIPS -->
         <h2 id="iteration-tips">Prompting & Iteration Tips</h2>
@@ -1446,6 +1468,13 @@ My question / what I want to change:
         <h2 id="troubleshooting">Troubleshooting</h2>
 
         <details class="troubleshoot">
+            <summary>I have no idea what to build</summary>
+            <div class="details-body">
+                <p>Check the <a href="#app-ideas">App Ideas table</a> above for a full list of starter projects by category. Pick one that solves a problem you actually have — you'll be more motivated to finish it.</p>
+            </div>
+        </details>
+
+        <details class="troubleshoot">
             <summary>File opened as text, not a web page</summary>
             <div class="details-body">
                 <ul>
@@ -1496,13 +1525,6 @@ My question / what I want to change:
                     <li>Wait 3 minutes — Pages takes time on the first deploy</li>
                     <li>Check Settings → Pages — is it showing the green banner yet?</li>
                 </ul>
-            </div>
-        </details>
-
-        <details class="troubleshoot">
-            <summary>I have no idea what to build</summary>
-            <div class="details-body">
-                <p>Check the <a href="#app-ideas">App Ideas table</a> above for a full list of starter projects by category. Pick one that solves a problem you actually have — you'll be more motivated to finish it.</p>
             </div>
         </details>
 
@@ -1921,13 +1943,25 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
         }
 
         // ===== TAB SWITCHER =====
+        function activateTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (btn) btn.classList.add('active');
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add('active');
+        }
+
         document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+        });
+
+        // Path card CTAs — select tab and scroll to step-by-step
+        document.querySelectorAll('.path-cta').forEach(btn => {
             btn.addEventListener('click', () => {
-                const tabId = btn.dataset.tab;
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
+                const tabId = btn.dataset.gotoTab;
+                activateTab(tabId);
+                document.getElementById('step-by-step').scrollIntoView({ behavior: 'smooth' });
             });
         });
 
