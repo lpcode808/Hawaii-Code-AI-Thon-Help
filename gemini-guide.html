@@ -1283,12 +1283,12 @@
             <div class="path-card canvas">
                 <h3>Gemini + Canvas</h3>
                 <span class="path-url">gemini.google.com</span>
-                <p>Build and <strong>preview apps right beside the chat</strong>, then export straight to Google Sites in one click. The easiest starting point.</p>
+                <p>Build and <strong>preview apps in an inline Canvas card</strong> in the chat, then export straight to Google Sites in one click. The easiest starting point.</p>
                 <ul class="pros-cons">
                     <li class="pro">Live preview — see your app instantly</li>
                     <li class="pro">One-click Export to Google Sites (no copy-paste)</li>
                     <li class="pro">Chat to iterate, click elements, or upload a sketch</li>
-                    <li class="pro">Free tier available (Gemini Flash)</li>
+                    <li class="pro">Free tier available — stick with the default model</li>
                     <li class="con">School/HIDOE accounts may restrict public links</li>
                     <li class="con">Free usage limits refresh every 5 hours</li>
                 </ul>
@@ -1296,13 +1296,13 @@
             </div>
             <div class="path-card studio">
                 <h3>Google AI Studio</h3>
-                <span class="path-url">aistudio.google.com/build</span>
-                <p><strong>Build mode</strong> gives you live preview, full code view, and ZIP / GitHub export — plus a generous free tier when Canvas hits a limit.</p>
+                <span class="path-url">aistudio.google.com</span>
+                <p><strong>Playground</strong> is the path for a single HTML file. <strong>New app</strong> (under BUILD) gives you live preview and ZIP / GitHub export for a multi-file project — a generous free-tier fallback when Canvas hits a limit.</p>
                 <ul class="pros-cons">
                     <li class="pro">Generous free tier (great fallback if Canvas pauses)</li>
-                    <li class="pro">Build mode has live preview + full code editor</li>
-                    <li class="pro">Built-in Versions history, Download ZIP &amp; GitHub sync</li>
-                    <li class="pro">Chat mode also works for single offline HTML files</li>
+                    <li class="pro">New app has live preview + a multi-file code view</li>
+                    <li class="pro">Checkpoint / Restore on each reply, plus Export to .zip or GitHub</li>
+                    <li class="pro">Playground is the path for a single offline HTML file</li>
                     <li class="con">Slightly more developer-focused layout than Canvas</li>
                     <li class="con">Usually requires a personal Google account</li>
                 </ul>
@@ -1310,7 +1310,7 @@
             </div>
         </div>
 
-        <blockquote class="tip"><strong>Which model?</strong> Both paths default to <strong>Gemini Flash</strong>, which is free and plenty capable for building apps. Stick with the default — no need to upgrade or change settings.</blockquote>
+        <blockquote class="tip"><strong>Which model?</strong> Stick with the default — no need to change it. In AI Studio <strong>Playground</strong> that's currently <strong>Gemini 4 Hydrogen</strong> (free, no "Free" badge). <strong>New app</strong> builds with <strong>Gemini 4 Neon</strong>. If you specifically want Flash, pick <strong>Gemini 3.8 Flash</strong> in the model picker.</blockquote>
 
         <!-- THE SUPER PROMPT -->
         <h2 id="the-super-prompt">The Super Prompt</h2>
@@ -1362,7 +1362,7 @@ What app would you like to build today?</code></pre>
 
         <div class="tab-switcher">
             <button class="tab-btn active" data-tab="canvas-steps">Gemini Canvas (easiest)</button>
-            <button class="tab-btn" data-tab="studio-steps">AI Studio (Build + Chat)</button>
+            <button class="tab-btn" data-tab="studio-steps">AI Studio (New app + Playground)</button>
         </div>
 
         <!-- CANVAS STEPS -->
@@ -1373,13 +1373,14 @@ What app would you like to build today?</code></pre>
                     <ol>
                         <li>Go to <strong><a href="https://gemini.google.com" target="_blank">gemini.google.com</a></strong> (or try <a href="https://gemini.google.com/canvas" target="_blank">gemini.google.com/canvas</a>)</li>
                         <li>Sign in with your <strong>personal</strong> Google account (or your school/HIDOE account if Gemini + Google Sites/Classroom are enabled)</li>
-                        <li>In the prompt box, click <strong><code>+</code> (Upload and tools) → More tools → Canvas</strong>. You'll see a <strong>Canvas</strong> chip appear in the message box.</li>
+                        <li>In the prompt box, click <strong><code>+</code> (Upload &amp; tools) → Canvas</strong> — Canvas is a top-level item, not under More tools. You'll see a <strong>Canvas</strong> chip appear. If you opened <strong>gemini.google.com/canvas</strong>, Canvas is already selected (you'll see a <strong>Deselect Canvas</strong> chip).</li>
                     </ol>
                     <blockquote class="tip"><strong>Already logged into your school account?</strong> Open a private/incognito window (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in Chrome) and sign in with your personal Gmail there.</blockquote>
-                    <!-- TODO: screenshot assets/screenshots/canvas-01-open.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-01-open.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-01-open.webp</span>
-                        <figcaption>Gemini prompt bar showing <strong>+ (Upload and tools) → More tools → Canvas</strong> selected.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-01-open.webp"
+                             alt="Gemini prompt bar with the Upload & tools menu open, showing Canvas as a top-level item among Upload files, Search Google, Create image, and other tools"
+                             loading="lazy" width="990" height="645">
+                        <figcaption>Gemini prompt bar with <strong>+ (Upload &amp; tools)</strong> open. <strong>Canvas</strong> is a top-level item in the menu — no "More tools" step.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1391,12 +1392,13 @@ What app would you like to build today?</code></pre>
                     <pre><code>[the super prompt you already copied]
 
 Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. Let me copy everything to clipboard at the end.</code></pre>
-                    <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate your app in the Canvas panel.</p>
+                    <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate your app in an inline Canvas card.</p>
                     <blockquote class="tip"><strong>Bonus move — sketch it!</strong> You can also click <strong><code>+</code></strong> to upload a photo of a hand-drawn paper sketch and ask Gemini Canvas to turn your sketch into a working web app.</blockquote>
-                    <!-- TODO: screenshot assets/screenshots/canvas-02-prompt.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-02-prompt.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-02-prompt.webp</span>
-                        <figcaption>Super prompt + app description pasted into Gemini with the <strong>Canvas</strong> chip active.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-02-prompt.webp"
+                             alt="Gemini prompt box with the conference contact tracker description pasted in and the Canvas chip active next to the Send button"
+                             loading="lazy" width="1010" height="650">
+                        <figcaption>Super prompt + app description pasted into Gemini with the <strong>Canvas</strong> chip active and Send ready.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1404,18 +1406,19 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
             <details class="canvas-step">
                 <summary><span class="step-num">3</span> Test your app in Canvas</summary>
                 <div class="details-body">
-                    <p>When Gemini generates your app, the <strong>Canvas panel</strong> on the right opens with a live preview:</p>
+                    <p>When Gemini generates your app, it opens as an <strong>inline Canvas card</strong> in the chat, with a live preview. The toolbar has a <strong>Code</strong> / <strong>Preview</strong> toggle, undo/redo, <strong>Export</strong>, <strong>Share</strong>, fullscreen, and close:</p>
                     <ul>
                         <li><strong>Preview</strong> — try your working app, click every button, fill in every field</li>
-                        <li><strong>Code</strong> — see and edit the <span class="vocab" data-term="HTML = structure, CSS = styling, JS = interactivity">HTML/CSS/JS</span> code directly</li>
+                        <li><strong>Code</strong> — see the <span class="vocab" data-term="HTML = structure, CSS = styling, JS = interactivity">HTML/CSS/JS</span> in a read-only <strong>Code Editor</strong> (download it with <strong>Export → Download code</strong>)</li>
                         <li><strong>Select &amp; ask</strong> — click a part of the app and describe what you want changed in plain English</li>
                         <li><strong>Undo / Redo</strong> — step back to a previous version anytime from the top bar</li>
                     </ul>
                     <blockquote class="warning"><strong>Heads up about saving in Canvas preview:</strong> Gemini's Canvas preview sandbox can look like it saved your data, then lose it when you reload. That's a preview-window quirk, not necessarily a bug in your code — test saving after you export or open the file in a real browser tab.</blockquote>
-                    <!-- TODO: screenshot assets/screenshots/canvas-03-preview.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-03-preview.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-03-preview.webp</span>
-                        <figcaption>Gemini Canvas split view: chat on the left, live Contact Tracker <strong>Preview</strong> and <strong>Code</strong> toggle on the right.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-03-preview.webp"
+                             alt="Gemini Canvas as an inline card in the chat, with the Contact Tracker Preview, Code/Preview toggle, and Export, Share, and Close buttons on the toolbar"
+                             loading="lazy" width="1400" height="849">
+                        <figcaption>Canvas opens as an inline card in the chat (not a split view). Use <strong>Preview</strong> to test and <strong>Code</strong> to inspect the HTML.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1427,11 +1430,12 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                     <pre><code>Make the background dark gray and the text white. Keep buttons green.</code></pre>
                     <pre><code>The "add" button doesn't do anything when I click it. Fix just this.</code></pre>
                     <pre><code>Add a "clear all" button that asks "Are you sure?" before deleting.</code></pre>
-                    <p>Canvas updates the preview automatically after each change. If a long chat starts breaking things that used to work, see <a href="#iteration-tips">Reroll or Translate</a> below.</p>
-                    <!-- TODO: screenshot assets/screenshots/canvas-04-iterate.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-04-iterate.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-04-iterate.webp</span>
-                        <figcaption>One-sentence follow-up change in chat with the updated live preview beside it.</figcaption>
+                    <p>Canvas updates the preview automatically after each change. If an iteration breaks the canvas, use <strong>Previous version</strong> (or Undo on the toolbar) to restore it. If a long chat starts breaking things that used to work, see <a href="#iteration-tips">Reroll or Translate</a> below.</p>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-04-iterate.webp"
+                             alt="Gemini Canvas after a one-sentence follow-up asking to add a Clear All button with a confirmation, showing the updated Contact Tracker preview"
+                             loading="lazy" width="1400" height="820">
+                        <figcaption>A one-sentence follow-up in chat ("Add a Clear All button with a confirmation") and the updated live preview in the Canvas card.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1445,22 +1449,24 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                         <li><strong>Sharing with a class (School / HIDOE):</strong> Click <strong>Share → Share to Classroom</strong> to attach your app straight to a Google Classroom post or assignment (if enabled by your school).</li>
                         <li><strong>Get the raw HTML file (for GitHub Pages, offline use, or editing):</strong>
                             <ol>
-                                <li>Click the <strong>Code</strong> tab in the Canvas panel</li>
-                                <li>Click inside the code text itself, select all (<kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Cmd</kbd>+<kbd>A</kbd>), and copy (<kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Cmd</kbd>+<kbd>C</kbd>)</li>
-                                <li>Test instantly in <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> or edit/save in <a href="https://vscode.dev" target="_blank">vscode.dev</a> — no install needed</li>
+                                <li>Click <strong>Export → Download code</strong> — the <strong>Code</strong> tab is a read-only <strong>Code Editor</strong> with no copy or download button of its own</li>
+                                <li>The Export menu has exactly two items: <strong>Google Sites</strong> and <strong>Download code</strong></li>
+                                <li>Test the file instantly in <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> or edit/save in <a href="https://vscode.dev" target="_blank">vscode.dev</a> — no install needed</li>
                             </ol>
                         </li>
                     </ul>
-                    <blockquote class="warning"><strong>Common trap:</strong> The <strong>Copy</strong> button under Gemini's chat message copies the <em>chat text</em>, not your app. Always open the <strong>Code</strong> tab first before copying. Also note: Gemini's public <code>g.co/gemini/share</code> links let anyone with the link view/edit app data and don't reliably save on iPhone — use Google Sites or GitHub Pages for a real shareable URL.</blockquote>
-                    <!-- TODO: screenshot assets/screenshots/canvas-05-code-copy.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-05-code-copy.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-05-code-copy.webp</span>
-                        <figcaption>Canvas <strong>Code</strong> tab open showing <code>&lt;!DOCTYPE html&gt;</code> ready to select and copy.</figcaption>
+                    <blockquote class="warning"><strong>Common trap:</strong> The <strong>Copy</strong> button under Gemini's chat message copies the <em>chat text</em>, not your app. There's no Copy button on the Code tab either — use <strong>Export → Download code</strong> to save the HTML. Also note: Gemini's public <code>g.co/gemini/share</code> links let anyone with the link view/edit app data and don't reliably save on iPhone — use Google Sites or GitHub Pages for a real shareable URL.</blockquote>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-05-code-copy.webp"
+                             alt="Gemini Canvas Code tab showing a read-only Code Editor with the Contact Tracker HTML starting at <!DOCTYPE html>, with no copy or download button on the tab"
+                             loading="lazy" width="1400" height="820">
+                        <figcaption>The <strong>Code</strong> tab is a read-only <strong>Code Editor</strong> — there's no copy or download button here. Save the file with <strong>Export → Download code</strong>.</figcaption>
                     </figure>
-                    <!-- TODO: screenshot assets/screenshots/canvas-06-export-menu.webp -->
-                    <figure class="guide-shot placeholder" data-shot="canvas-06-export-menu.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-06-export-menu.webp</span>
-                        <figcaption>Canvas <strong>Export</strong> menu highlighting one-click <strong>Google Sites</strong> export.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/canvas-06-export-menu.webp"
+                             alt="Gemini Canvas Export menu open, showing exactly two options: Google Sites and Download code"
+                             loading="lazy" width="1400" height="820">
+                        <figcaption>The <strong>Export</strong> menu has exactly two items: <strong>Google Sites</strong> and <strong>Download code</strong>.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1469,17 +1475,19 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
         <!-- AI STUDIO STEPS -->
         <div class="tab-content" id="studio-steps">
             <details class="studio-step" open>
-                <summary><span class="step-num">1</span> Open AI Studio Build Mode</summary>
+                <summary><span class="step-num">1</span> Open AI Studio</summary>
                 <div class="details-body">
                     <ol>
-                        <li>Go to <strong><a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a></strong> (or go to <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> and click <strong>Build</strong> in the sidebar)</li>
-                        <li>Sign in with your <strong>personal</strong> Google account. Already logged into a school account? Use an <strong>incognito window</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).</li>
-                        <li>Leave the default free <strong>Gemini Flash</strong> model selected — no settings changes needed.</li>
+                        <li>Go to <strong><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></strong> and sign in with your <strong>personal</strong> Google account. Already logged into a school account? Use an <strong>incognito window</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).</li>
+                        <li>The sidebar is <strong>EXPLORE</strong> (Playground, History), <strong>BUILD</strong> (New app, My apps, Gallery), and <strong>MANAGE</strong> (Dashboard, Documentation) — there is no "Chat" or "Build" tab by those old names.</li>
+                        <li><strong>For this workshop's single-file HTML app, use Playground</strong> (under EXPLORE, or <a href="https://aistudio.google.com/prompts/new_chat" target="_blank">aistudio.google.com/prompts/new_chat</a>). Leave the default <strong>Gemini 4 Hydrogen</strong> model as-is.</li>
+                        <li>Want a live preview of a multi-file project instead? Click <strong>New app</strong> under BUILD (that's also where <a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a> now redirects — "Build your ideas with Gemini"). New app uses <strong>Gemini 4 Neon</strong> and generates a React/TypeScript project, not one HTML file.</li>
                     </ol>
-                    <!-- TODO: screenshot assets/screenshots/aistudio-01-home.webp -->
-                    <figure class="guide-shot placeholder" data-shot="aistudio-01-home.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-01-home.webp</span>
-                        <figcaption>Google AI Studio landing screen highlighting the <strong>Build</strong> tab and default free Flash model.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/aistudio-01-home.webp"
+                             alt="Google AI Studio Playground with the sidebar sections EXPLORE (Playground, History), BUILD (New app, My apps, Gallery), and MANAGE (Dashboard, Documentation), and Gemini 4 Hydrogen selected in the model panel"
+                             loading="lazy" width="1400" height="782">
+                        <figcaption>AI Studio sidebar: <strong>EXPLORE</strong> (Playground, History), <strong>BUILD</strong> (New app, My apps, Gallery), and <strong>MANAGE</strong>. Playground's default model is <strong>Gemini 4 Hydrogen</strong>.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1487,13 +1495,14 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
             <details class="studio-step">
                 <summary><span class="step-num">2</span> Describe your app and generate</summary>
                 <div class="details-body">
-                    <p>In Build mode, describe your app clearly in the prompt box (you can also paste our <a href="#the-super-prompt">super prompt</a> first if you want a single self-contained HTML file):</p>
+                    <p>In <strong>New app</strong>, describe your app clearly in the prompt box (New app outputs a multi-file React/TypeScript project; for a single self-contained HTML file, skip ahead to <a href="#studio-steps">Playground in step 5</a> and paste our <a href="#the-super-prompt">super prompt</a> there instead):</p>
                     <pre><code>Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically, save entries in the browser, and let me copy everything to clipboard. Start with 2 sample contacts.</code></pre>
                     <p>Click <strong>Send</strong> and wait 30–90 seconds while AI Studio builds your app and opens a live preview.</p>
-                    <!-- TODO: screenshot assets/screenshots/aistudio-02-build-prompt.webp -->
-                    <figure class="guide-shot placeholder" data-shot="aistudio-02-build-prompt.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-02-build-prompt.webp</span>
-                        <figcaption>AI Studio Build prompt box with the Contact Tracker description ready to send.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/aistudio-02-build-prompt.webp"
+                             alt="Google AI Studio New app screen at aistudio.google.com/apps titled Build your ideas with Gemini, with the Contact Tracker prompt ready to send"
+                             loading="lazy" width="1400" height="782">
+                        <figcaption>AI Studio <strong>New app</strong> ("Build your ideas with Gemini") with the Contact Tracker description ready to send.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1505,12 +1514,13 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                         <li>Test every button and input right in the <strong>Preview</strong> pane</li>
                         <li>Switch to the <strong>Code</strong> tab anytime to inspect the files AI Studio wrote</li>
                         <li>Ask for improvements in the chat panel — <strong>one small change at a time</strong></li>
-                        <li>If an edit breaks something, open <strong>Settings → Versions</strong> to roll back to an earlier snapshot</li>
+                        <li>If an edit breaks something, use <strong>Restore</strong> or <strong>Checkpoint</strong> on the reply (there is no floppy Save icon or Versions menu)</li>
                     </ol>
-                    <!-- TODO: screenshot assets/screenshots/aistudio-03-build-preview.webp -->
-                    <figure class="guide-shot placeholder" data-shot="aistudio-03-build-preview.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-03-build-preview.webp</span>
-                        <figcaption>AI Studio Build split workspace with chat on the left and live Preview / Code tabs on the right.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/aistudio-03-build-preview.webp"
+                             alt="AI Studio New app workspace with chat and a multi-file project on the left, a live Contact Tracker preview on the right, Remix Share and Publish in the header, and Checkpoint, View changes, and Restore under the reply"
+                             loading="lazy" width="1400" height="782">
+                        <figcaption>New app workspace: chat and project files on the left, live <strong>Preview</strong> / <strong>Code</strong> on the right. Each reply has <strong>Checkpoint</strong>, <strong>View changes</strong>, and <strong>Restore</strong>.</figcaption>
                     </figure>
                 </div>
             </details>
@@ -1520,22 +1530,23 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                 <div class="details-body">
                     <p>Don't leave your work trapped in a browser tab — download or sync your code before closing:</p>
                     <ul>
-                        <li><strong>Push straight to GitHub:</strong> Open <strong>Settings → GitHub</strong> to create a new GitHub repo (or link an existing one) and sync your app with one click.</li>
-                        <li><strong>Download a copy:</strong> Use the <strong>Download ZIP</strong> option in the toolbar/settings to save the whole project to your computer.</li>
-                        <li><strong>Need one single <code>index.html</code> file?</strong> Ask Build mode (or use Chat mode below) to output a single self-contained HTML file, then copy from the Code tab.</li>
+                        <li><strong>Push straight to GitHub:</strong> In Code view, open the <strong>Export</strong> dropdown and choose <strong>Push to GitHub</strong> to create or link a repo and sync your app.</li>
+                        <li><strong>Download a copy:</strong> In the same <strong>Export</strong> menu, choose <strong>Download as .zip file</strong> (you'll also see <strong>Export to Antigravity</strong>). The header has <strong>Remix</strong>, <strong>Share</strong>, and <strong>Publish</strong>.</li>
+                        <li><strong>Need one single <code>index.html</code> file?</strong> Use <strong>Playground</strong> (step 5) with the super prompt — New app generates a multi-file React/TypeScript project, not one HTML file.</li>
                     </ul>
-                    <!-- TODO: screenshot assets/screenshots/aistudio-04-export.webp -->
-                    <figure class="guide-shot placeholder" data-shot="aistudio-04-export.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-04-export.webp</span>
-                        <figcaption>AI Studio Build export &amp; GitHub sync controls.</figcaption>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/aistudio-04-export.webp"
+                             alt="AI Studio Code view with the Export dropdown open, showing Export to Antigravity, Push to GitHub, and Download as .zip file"
+                             loading="lazy" width="1400" height="782">
+                        <figcaption>In Code view, the <strong>Export</strong> menu offers <strong>Export to Antigravity</strong>, <strong>Push to GitHub</strong>, and <strong>Download as .zip file</strong>.</figcaption>
                     </figure>
                 </div>
             </details>
 
             <details class="studio-step">
-                <summary><span class="step-num">5</span> Alternative: Single-file HTML in AI Studio Chat + local save</summary>
+                <summary><span class="step-num">5</span> Recommended for this workshop: Single-file HTML in AI Studio Playground + local save</summary>
                 <div class="details-body">
-                    <p>Want one offline <code>index.html</code> file you can double-click anywhere (no ZIP, no build step)? Use AI Studio <strong>Chat</strong> mode with our <a href="#the-super-prompt">super prompt</a>, then copy the generated <code>&lt;!DOCTYPE html&gt;</code> block:</p>
+                    <p>Want one offline <code>index.html</code> file you can double-click anywhere (no ZIP, no build step)? Use AI Studio <strong>Playground</strong> (under EXPLORE) with our <a href="#the-super-prompt">super prompt</a>, then copy the generated <code>&lt;!DOCTYPE html&gt;</code> block. The Copy control is a small unlabeled icon at the top right of the code block:</p>
                     <blockquote class="tip"><strong>Fastest way to test without saving a file:</strong> Paste your HTML straight into <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> to preview it in your browser, or edit and save it in <a href="https://vscode.dev" target="_blank">vscode.dev</a> with zero installs.</blockquote>
                     <p>To save <code>index.html</code> to your Desktop:</p>
 
@@ -1577,15 +1588,17 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
                         </div>
                     </details>
 
-                    <p style="margin-top: 0.75rem;">Double-click <code>index.html</code> on your Desktop to test it in Chrome or Safari. When iterating in Chat mode, copy your working code back into the prompt so Gemini doesn't lose track of earlier changes.</p>
-                    <!-- TODO: screenshot assets/screenshots/aistudio-05-chat-fallback.webp -->
-                    <figure class="guide-shot placeholder" data-shot="aistudio-05-chat-fallback.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-05-chat-fallback.webp</span>
-                        <figcaption>AI Studio Chat mode showing the generated <code>&lt;!DOCTYPE html&gt;</code> block and its top-right Copy button.</figcaption>
+                    <p style="margin-top: 0.75rem;">Double-click <code>index.html</code> on your Desktop to test it in Chrome or Safari. When iterating in Playground, copy your working code back into the prompt so Gemini doesn't lose track of earlier changes.</p>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/aistudio-05-chat-fallback.webp"
+                             alt="AI Studio Playground chat showing a generated single-file HTML app in a code block, with a small unlabeled copy icon at the top right of the block"
+                             loading="lazy" width="1400" height="782">
+                        <figcaption>AI Studio <strong>Playground</strong> showing the generated <code>&lt;!DOCTYPE html&gt;</code> block. The Copy control is a small unlabeled icon at the top right of the code block.</figcaption>
                     </figure>
-                    <!-- TODO: screenshot assets/screenshots/tools-01-html-playground.webp -->
-                    <figure class="guide-shot placeholder" data-shot="tools-01-html-playground.webp">
-                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-01-html-playground.webp</span>
+                    <figure class="guide-shot">
+                        <img src="assets/screenshots/tools-01-html-playground.webp"
+                             alt="HTML Playground with Contact Tracker source code on the left and the live rendered preview on the right"
+                             loading="lazy" width="1400" height="782">
                         <figcaption>Testing copied HTML instantly in HTML Playground (<code>lpcode808.github.io/HTML-previewer</code>).</figcaption>
                     </figure>
                 </div>
@@ -1741,10 +1754,11 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
             </div>
         </div>
 
-        <!-- TODO: screenshot assets/screenshots/tools-02-vscodedev.webp -->
-        <figure class="guide-shot placeholder" data-shot="tools-02-vscodedev.webp">
-            <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-02-vscodedev.webp</span>
-            <figcaption>Opening <code>index.html</code> in <strong>vscode.dev</strong> to make a safe small edit (color, title, or label) without installing anything.</figcaption>
+        <figure class="guide-shot">
+            <img src="assets/screenshots/tools-02-vscodedev.webp"
+                 alt="vscode.dev in the browser with an untitled HTML file open and the title changed to Aloha Contact Tracker"
+                 loading="lazy" width="1400" height="782">
+            <figcaption>Editing in <strong>vscode.dev</strong> with no install. The file may open as untitled — in some browsers the Open File / Save As pickers can hang; start a new file and paste if that happens.</figcaption>
         </figure>
 
         <blockquote class="tip"><strong>Also works in Gemini Notebook (NotebookLM):</strong> Upload your <code>index.html</code> to <a href="https://notebook.google.com" target="_blank">notebook.google.com</a> and ask it to <em>"Explain this app like I'm in 7th grade"</em> or generate an audio overview of how it works.</blockquote>
@@ -1934,12 +1948,13 @@ My question / what I want to change:
                 <ol>
                     <li>In Gemini Canvas, click <strong>Export → Google Sites</strong> on your interactive app</li>
                     <li>Your app opens directly in a new Google Sites draft — already embedded and interactive</li>
-                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → <strong>Publish</strong></li>
+                    <li>Click <strong>Publish</strong> (top right) → the dialog defaults the viewer to <strong>Anyone</strong> → choose a web address (<code>sites.google.com/view/your-name</code>) → <strong>Publish</strong></li>
                 </ol>
-                <!-- TODO: screenshot assets/screenshots/deploy-01-sites-from-gemini.webp -->
-                <figure class="guide-shot placeholder" data-shot="deploy-01-sites-from-gemini.webp">
-                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-01-sites-from-gemini.webp</span>
-                    <figcaption>Auto-created Google Sites draft opened via Gemini's <strong>Export → Google Sites</strong> with the Publish button ready.</figcaption>
+                <figure class="guide-shot">
+                    <img src="assets/screenshots/deploy-01-sites-from-gemini.webp"
+                         alt="Google Sites draft auto-created from Gemini Export to Google Sites, with the interactive Contact Tracker already embedded and the Publish button in the top right"
+                         loading="lazy" width="1400" height="782">
+                    <figcaption>Auto-created Google Sites draft opened via Gemini's <strong>Export → Google Sites</strong>, with the <strong>Publish</strong> button ready.</figcaption>
                 </figure>
 
                 <blockquote class="tip"><strong>School / Hawaii DOE (Google Classroom):</strong> In Gemini Canvas, you can also click <strong>Share → Share to Classroom</strong> to attach your app straight to a Classroom post or assignment (if enabled by your school).</blockquote>
@@ -1947,21 +1962,23 @@ My question / what I want to change:
                 <p><strong>Manual embed (AI Studio or local <code>index.html</code> files):</strong></p>
                 <ol>
                     <li>Go to <strong><a href="https://sites.google.com" target="_blank">sites.google.com</a></strong> → click <strong>"Blank site"</strong> (the + button) and name your site</li>
-                    <li>Click <strong>Insert → Embed → Embed code</strong> tab (or <strong>Pages → + → Full page embed</strong> so your app fills the screen)</li>
-                    <li>Paste your entire <code>index.html</code> code → click <strong>Next → Insert</strong></li>
-                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → <strong>Publish</strong></li>
+                    <li>Click <strong>Insert → Embed</strong> to open <strong>Embed from the web</strong>, then the <strong>Embed code</strong> tab (or <strong>Pages → New page → Full page embed</strong> so your app fills the screen). The New page menu also has New link and New menu section</li>
+                    <li>Paste your entire <code>index.html</code> code into the box ("Paste the HTML code from the site you want to embed.") → click <strong>Next → Insert</strong></li>
+                    <li>Click <strong>Publish</strong> (top right) → the dialog defaults the viewer to <strong>Anyone</strong> → choose a web address (<code>sites.google.com/view/your-name</code>) → <strong>Publish</strong></li>
                 </ol>
-                <!-- TODO: screenshot assets/screenshots/deploy-02-sites-manual-embed.webp -->
-                <figure class="guide-shot placeholder" data-shot="deploy-02-sites-manual-embed.webp">
-                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-02-sites-manual-embed.webp</span>
-                    <figcaption>Google Sites manual embed (<strong>Insert → Embed → Embed code</strong> or <strong>Full page embed</strong>).</figcaption>
+                <figure class="guide-shot">
+                    <img src="assets/screenshots/deploy-02-sites-manual-embed.webp"
+                         alt="Google Sites Embed from the web dialog with the Embed code tab selected, HTML pasted, the helper text Paste the HTML code from the site you want to embed, and Next button"
+                         loading="lazy" width="1400" height="782">
+                    <figcaption>Insert → Embed opens <strong>Embed from the web</strong>, with <strong>By URL</strong> and <strong>Embed code</strong> tabs. Paste your HTML, then click <strong>Next</strong> and <strong>Insert</strong>.</figcaption>
                 </figure>
 
                 <p>Your URL: <code>https://sites.google.com/view/YOUR-SITE-NAME</code></p>
                 <blockquote class="warning"><strong>Test on a phone before you share:</strong> An embed doesn't always behave identically to the standalone file, and saving data between visits (<code>localStorage</code>) may not persist inside Google Sites. If saving seems broken after embedding, use GitHub Pages below — it's more reliable.</blockquote>
-                <!-- TODO: screenshot assets/screenshots/deploy-03-sites-published.webp -->
-                <figure class="guide-shot placeholder" data-shot="deploy-03-sites-published.webp">
-                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-03-sites-published.webp</span>
+                <figure class="guide-shot">
+                    <img src="assets/screenshots/deploy-03-sites-published.webp"
+                         alt="The published Google Site for the Contact Tracker shown in a 390 by 844 mobile viewport, with a sample entry for Kai Nakamura"
+                         loading="lazy" width="419" height="860">
                     <figcaption>Published Google Site tested on a mobile viewport (390×844) before sharing the link.</figcaption>
                 </figure>
             </div>
@@ -1970,7 +1987,7 @@ My question / what I want to change:
         <details class="deploy-step">
             <summary>Option B: GitHub Pages — More robust (10–15 min, needs GitHub account)</summary>
             <div class="details-body">
-                <blockquote class="tip"><strong>Using AI Studio Build mode?</strong> You can skip steps 2–3 by opening <strong>Settings → GitHub</strong> inside AI Studio to create a repo and push your code directly, then enable Pages in step 4.</blockquote>
+                <blockquote class="tip"><strong>Using AI Studio New app?</strong> You can skip steps 2–3 by opening <strong>Export → Push to GitHub</strong> inside AI Studio (New app / Code view) to create a repo and push your code directly, then enable Pages in step 4.</blockquote>
                 <ol>
                     <li><strong>Create a GitHub account</strong> at <a href="https://github.com/signup" target="_blank">github.com/signup</a> (use a personal email, pick a username you'll keep — it's part of your URL)</li>
                     <li><strong>Create a new <span class="vocab" data-term="repository">project folder</span>:</strong> Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
@@ -2012,7 +2029,7 @@ My question / what I want to change:
             </div>
             <div class="mini-card accent-yellow">
                 <h4>It stopped answering (usage limit)</h4>
-                <p>Canvas free limits refresh every 5 hours. Switch to <strong><a href="https://aistudio.google.com/build" target="_blank">Google AI Studio</a></strong> (or pair up with a neighbor) and paste your working code to keep going.</p>
+                <p>Canvas free limits refresh every 5 hours. Switch to <strong><a href="https://aistudio.google.com" target="_blank">Google AI Studio</a></strong> Playground (or pair up with a neighbor) and paste your working code to keep going.</p>
             </div>
             <div class="mini-card accent-blue">
                 <h4>Gemini is off on my school/HIDOE account</h4>
@@ -2043,6 +2060,14 @@ My question / what I want to change:
             </div>
         </details>
 
+
+        <details class="troubleshoot">
+            <summary>An iteration broke my Canvas preview</summary>
+            <div class="details-body">
+                <p>Sometimes a follow-up change can break the canvas. Click <strong>Previous version</strong> to restore the last working one, or use <strong>Undo</strong> on the Canvas toolbar.</p>
+            </div>
+        </details>
+
         <details class="troubleshoot">
             <summary>App doesn't do anything when I click buttons</summary>
             <div class="details-body">
@@ -2051,9 +2076,10 @@ My question / what I want to change:
                     <li>Open browser console: press <kbd>F12</kbd> (Mac: <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>J</kbd>) → <strong>Console</strong> tab → look for red errors</li>
                     <li>Copy the red error text and paste it back to Gemini: "I'm getting this error: [paste]. Fix it."</li>
                 </ul>
-                <!-- TODO: screenshot assets/screenshots/tools-03-devtools-console.webp -->
-                <figure class="guide-shot placeholder" data-shot="tools-03-devtools-console.webp">
-                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-03-devtools-console.webp</span>
+                <figure class="guide-shot">
+                    <img src="assets/screenshots/tools-03-devtools-console.webp"
+                         alt="Chrome DevTools Console tab open beside the Contact Tracker, showing a red Uncaught ReferenceError to copy and paste back into Gemini"
+                         loading="lazy" width="1400" height="782">
                     <figcaption>Browser DevTools (<strong>F12 → Console</strong>) showing a red error message to copy and paste back into Gemini.</figcaption>
                 </figure>
             </div>
@@ -2146,8 +2172,8 @@ PHASE 1: PICK AN IDEA (2 min)
 - Example ideas: tip calculator, habit tracker, pomodoro timer, random name picker, contact tracker
 
 PHASE 2: GENERATE THE APP
-- Tell them to open gemini.google.com (+ → More tools → Canvas) OR aistudio.google.com/build (their choice)
-- If they're unsure which: Canvas = easiest (live preview + 1-click Export to Google Sites), AI Studio Build = generous free tier + ZIP/GitHub export
+- Tell them to open gemini.google.com (+ → Upload & tools → Canvas) OR aistudio.google.com (Playground for a single HTML file; New app under BUILD for a multi-file project)
+- If they're unsure which: Canvas = easiest (live preview + 1-click Export to Google Sites), AI Studio Playground = single HTML file, AI Studio New app = live preview + .zip / GitHub export of a multi-file project
 - Give them this super prompt to paste first:
 
 ---
@@ -2204,15 +2230,15 @@ PHASE 4: UNDERSTAND (optional but valuable)
 
 PHASE 5: DEPLOY
 - Ask how they want to share it:
-  A) Google Sites (fastest): In Gemini Canvas click Export > Google Sites > Publish. Or manually at sites.google.com > Insert > Embed (or Pages > Full page embed) > paste HTML > Publish. Test on a phone!
+  A) Google Sites (fastest): In Gemini Canvas click Export > Google Sites > Publish. Or manually at sites.google.com > Insert > Embed (Embed from the web > Embed code) or Pages > New page > Full page embed > paste HTML > Next > Insert > Publish (defaults to Anyone). Test on a phone!
   B) Google Classroom (school/HIDOE): In Gemini Canvas click Share > Share to Classroom (if admin-enabled).
-  C) GitHub Pages (most robust): github.com/signup > new repo > upload index.html (or push from AI Studio Settings > GitHub) > Settings > Pages > main branch.
+  C) GitHub Pages (most robust): github.com/signup > new repo > upload index.html (or push from AI Studio Export > Push to GitHub) > Settings > Pages > main branch.
 - Walk through whichever they pick, one step at a time
 
 IMPORTANT NOTES:
 - A personal Google account avoids the most restrictions; never put real student names or private info in prompts
-- Gemini Flash (the default free model) is plenty — no need to upgrade
-- Always copy code from the Code tab (not the chat reply Copy button)
+- Stick with the default model (Playground: Gemini 4 Hydrogen; New app: Gemini 4 Neon). Flash, if you want it, is Gemini 3.8 Flash — no need to upgrade
+- In Canvas, save code with Export > Download code (the Code tab has no copy button). Don't use the chat reply Copy button. In Playground, use the small unlabeled copy icon on the code block
 - If they get an error, copy the red error from browser DevTools (F12 > Console) and paste it back to Gemini
 - If code gets cut off, say "Continue from where you left off"
 

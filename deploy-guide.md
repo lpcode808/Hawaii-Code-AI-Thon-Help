@@ -12,7 +12,7 @@ Google Sites gives you a clean live URL with zero extra accounts.
 
 1. In Gemini Canvas, click **Export → Google Sites** on your interactive app
 2. Your app opens directly in a new Google Sites draft — already embedded and interactive
-3. Click **Publish** (top right) → choose a URL slug (e.g., `sites.google.com/view/my-habit-tracker`) → **Publish**
+3. Click **Publish** (top right) → the dialog defaults the viewer to **Anyone** → choose a web address (e.g., `sites.google.com/view/my-habit-tracker`) → **Publish**
 
 > **School / Hawaii DOE (Google Classroom):** In Gemini Canvas, you can also click **Share → Share to Classroom** to attach your app directly to a Classroom post or assignment (where enabled by your admin).
 
@@ -22,11 +22,11 @@ Google Sites gives you a clean live URL with zero extra accounts.
 2. Click **"Blank site"** (top left, the `+` button)
 3. Give your site a name (top left, click "Untitled Site")
 4. Choose **either**:
-   - **Insert** (right sidebar) → **Embed** → **Embed code** tab, **OR**
-   - **Pages** (right sidebar) → **`+`** → **Full page embed** (gives your app the whole screen)
-5. Paste your entire `index.html` code into the box
+   - **Insert** (right sidebar) → **Embed** — this opens **Embed from the web**, with **By URL** and **Embed code** tabs, **OR**
+   - **Pages** (right sidebar) → **New page** → **Full page embed** (gives your app the whole screen). The New page menu also has **New link** and **New menu section**.
+5. Paste your entire `index.html` code into the box ("Paste the HTML code from the site you want to embed.")
 6. Click **Next**, then **Insert**
-7. Click **Publish** (top right) → choose a URL slug → **Publish**
+7. Click **Publish** (top right) → the dialog defaults the viewer to **Anyone** → choose a web address → **Publish**
 
 **Test on a phone:** Open your published link on a phone before sharing it — an embed doesn't always behave identically to the standalone file, and `localStorage` (saving data between visits) may not persist inside some Google Sites embeds.
 
@@ -42,7 +42,7 @@ Google Sites gives you a clean live URL with zero extra accounts.
 
 GitHub Pages gives you a permanent URL that's faster and works reliably with `localStorage` and mobile browsers. Good for apps you'll keep updating or share publicly.
 
-> **Using AI Studio Build mode?** You can skip steps 2–3 below by opening **Settings → GitHub** inside AI Studio to create a repo and push your code directly, then turn on GitHub Pages in step 4.
+> **Using AI Studio New app?** You can skip steps 2–3 below by opening **Export → Push to GitHub** in Code view to create a repo and push your code directly, then turn on GitHub Pages in step 4.
 
 **You need**: A free GitHub account — sign up at [github.com](https://github.com)
 

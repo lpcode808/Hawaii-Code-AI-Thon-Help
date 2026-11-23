@@ -82,11 +82,11 @@ Before touching AI, write down your idea in your Google Doc.
 
 ### 2a. Open Gemini Canvas or Google AI Studio
 
-- **Easiest (Gemini Canvas):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload and tools) → More tools → Canvas**
-- **More headroom (Google AI Studio Build mode):** Go to **[aistudio.google.com/build](https://aistudio.google.com/build)** (live preview + code editor + Download ZIP / GitHub sync)
-- **Single-file Chat mode (AI Studio):** Go to **[aistudio.google.com](https://aistudio.google.com/)** and start a new Chat prompt
+- **Easiest (Gemini Canvas):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload & tools) → Canvas**, or open **[gemini.google.com/canvas](https://gemini.google.com/canvas)** (Canvas is already selected)
+- **More headroom (Google AI Studio New app):** Go to **[aistudio.google.com/apps](https://aistudio.google.com/apps)** (or `/build`, which redirects there) for a live preview and **Export → Download as .zip file** / **Push to GitHub**. This builds a multi-file React/TypeScript project, not one HTML file.
+- **Single-file Playground (AI Studio, recommended for this workshop):** Go to **[aistudio.google.com](https://aistudio.google.com/)** and click **Playground** under EXPLORE (or [aistudio.google.com/prompts/new_chat](https://aistudio.google.com/prompts/new_chat))
 
-Sign in with your **personal** Google account for the fewest surprises (keep real student names and private info out of prompts). Leave the default free **Gemini Flash** model selected.
+Sign in with your **personal** Google account for the fewest surprises (keep real student names and private info out of prompts). Leave the default model selected — in Playground that's **Gemini 4 Hydrogen** (free). If you want Flash, pick **Gemini 3.8 Flash**.
 
 ### 2b. Paste the Super Prompt + Describe Your App
 
@@ -111,9 +111,9 @@ Sign in with your **personal** Google account for the fewest surprises (keep rea
 
 ### 3b. Copy or Download Your Code
 
-- **Gemini Canvas:** Open the **Code** tab (don't use the chat reply Copy button — that copies chat text, not your app), click inside the code, select all (`Ctrl/Cmd+A`), and copy (`Ctrl/Cmd+C`). Or click **Export → Google Sites** directly!
-- **AI Studio Build:** Use **Download ZIP**, **Settings → GitHub**, or copy from the **Code** tab.
-- **Instant zero-install test:** Paste your HTML into **[HTML Playground](https://lpcode808.github.io/HTML-previewer)** to preview it immediately, or open **[vscode.dev](https://vscode.dev)** in Chrome to edit and save `index.html` with no install.
+- **Gemini Canvas:** The **Code** tab is a read-only Code Editor with no copy/download button — use **Export → Download code** to save the HTML (don't use the chat reply Copy button, which copies chat text). Or click **Export → Google Sites** directly! The Export menu has exactly those two items.
+- **AI Studio New app:** In Code view, open **Export** and choose **Download as .zip file** or **Push to GitHub**. **Playground:** use the small unlabeled copy icon on the code block for a single HTML file.
+- **Instant zero-install test:** Paste your HTML into **[HTML Playground](https://lpcode808.github.io/HTML-previewer)** to preview it immediately, or open **[vscode.dev](https://vscode.dev)** in Chrome to edit and save `index.html` with no install. (In some browsers the Open File / Save As pickers can hang — if that happens, start a new untitled file and paste.)
 
 ### 3c. Save Locally as `index.html` (Optional / Offline File)
 

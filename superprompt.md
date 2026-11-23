@@ -6,8 +6,8 @@ This is what you paste into **Gemini Canvas** or **Google AI Studio** before des
 
 ## Step 1: Open Gemini Canvas or AI Studio
 
-- **Gemini Canvas (easiest):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload and tools) → More tools → Canvas**
-- **Google AI Studio (more headroom):** Go to **[aistudio.google.com/build](https://aistudio.google.com/build)** (Build mode with live preview) or **[aistudio.google.com](https://aistudio.google.com/)** (Chat mode for a single offline HTML file)
+- **Gemini Canvas (easiest):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload & tools) → Canvas**, or open **[gemini.google.com/canvas](https://gemini.google.com/canvas)** (Canvas is already selected)
+- **Google AI Studio (more headroom):** For a single HTML file, go to **[aistudio.google.com](https://aistudio.google.com/)** and open **Playground** under EXPLORE. For a multi-file project with live preview, click **New app** under BUILD (or [aistudio.google.com/apps](https://aistudio.google.com/apps); `/build` redirects there).
 - Sign in with a **personal Google account** for the fewest surprises (school/HIDOE accounts may restrict public links or AI Studio — never put real student names or private data in prompts).
 
 ---
@@ -55,7 +55,7 @@ USER INSTRUCTION: Simply describe what kind of app you want to build, even if yo
 What app would you like to build today?
 ```
 
-> **Tip:** When you're done building, always export (e.g., **Export → Google Sites** in Canvas) or download/copy your code from the **Code** tab before closing your browser tab.
+> **Tip:** When you're done building, always export (e.g., **Export → Google Sites** or **Export → Download code** in Canvas) before closing your browser tab. The Code tab is read-only and has no copy/download button of its own.
 
 ---
 

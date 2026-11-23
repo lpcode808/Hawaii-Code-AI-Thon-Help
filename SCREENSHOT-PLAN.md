@@ -106,14 +106,14 @@ When the browser-enabled agent finishes capturing:
 
 ---
 
-## 5. Observed UI Log *(to be filled in by the browser agent)*
+## 5. Observed UI Log
 
-- **Capture date:** `YYYY-MM-DD`
-- **Account used:** Personal Gmail (`[redacted]`) / GitHub (`[redacted]`)
-- **Gemini Canvas entry path observed:** `TBD`
-- **Gemini `Export > Google Sites` working on personal account?** `TBD`
-- **Gemini Canvas copy/download behavior observed:** `TBD`
-- **AI Studio default free Flash model observed:** `TBD`
-- **AI Studio Build vs. Chat UI notes:** `TBD`
-- **Google Sites / GitHub Pages UI notes:** `TBD`
-- **Shots skipped or needing retake:** `TBD`
+- **Capture date:** `2026-11-23`
+- **Account used:** Personal Gmail (`[redacted]`) / GitHub (`[redacted]` — **not signed in; Batch D GitHub shots pending**)
+- **Gemini Canvas entry path observed:** `https://gemini.google.com/canvas` loads with Canvas already selected (a **Deselect Canvas** chip). The `+` button is labelled **Upload & tools**. Canvas is a **top-level item** in that menu — there is no "More tools" step. Menu items: Upload files, Add from Drive, More uploads, Search Google, Create image, Create video, Create music, Canvas, Deep research, Guided learning, Personal Intelligence, Labs.
+- **Gemini `Export > Google Sites` working on personal account?** **Yes.** The Export menu has exactly **Google Sites** and **Download code**. After choosing Google Sites: "Creating Google Site..." then "New Google Site created" with **Open Google Site**. Verified on this personal account.
+- **Gemini Canvas copy/download behavior observed:** Canvas is an **inline card in the chat** (not a split view). Toolbar: Code/Preview toggle, undo/redo, Export, Share, Fullscreen, Close. The **Code** tab is a read-only **Code Editor** with **no copy or download button**; download is only via **Export → Download code**. An iteration can break the canvas; **Previous version** restores it (seen live).
+- **AI Studio default free Flash model observed:** Playground default is **Gemini 4 Hydrogen** (no "Free" badge). The Flash option is **Gemini 3.8 Flash**. Other picker options seen: Gemini 4 Neon, Carbon (Paid), Argon, Gemini 3.5 Flash Lite, Gemini 3.1 Pro Preview. **New app** generates with **Gemini 4 Neon**.
+- **AI Studio Build vs. Chat UI notes:** There are **no "Chat" / "Build" sidebar entries**. Sidebar: **EXPLORE** (Playground, History), **BUILD** (New app, My apps, Gallery), **MANAGE** (Dashboard, Documentation). `/build` and the root redirect to `/apps` ("Build your ideas with Gemini"); Playground is `/prompts/new_chat`. New app outputs a **multi-file React/TypeScript project**, not one HTML file — for the single-file workshop workflow, point beginners to **Playground**. No floppy Save icon or Versions menu; each reply has **Checkpoint**, **View changes**, **Restore**. Code view **Export** dropdown: Export to Antigravity, Push to GitHub, Download as .zip file. Header: Remix, Share, Publish. Playground code-block Copy control is a **small unlabeled icon**.
+- **Google Sites / GitHub Pages UI notes:** **Sites (verified):** Insert → Embed opens **Embed from the web** with tabs **By URL** and **Embed code** (helper text: "Paste the HTML code from the site you want to embed."; buttons **Next**, then **Insert**). In Pages, the `+` is now labelled **New page**; its menu has **New link**, **Full page embed**, **New menu section**. The Publish dialog defaults the viewer to **Anyone**; you choose a web address at `sites.google.com/view/<name>`. **GitHub labels (Add file, Upload files, Commit changes, Settings → Pages → Deploy from a branch) are UNVERIFIED / pending** — left as written; shots D4 and D5 were not captured.
+- **Shots skipped or needing retake:** `deploy-04-github-upload.webp` and `deploy-05-github-pages.webp` were not captured (placeholders left in `gemini-guide.html`). Optional `tools-04-save-plain-text.webp` skipped (Linux capture machine). Optional extra `aistudio-01b-model-picker` was captured raw but not wired into the guide. `vscode.dev`: Open File / Save As pickers can hang in some browsers; the captured shot shows an untitled file (noted softly in the guide).
