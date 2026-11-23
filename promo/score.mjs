@@ -95,6 +95,8 @@ const sfx = await lab.evaluate(async ({ cues, DUR }) => {
   const dry = ac.createGain(), room = ac.createConvolver(), wet = ac.createGain();
   room.buffer = ir; wet.gain.value = .25; dry.connect(ac.destination); room.connect(wet).connect(ac.destination);
   const bus = pan => { const p = ac.createStereoPanner(); p.pan.value = pan; p.connect(dry); p.connect(room); return p; };
+  const dbus = pan => { const p = ac.createStereoPanner(); p.pan.value = pan; p.connect(dry); return p; };   // no room (808, hats)
+  const drive = (() => { const n = 1024, c = new Float32Array(n); for (let i = 0; i < n; i++) { const x = i / (n - 1) * 2 - 1; c[i] = Math.tanh(2.2 * x) / Math.tanh(2.2); } return c; })();
   const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
   const env = (g, t, a, peak, d) => { g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(.0001, t + a + d); g.gain.setValueAtTime(0, t + a + d + .001); };
   const noise = (t, len) => { const s = ac.createBufferSource(); s.buffer = nb; s.start(t, rnd() * 1.4, len); return s; };
@@ -187,6 +189,39 @@ const sfx = await lab.evaluate(async ({ cues, DUR }) => {
           const ti = t + .01 + Math.pow(rnd(), 1.6) * .9, f = 2800 + rnd() * 5200, d = .05 + rnd() * .12, lv = (.05 + rnd() * .05) * v * (1 - (ti - t) / 1.1);
           tone('sine', f, ti, .0006, lv, d, -.8 + rnd() * 1.6); tone('sine', f * 1.51, ti, .0006, lv * .4, d * .7, -.8 + rnd() * 1.6);
         }
+        break;
+      }
+      // ---- a drum machine, for the electronic beat in the prequel ----
+      case 'k808': {   // a tuned sine kick with a long tail, driven a little so it carries on small speakers
+        const f = mtof(c.m), d = c.d || .6, o = ac.createOscillator(), g = ac.createGain(), ws = ac.createWaveShaper(), out = ac.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(f * 3.2, t); o.frequency.exponentialRampToValueAtTime(f, t + .045);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + .002); g.gain.setValueAtTime(1, t + .03); g.gain.exponentialRampToValueAtTime(.001, t + d);
+        ws.curve = drive; out.gain.value = .34 * v;
+        o.connect(g).connect(ws).connect(out).connect(dbus(0)); o.start(t); o.stop(t + d + .05);
+        const g2 = ac.createGain(); env(g2, t, .0005, .08 * v, .008); noise(t, .02).connect(filt('highpass', 3000, .7)).connect(g2).connect(dbus(0));
+        break;
+      }
+      case 'eclap': {  // three hands a few milliseconds apart, a snare's body under them, and a tail in the room
+        for (let i = 0; i < 3; i++) { const g = ac.createGain(); env(g, t + i * .009, .0005, .22 * v, i < 2 ? .012 : .14); noise(t + i * .009, .2).connect(filt('bandpass', 1150, .9)).connect(g).connect(bus(i === 1 ? -.15 : .15)); }
+        tone('triangle', 190, t, .001, .08 * v, .07, 0, 150);
+        break;
+      }
+      case 'ehat': {   // closed, or open on the off-beat
+        const d = c.open ? .22 : .028, g = ac.createGain(); env(g, t, .0005, .09 * v, d);
+        noise(t, d + .02).connect(filt('highpass', 7500, .7)).connect(g).connect(dbus(.25));
+        break;
+      }
+      case 'riser': {  // noise climbing through a band-pass, up to the drop
+        const d = c.d || 1.5, s = noise(t, d), bp = filt('bandpass', 400, 2.5), g = ac.createGain();
+        bp.frequency.setValueAtTime(400, t); bp.frequency.exponentialRampToValueAtTime(9000, t + d);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.12 * v, t + d * .9); g.gain.linearRampToValueAtTime(0, t + d);
+        s.connect(bp).connect(g).connect(bus(0));
+        break;
+      }
+      case 'swell': {  // a cymbal played backwards, into the last chord
+        const d = c.d || .5, s = noise(t, d), hp = filt('highpass', 5000, .7), g = ac.createGain();
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.16 * v, t + d - .01); g.gain.linearRampToValueAtTime(0, t + d);
+        s.connect(hp).connect(g).connect(bus(0));
         break;
       }
       case 'bloom': {
