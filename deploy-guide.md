@@ -4,39 +4,45 @@ Once your `index.html` works locally, use one of these options to share it with 
 
 ---
 
-## Option A: Google Sites (Easiest — 5 minutes, no new accounts)
+## Option A: Google Sites (Easiest — 2–5 minutes, no new accounts)
 
-Google Sites lets you embed your HTML app directly in a webpage. Good for: sharing with a class, embedding in a course page, or just getting a quick live URL.
+Google Sites gives you a clean live URL with zero extra accounts.
 
-**Limitation**: Some advanced features (like saving data between sessions) may not work inside Google Sites. If your app uses `localStorage`, test it after embedding.
+### Fastest Way (Gemini Canvas Users — 1 Click)
 
-### Steps
+1. In Gemini Canvas, click **Export → Google Sites** on your interactive app
+2. Your app opens directly in a new Google Sites draft — already embedded and interactive
+3. Click **Publish** (top right) → choose a URL slug (e.g., `sites.google.com/view/my-habit-tracker`) → **Publish**
+
+> **School / Hawaii DOE (Google Classroom):** In Gemini Canvas, you can also click **Share → Share to Classroom** to attach your app directly to a Classroom post or assignment (where enabled by your admin).
+
+### Manual Embed (AI Studio or Local `index.html` Files)
 
 1. Go to **[sites.google.com](https://sites.google.com)**
 2. Click **"Blank site"** (top left, the `+` button)
 3. Give your site a name (top left, click "Untitled Site")
-4. In the main editing area, click **Insert** in the right sidebar > **Embed**
-5. Click the **"Embed code"** tab
-6. Paste your entire `index.html` code into the box
-7. Click **Next**, then **Insert**
-8. You'll see a preview of your app embedded in the page
-9. Click **Publish** (top right) > choose a URL slug (e.g., `sites.google.com/view/my-habit-tracker`) > Publish
+4. Choose **either**:
+   - **Insert** (right sidebar) → **Embed** → **Embed code** tab, **OR**
+   - **Pages** (right sidebar) → **`+`** → **Full page embed** (gives your app the whole screen)
+5. Paste your entire `index.html` code into the box
+6. Click **Next**, then **Insert**
+7. Click **Publish** (top right) → choose a URL slug → **Publish**
 
-**Your app is now live.** Copy the URL and share it.
+**Test on a phone:** Open your published link on a phone before sharing it — an embed doesn't always behave identically to the standalone file, and `localStorage` (saving data between visits) may not persist inside some Google Sites embeds.
 
-### Updating
+### Updating a Manual Embed
 
-1. Come back to your site at sites.google.com
-2. Click the pencil icon to edit
-3. Click on the embedded app > click the pencil/edit icon on the embed block
-4. Replace the code > Next > Insert
-5. Publish again
+1. Come back to your site at `sites.google.com`
+2. Click on the embedded app → click the pencil/edit icon on the embed block
+3. Replace the code → **Next** → **Insert** → **Publish** again
 
 ---
 
 ## Option B: GitHub Pages (More Robust — 10–15 minutes, requires GitHub account)
 
-GitHub Pages gives you a permanent URL that's faster and works with all app features including localStorage. Good for: apps you'll keep updating, sharing publicly, or putting on a resume.
+GitHub Pages gives you a permanent URL that's faster and works reliably with `localStorage` and mobile browsers. Good for apps you'll keep updating or share publicly.
+
+> **Using AI Studio Build mode?** You can skip steps 2–3 below by opening **Settings → GitHub** inside AI Studio to create a repo and push your code directly, then turn on GitHub Pages in step 4.
 
 **You need**: A free GitHub account — sign up at [github.com](https://github.com)
 

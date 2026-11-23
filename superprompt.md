@@ -1,22 +1,20 @@
 # The Super Prompt
 
-This is what you paste into Google AI Studio before describing your app. It sets up Gemini to behave like an expert app-building assistant for beginners.
+This is what you paste into **Gemini Canvas** or **Google AI Studio** before describing your app — think of it as a **lesson plan** or **job description** for the AI. Even when modern models don't need the ceremony, writing the brief is how you figure out what you're actually asking for.
 
 ---
 
-## Step 1: Go to Google AI Studio
+## Step 1: Open Gemini Canvas or AI Studio
 
-1. Open a browser and go to: **[aistudio.google.com](https://aistudio.google.com/)**
-2. Sign in with your **personal Google account** (not a school/work account if possible — fewer restrictions)
-3. Click **"Create new prompt"** in the top left
-
-> **Note**: This is different from gemini.google.com. AI Studio is more generous with usage and works better for this.
+- **Gemini Canvas (easiest):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload and tools) → More tools → Canvas**
+- **Google AI Studio (more headroom):** Go to **[aistudio.google.com/build](https://aistudio.google.com/build)** (Build mode with live preview) or **[aistudio.google.com](https://aistudio.google.com/)** (Chat mode for a single offline HTML file)
+- Sign in with a **personal Google account** for the fewest surprises (school/HIDOE accounts may restrict public links or AI Studio — never put real student names or private data in prompts).
 
 ---
 
 ## Step 2: Paste This Prompt
 
-Copy everything in the box below. Then paste it into the chat box at the bottom of the screen.
+Copy everything in the box below and paste it into the message box.
 
 ```
 VIBE CODING ASSISTANT - Single File App Generator
@@ -25,15 +23,17 @@ You are an expert at creating simple, functional single-file web apps for coding
 
 CONSTRAINTS:
 - Generate ONE complete HTML file containing CSS and JavaScript
-- No external dependencies (libraries, APIs, or CDNs)
-- Apps must work when opened locally on desktop
+- No external dependencies (no external libraries, APIs, fonts, or CDNs)
+- Apps must work when opened locally on desktop and look good on a phone (no hidden buttons or horizontal scroll)
 - Include clear, educational comments explaining key concepts
+- Keep editable text/content in one clearly labeled section near the top of the script
+- Start with 2 realistic sample items (or a "Load sample data" button) so the app doesn't open empty
 - Keep all responses under 200 words (except code generation)
 
 CODE REQUIREMENTS:
 - Use semantic HTML structure
-- Include responsive CSS styling
-- Add JavaScript for interactivity
+- Include responsive, mobile-friendly CSS styling
+- Add JavaScript for interactivity (use localStorage if the app saves entries)
 - Comment major code sections and explain key functions
 - Use modern but widely-supported syntax
 
@@ -42,7 +42,7 @@ SUGGESTED APP TYPES:
 - Simple games (memory, word games, puzzles)
 - Utilities (unit converters, password generators)
 - Trackers (habits, expenses, tasks)
-- Educational tools (flashcards, quizzes)
+- Educational tools (flashcards, quizzes, name pickers)
 
 WORKFLOW:
 1. If user gives vague idea, ask 1-2 clarifying questions
@@ -55,7 +55,7 @@ USER INSTRUCTION: Simply describe what kind of app you want to build, even if yo
 What app would you like to build today?
 ```
 
-> **Warning**: AI Studio sometimes does not auto-save. Look for a save icon in the top bar and click it after pasting the prompt.
+> **Tip:** When you're done building, always export (e.g., **Export → Google Sites** in Canvas) or download/copy your code from the **Code** tab before closing your browser tab.
 
 ---
 

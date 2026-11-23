@@ -6,16 +6,16 @@
 
 ---
 
-**Audience**: Teachers and beginners with zero coding background
+**Audience**: Middle & high school students, teachers, and Hawaii DOE (HIDOE) educators — zero coding background needed
 **Tool**: Google Gemini (free, no API key, no install)
-**Output**: A working single-file web app, shared via Google Sites or GitHub Pages
+**Output**: A working web app, shared via Google Sites, Google Classroom, or GitHub Pages
 **Time**: Half-day event (~3.5 hours)
 
 ---
 
 ## Core Philosophy
 
-> "Build first, understand later."
+> "Make first, code later."
 
 Participants are **project managers**. The AI is the developer. Their job is to describe what they want, test the result, and direct changes — not learn HTML first.
 
@@ -27,12 +27,15 @@ The process: **Research → Generate → Tweak → Deploy**
 
 | File | For | Purpose |
 |------|-----|---------|
-| **`gemini-guide.html`** | Participants | Interactive guide: Canvas + AI Studio paths, super prompt, app ideas, iteration tips, deploy, troubleshooting, chat companion |
+| **`gemini-guide.html`** | Participants | Interactive guide: Canvas + AI Studio Build paths, super prompt, app ideas, iteration tips, deploy, troubleshooting, AI Workshop Coach |
+| `guide-map.html` | Participants + Facilitators | Scrollable 4-phase visual journey map |
 | `README.md` | Facilitators | This file — event overview, agenda, facilitation notes |
 | `superprompt.md` | Participants | The prompt to paste into Gemini before describing an app |
 | `quick-start.md` | Participants | Step-by-step walkthrough with Google Doc template |
-| `understand-your-code.md` | Participants + Teachers | 3 follow-up prompts to understand generated code |
-| `deploy-guide.md` | Participants | Share via Google Sites or GitHub Pages |
+| `understand-your-code.md` | Participants + Teachers | 4 quick file moves + 3 follow-up prompts to understand generated code |
+| `deploy-guide.md` | Participants | Share via 1-click Export to Google Sites, Classroom, or GitHub Pages |
+| `SCREENSHOT-PLAN.md` | Browser Agent | Shot list & UI verification checklist for late-2026 screenshots |
+| `ANIMATION-BRIEF.md` | Animation Agent | 60-second hype/explainer animation storyboard & visual spec |
 | `SOURCE-MAP.md` | Reference | Provenance of all workshop materials |
 
 **Primary participant resource: `gemini-guide.html`** — everything they need in one searchable, interactive page.
@@ -46,8 +49,8 @@ The process: **Research → Generate → Tweak → Deploy**
 | **0. Setup** | Open Google Doc, set up tracking | Facilitator | 10 min |
 | **1. Research** | Frame the problem — what will you build? | Facilitator, then pairs | 20 min |
 | **2. Generate** | Paste super prompt, describe app, get code | Individual | 20 min |
-| **3. Tweak** | Save, open in browser, iterate, understand | Individual | 60 min |
-| **4. Deploy** | Put on Google Sites or GitHub Pages | Individual | 20 min |
+| **3. Tweak** | Test, iterate one small change at a time, understand | Individual | 60 min |
+| **4. Deploy** | Export to Google Sites, Classroom, or GitHub Pages | Individual | 20 min |
 | **5. Share** | Demo your app to the group | Whole group | 30 min |
 | **Buffer** | Help desk, Q&A, overflow | Facilitator | 30 min |
 
@@ -56,7 +59,7 @@ The process: **Research → Generate → Tweak → Deploy**
 ## Facilitator Setup
 
 ### Accounts Participants Need
-- **Google account** — personal, not school/work (school accounts have restrictions on sharing AI-generated content)
+- **Google account** — a **personal** Gmail gives the fewest surprises. School / Hawaii DOE (Workspace for Education) accounts can now share Canvas creations to Google Classroom and export to Google Sites (where admin-enabled), but public Canvas links and AI Studio may still be restricted. Remind participants never to enter real student names or private data.
 - **GitHub account** — optional, only needed for GitHub Pages deployment
 
 ### Before the Event
@@ -72,14 +75,14 @@ The process: **Research → Generate → Tweak → Deploy**
 
 **3. Test the flow yourself**
    - Build the conference contact tracker example from `superprompt.md`
-   - Confirm it works in your browser
+   - Confirm it works in your browser and on a phone
    - Takes 10–15 minutes
 
 **4. Have a backup app idea ready**
    - Suggest if someone is stuck: "Make a simple contact tracker — name, note, timestamp, copy to clipboard"
 
 ### Day-Of Checklist
-- [ ] WiFi accessible at both `aistudio.google.com` and `gemini.google.com`
+- [ ] WiFi accessible at both `aistudio.google.com` and `gemini.google.com` (plus `vscode.dev` and `lpcode808.github.io/HTML-previewer`)
 - [ ] Shared Drive folder link visible to participants (on screen or QR code)
 - [ ] Super prompt ready to paste (in `gemini-guide.html` or a shared Doc)
 - [ ] You've confirmed Gemini works on venue WiFi
@@ -88,11 +91,12 @@ The process: **Research → Generate → Tweak → Deploy**
 
 **If Gemini is down or WiFi is unavailable:**
 - Have the super prompt pre-loaded in a shared Google Doc so participants can copy it without opening the guide
-- If both Canvas and AI Studio are unreachable, switch to **Google AI Studio on mobile hotspot** — each participant can tether to their phone
-- As a last resort: use **ChatGPT (chat.openai.com)** or **Claude (claude.ai)** — the super prompt works in any AI chat, just paste it the same way
+- If Canvas hits a usage limit, switch participants to **Google AI Studio Build mode** (`aistudio.google.com/build`)
+- As a last resort: use **ChatGPT (`chatgpt.com`)** or **Claude (`claude.ai`)** — the super prompt works in any AI chat, just paste it the same way
 
-**If Canvas links fail to share (common with school accounts):**
-- Switch all participants to the AI Studio path — save as `index.html`, deploy via GitHub Pages or email the file directly
+**If school/HIDOE accounts restrict sharing:**
+- Try **Export → Google Sites** or **Share → Share to Classroom** inside Gemini Canvas first
+- Otherwise copy the code from the **Code** tab, test in `lpcode808.github.io/HTML-previewer`, and deploy via GitHub Pages or email `index.html` directly
 
 ---
 

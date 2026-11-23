@@ -1,8 +1,23 @@
 # Understand Your Code: Follow-Up Prompts
 
-You built an app. It works. Now what?
+You built an app. It works. Now what? Your app is a file you own and can read.
 
-These are **3 follow-up prompts** you paste into the same Gemini chat (or a new one) to understand what you built. Use them in order, or jump to whichever one you need.
+### 4 Quick Moves With Your File (5 min, no prompts needed)
+
+Open your `index.html` in **[vscode.dev](https://vscode.dev)** (free in your browser, no install) and try:
+
+1. **Find it** — Search (`Ctrl/Cmd+F`) for a button label or feature you asked for.
+2. **Predict** — Before changing one line (a color, title, or number), say what you expect to happen.
+3. **Break it** — Change or remove one line on purpose, watch what stops working, then undo (`Ctrl/Cmd+Z`).
+4. **Reflect** — What did you ask for, what did you keep or change, and what could make it fail?
+
+> **Tip:** You can also upload your `index.html` to **Gemini Notebook (NotebookLM)** at [notebook.google.com](https://notebook.google.com) and ask *"Explain this code like I'm in 7th grade"* or generate an audio overview.
+
+---
+
+### 3 Follow-Up Prompts
+
+Paste any of these into the same Gemini chat (or a new one) to understand what you built. Use them in order, or jump to whichever one you need.
 
 | Prompt | What it does | When to use it |
 |--------|-------------|----------------|

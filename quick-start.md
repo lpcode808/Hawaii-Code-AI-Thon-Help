@@ -80,82 +80,53 @@ Before touching AI, write down your idea in your Google Doc.
 
 ## Phase 2: Generate — Use AI to Build It (15 min)
 
-### 2a. Open Google AI Studio
+### 2a. Open Gemini Canvas or Google AI Studio
 
-1. Go to **[aistudio.google.com](https://aistudio.google.com/)**
-2. Sign in with your **personal** Google account (not school/work — fewer restrictions)
-3. In the top-left, click **"Create new prompt"**
+- **Easiest (Gemini Canvas):** Go to **[gemini.google.com](https://gemini.google.com)** → click **`+` (Upload and tools) → More tools → Canvas**
+- **More headroom (Google AI Studio Build mode):** Go to **[aistudio.google.com/build](https://aistudio.google.com/build)** (live preview + code editor + Download ZIP / GitHub sync)
+- **Single-file Chat mode (AI Studio):** Go to **[aistudio.google.com](https://aistudio.google.com/)** and start a new Chat prompt
 
-> If you see a popup about settings or model selection, dismiss it — the defaults are fine.
+Sign in with your **personal** Google account for the fewest surprises (keep real student names and private info out of prompts). Leave the default free **Gemini Flash** model selected.
 
-### 2b. Paste the Super Prompt
+### 2b. Paste the Super Prompt + Describe Your App
 
-1. Open `superprompt.md`
-2. Copy the entire text in the code block (from `VIBE CODING ASSISTANT` to `What app would you like to build today?`)
-3. Click into the message box at the bottom of AI Studio
-4. Paste it (Ctrl+V on Windows / Cmd+V on Mac)
-
-> **Important**: Click the save icon (floppy disk symbol) in the top bar after pasting. AI Studio doesn't always auto-save.
-
-### 2c. Describe Your App
-
-In the same message box (or in a new message), type your app description. Example:
+1. Open `superprompt.md` and copy the entire prompt in the code block
+2. Paste it into the message box, press Enter twice, and type your app description below it. Example:
 
 > Conference app to track people I meet. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. At the end, let me copy everything to clipboard.
 
-Then click **Send** (or press Enter).
-
-### 2d. Wait and Watch
-
-Gemini will show "Thinking..." and then start generating code. This takes 30–90 seconds. You'll see the reasoning steps — this is Gemini planning before it codes.
-
-When it's done, you'll see a big block of code starting with `<!DOCTYPE html>`.
+3. Click **Send** (or press Enter) and wait 30–90 seconds while Gemini thinks and builds your app.
 
 **Paste your prompt into your Google Doc under "Attempt 1 — Prompt."**
 
 ---
 
-## Phase 3: Tweak — Save and Test Your App (10 min)
+## Phase 3: Tweak — Test and Save Your App (10 min)
 
-### 3a. Copy the Code
+### 3a. Test in Preview (Canvas & AI Studio Build)
 
-1. Scroll through Gemini's response to find the code block
-2. Select all the code — from `<!DOCTYPE html>` all the way to `</html>` at the bottom
-3. Copy it (Ctrl+A won't work; you need to click at the start, Shift+click at the end, then Ctrl+C)
+- Click every button and fill in every field in the live **Preview** pane
+- Note what works, what's broken, and what's missing in your Google Doc
+- *Canvas heads-up:* Browser saving (`localStorage`) can look like it works in Canvas preview and disappear on reload — test saving after exporting or opening in a real browser tab
 
-> Tip: Look for a "Copy" button on the code block — Gemini sometimes shows one in the top-right corner of the code.
+### 3b. Copy or Download Your Code
 
-### 3b. Save It as an HTML File
+- **Gemini Canvas:** Open the **Code** tab (don't use the chat reply Copy button — that copies chat text, not your app), click inside the code, select all (`Ctrl/Cmd+A`), and copy (`Ctrl/Cmd+C`). Or click **Export → Google Sites** directly!
+- **AI Studio Build:** Use **Download ZIP**, **Settings → GitHub**, or copy from the **Code** tab.
+- **Instant zero-install test:** Paste your HTML into **[HTML Playground](https://lpcode808.github.io/HTML-previewer)** to preview it immediately, or open **[vscode.dev](https://vscode.dev)** in Chrome to edit and save `index.html` with no install.
 
-**On Mac:**
-1. Open **TextEdit** (search for it in Spotlight: Cmd+Space, type "TextEdit")
-2. Go to **Format > Make Plain Text** (this is critical — skip this and it won't work)
-3. Paste your code (Cmd+V)
-4. Go to **File > Save**
-5. Name it `index.html`
-6. In the save dialog, change **"If no extension is provided, use .txt"** to **"Don't append"** — or just manually type `.html` at the end
-7. Save to your Desktop
+### 3c. Save Locally as `index.html` (Optional / Offline File)
 
-**On Windows:**
-1. Open **Notepad** (search in Start menu)
-2. Paste your code (Ctrl+V)
-3. Go to **File > Save As**
-4. In the "Save as type" dropdown, choose **"All Files (*.*)"**
-5. Name it `index.html`
-6. Save to your Desktop
+**On Mac (TextEdit):**
+1. Open **TextEdit** (Cmd+Space, type "TextEdit")
+2. Go to **Format > Make Plain Text** (critical!)
+3. Paste your code (`Cmd+V`) → **File > Save** as `index.html` on Desktop → click **"Don't Append"** when asked about `.txt`
 
-**Better option (either platform):** Use **VS Code** (free, download at code.visualstudio.com)
-1. Open VS Code
-2. New file: Ctrl+N (Windows) / Cmd+N (Mac)
-3. Paste your code
-4. Save as: Ctrl+S / Cmd+S, name it `index.html`
+**On Windows (Notepad):**
+1. Open **Notepad** → paste your code (`Ctrl+V`)
+2. **File > Save As** → change "Save as type" to **"All Files (*.*)"** → name it `index.html` on Desktop
 
-### 3c. Open and Test It
-
-1. Find `index.html` on your Desktop
-2. Double-click it — it opens in your browser
-3. Try every feature
-4. Write notes in your Google Doc: what works, what doesn't, what's missing
+**Easiest (either platform):** Open **[vscode.dev](https://vscode.dev)** (browser) or desktop **[VS Code](https://code.visualstudio.com)** → New file (`Ctrl/Cmd+N`) → paste → Save (`Ctrl/Cmd+S`) as `index.html`. Double-click `index.html` to test it in Chrome or Safari.
 
 ---
 

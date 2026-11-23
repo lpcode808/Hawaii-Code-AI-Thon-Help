@@ -7,7 +7,17 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Lexend:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('codeaithon-theme');
+                if (saved === 'paper' || saved === 'arcade') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) {}
+        })();
+    </script>
     <style>
         :root {
             --bg-primary: #1a1a2e;
@@ -17,6 +27,8 @@
             --text-primary: #ececec;
             --text-secondary: #b4b4c8;
             --text-muted: #8888a0;
+            --heading-color: #ffffff;
+            --strong-color: #ffffff;
             --accent-blue: #4285f4;
             --accent-green: #34a853;
             --accent-yellow: #fbbc04;
@@ -29,6 +41,54 @@
             --font-display: 'Sora', 'Segoe UI', sans-serif;
             --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
             --toc-width: 300px;
+        }
+
+        /* ===== THEME 2: PAPER PRESS (Warm Editorial Light — Fraunces + Plus Jakarta Sans) ===== */
+        html[data-theme="paper"] {
+            --bg-primary: #f7f2e8;
+            --bg-secondary: #efe7d8;
+            --bg-card: #fffcf6;
+            --bg-code: #ede5d4;
+            --text-primary: #1c1917;
+            --text-secondary: #44403c;
+            --text-muted: #6b6359;
+            --heading-color: #141210;
+            --strong-color: #141210;
+            --accent-blue: #c84b31;
+            --accent-green: #2d6a4f;
+            --accent-yellow: #b45309;
+            --accent-red: #b91c1c;
+            --accent-teal: #0f766e;
+            --accent-purple: #6d28d9;
+            --border: #d8ccb8;
+            --link: #b43c24;
+            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+        }
+
+        /* ===== THEME 3: ARCADE LAB (High-Contrast Maker Dark — Bricolage Grotesque + Lexend) ===== */
+        html[data-theme="arcade"] {
+            --bg-primary: #0b0e14;
+            --bg-secondary: #111622;
+            --bg-card: #161d2d;
+            --bg-code: #080b10;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --heading-color: #f8fafc;
+            --strong-color: #ffffff;
+            --accent-blue: #22d3ee;
+            --accent-green: #a3e635;
+            --accent-yellow: #fbbf24;
+            --accent-red: #fb7185;
+            --accent-teal: #34d399;
+            --accent-purple: #e879f9;
+            --border: #2a354d;
+            --link: #38bdf8;
+            --font-body: 'Lexend', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -185,7 +245,7 @@
             font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #fff;
+            color: var(--heading-color);
         }
 
         h2 {
@@ -193,7 +253,7 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin: 2.5rem 0 1rem;
-            color: #fff;
+            color: var(--heading-color);
             padding-bottom: 0.4rem;
             border-bottom: 1px solid var(--border);
         }
@@ -211,7 +271,7 @@
         a { color: var(--link); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        strong { color: #fff; }
+        strong { color: var(--strong-color); }
 
         /* ===== HERO ===== */
         .hero {
@@ -842,6 +902,311 @@
         @media (max-width: 600px) {
             .glossary-grid { grid-template-columns: 1fr; }
         }
+
+        /* Compact 2-col cards (Reroll/Translate, Sideways, Two Moves) */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .mini-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .mini-card h4 {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 6px;
+            color: var(--text-primary);
+        }
+
+        .mini-card p {
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .mini-card.accent-blue { border-left: 3px solid var(--accent-blue); }
+        .mini-card.accent-green { border-left: 3px solid var(--accent-green); }
+        .mini-card.accent-yellow { border-left: 3px solid var(--accent-yellow); }
+        .mini-card.accent-red { border-left: 3px solid var(--accent-red); }
+        .mini-card.accent-teal { border-left: 3px solid var(--accent-teal); }
+
+        /* 4-step compact strip */
+        .moves-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .move-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .move-num {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .move-title {
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2px 0 4px;
+        }
+
+        .move-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Screenshot figures & pre-capture placeholders */
+        .guide-shot {
+            margin: 1rem 0 0.5rem;
+            padding: 10px;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .guide-shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        .guide-shot figcaption {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.45;
+        }
+
+        .guide-shot.placeholder {
+            border: 1.5px dashed rgba(66, 133, 244, 0.45);
+            background: rgba(66, 133, 244, 0.05);
+            padding: 14px 16px;
+        }
+
+        .shot-todo-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(251, 188, 4, 0.16);
+            color: var(--accent-yellow);
+            margin-right: 8px;
+        }
+
+        .shot-file {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 720px) {
+            .mini-grid { grid-template-columns: 1fr; }
+            .moves-strip { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ===== THEME SWITCHER PILL ===== */
+        .theme-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            margin-bottom: 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .theme-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-display);
+            font-size: 0.74rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s, border-color 0.18s;
+        }
+
+        .theme-btn:hover { color: var(--text-primary); }
+
+        .theme-btn.active {
+            background: var(--bg-card);
+            color: var(--heading-color);
+            border-color: var(--border);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+        }
+
+        .theme-swatch {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(128, 128, 128, 0.4);
+            flex-shrink: 0;
+        }
+
+        /* ===== PAPER PRESS (LIGHT EDITORIAL) POLISH ===== */
+        html[data-theme="paper"] body {
+            font-size: 15.5px;
+            line-height: 1.72;
+        }
+
+        html[data-theme="paper"] h1 {
+            letter-spacing: -0.02em;
+            font-variation-settings: "SOFT" 50, "WONK" 1;
+        }
+
+        html[data-theme="paper"] h2 {
+            letter-spacing: -0.015em;
+            border-bottom: 2px solid var(--border);
+        }
+
+        html[data-theme="paper"] .toc-h2:hover,
+        html[data-theme="paper"] summary:hover,
+        html[data-theme="paper"] tr:hover td {
+            background: rgba(28, 25, 23, 0.045);
+        }
+
+        html[data-theme="paper"] pre,
+        html[data-theme="paper"] code {
+            color: #1c1917;
+        }
+
+        html[data-theme="paper"] .copy-btn {
+            background: #fffcf6;
+            color: #1c1917;
+            border-color: var(--border);
+        }
+
+        html[data-theme="paper"] .copy-btn:hover {
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+        }
+
+        html[data-theme="paper"] blockquote {
+            background: rgba(200, 75, 49, 0.07);
+        }
+
+        html[data-theme="paper"] blockquote.tip {
+            background: rgba(45, 106, 79, 0.08);
+        }
+
+        html[data-theme="paper"] blockquote.warning {
+            background: rgba(180, 83, 9, 0.09);
+        }
+
+        html[data-theme="paper"] .category-badge {
+            background: rgba(200, 75, 49, 0.12);
+            color: #9a3412;
+        }
+
+        html[data-theme="paper"] .prompt-label.copy-me {
+            background: rgba(45, 106, 79, 0.14);
+            color: #1b4332;
+        }
+
+        html[data-theme="paper"] .guide-shot.placeholder {
+            background: rgba(200, 75, 49, 0.05);
+            border-color: rgba(200, 75, 49, 0.4);
+        }
+
+        html[data-theme="paper"] .shot-todo-badge {
+            background: rgba(180, 83, 9, 0.14);
+            color: #92400e;
+        }
+
+        html[data-theme="paper"] .fab {
+            box-shadow: 0 4px 12px rgba(28, 25, 23, 0.16);
+        }
+
+        /* ===== ARCADE LAB (MAKER DARK) POLISH ===== */
+        html[data-theme="arcade"] body {
+            font-size: 15.5px;
+            line-height: 1.78;
+        }
+
+        html[data-theme="arcade"] h1 {
+            letter-spacing: -0.03em;
+            font-weight: 800;
+        }
+
+        html[data-theme="arcade"] h2 {
+            letter-spacing: -0.02em;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border);
+        }
+
+        html[data-theme="arcade"] .path-card,
+        html[data-theme="arcade"] .mini-card,
+        html[data-theme="arcade"] .move-chip,
+        html[data-theme="arcade"] .glossary-item,
+        html[data-theme="arcade"] details {
+            border-width: 1.5px;
+            box-shadow: 3px 3px 0 rgba(34, 211, 238, 0.14);
+        }
+
+        html[data-theme="arcade"] .path-card.canvas .path-cta,
+        html[data-theme="arcade"] .path-card.studio .path-cta,
+        html[data-theme="arcade"] .step-num {
+            color: #0b0e14;
+            font-weight: 700;
+        }
+
+        html[data-theme="arcade"] .category-badge {
+            background: rgba(34, 211, 238, 0.14);
+            color: #67e8f9;
+        }
+
+        html[data-theme="arcade"] blockquote {
+            background: rgba(34, 211, 238, 0.07);
+        }
+
+        html[data-theme="arcade"] blockquote.tip {
+            background: rgba(163, 230, 53, 0.08);
+        }
+
+        html[data-theme="arcade"] blockquote.warning {
+            background: rgba(251, 191, 36, 0.09);
+        }
+
+        html[data-theme="arcade"] .guide-shot.placeholder {
+            background: rgba(34, 211, 238, 0.05);
+            border-color: rgba(34, 211, 238, 0.45);
+        }
     </style>
 </head>
 <body class="toc-hidden">
@@ -861,9 +1226,23 @@
 
         <!-- HERO -->
         <div class="hero">
+            <div class="theme-switcher" role="radiogroup" aria-label="Color and typeface theme">
+                <button class="theme-btn active" type="button" data-set-theme="studio" role="radio" aria-checked="true" title="Subtle dark navy · Sora + Source Serif 4">
+                    <span class="theme-swatch" style="background: linear-gradient(135deg, #1a1a2e 50%, #4285f4 50%);"></span>
+                    Studio
+                </button>
+                <button class="theme-btn" type="button" data-set-theme="paper" role="radio" aria-checked="false" title="Warm editorial light · Fraunces + Plus Jakarta Sans">
+                    <span class="theme-swatch" style="background: linear-gradient(135deg, #f7f2e8 50%, #c84b31 50%);"></span>
+                    Paper Press
+                </button>
+                <button class="theme-btn" type="button" data-set-theme="arcade" role="radio" aria-checked="false" title="High-contrast maker dark · Bricolage Grotesque + Lexend">
+                    <span class="theme-swatch" style="background: linear-gradient(135deg, #0b0e14 50%, #a3e635 50%);"></span>
+                    Arcade Lab
+                </button>
+            </div>
             <h1>Build Your First App with Gemini</h1>
-            <p class="subtitle">A hands-on guide for teachers and beginners. No coding experience needed — just a Google account and an idea.</p>
-            <p style="color: var(--accent-teal); font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; margin: 0.5rem 0 1.2rem;">You are the project manager. The AI is your developer.</p>
+            <p class="subtitle">A hands-on guide for middle &amp; high school students, teachers, and Hawaii DOE educators. No coding experience needed — just a Google account and an idea.</p>
+            <p style="color: var(--accent-teal); font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; margin: 0.5rem 0 1.2rem;">Make first, code later. You are the project manager — the AI is your developer.</p>
             <div class="badge-row">
                 <span class="badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -896,48 +1275,48 @@
 
         <!-- CHOOSE YOUR PATH -->
         <h2 id="choose-your-path">Choose Your Path</h2>
-        <p><strong>Not sure which to pick? Start with Gemini Canvas</strong> — it's the easiest path and you'll see your app instantly. You can always try AI Studio later.</p>
+        <p><strong>Not sure which to pick? Start with Gemini Canvas</strong> — it's the easiest path and you'll see your app instantly. You can always switch to AI Studio if you hit a usage limit or want more control.</p>
 
-        <blockquote class="warning"><strong>Use a personal Google account</strong> for both tools. School/Workspace for Education accounts have restrictions — notably, Workspace users <em>cannot share</em> Canvas creations. Personal accounts avoid all of these issues and are free.</blockquote>
+        <blockquote class="warning"><strong>Account tip (School / Hawaii DOE):</strong> A <strong>personal Google account</strong> gives you the fewest surprises on both tools. School / HIDOE (Google Workspace for Education) accounts can now share Canvas creations to <strong>Google Classroom</strong> and export to <strong>Google Sites</strong> (where enabled by your admin), but public share links and AI Studio may still be restricted. Whatever account you use, keep real student names and private data out of your prompts.</blockquote>
 
         <div class="path-grid">
             <div class="path-card canvas">
                 <h3>Gemini + Canvas</h3>
-                <span class="path-url">gemini.google.com/canvas</span>
-                <p>Build and <strong>preview apps right in the chat</strong>. No file saving needed — Gemini renders your app live. The easiest starting point.</p>
+                <span class="path-url">gemini.google.com</span>
+                <p>Build and <strong>preview apps right beside the chat</strong>, then export straight to Google Sites in one click. The easiest starting point.</p>
                 <ul class="pros-cons">
                     <li class="pro">Live preview — see your app instantly</li>
-                    <li class="pro">No file management needed</li>
-                    <li class="pro">Chat to iterate, or click elements to edit</li>
-                    <li class="pro">Free tier available (uses Flash model)</li>
-                    <li class="con">Workspace/school accounts can't share links</li>
-                    <li class="con">Lower daily usage limits than AI Studio</li>
+                    <li class="pro">One-click Export to Google Sites (no copy-paste)</li>
+                    <li class="pro">Chat to iterate, click elements, or upload a sketch</li>
+                    <li class="pro">Free tier available (Gemini Flash)</li>
+                    <li class="con">School/HIDOE accounts may restrict public links</li>
+                    <li class="con">Free usage limits refresh every 5 hours</li>
                 </ul>
                 <button class="path-cta" data-goto-tab="canvas-steps">Go to Canvas steps &rarr;</button>
             </div>
             <div class="path-card studio">
                 <h3>Google AI Studio</h3>
-                <span class="path-url">aistudio.google.com</span>
-                <p>Paste a super prompt, describe your app, copy the code, save as an HTML file. <strong>More generous free tier</strong> and now has a "Build mode" with live preview too.</p>
+                <span class="path-url">aistudio.google.com/build</span>
+                <p><strong>Build mode</strong> gives you live preview, full code view, and ZIP / GitHub export — plus a generous free tier when Canvas hits a limit.</p>
                 <ul class="pros-cons">
-                    <li class="pro">Very generous free usage (hundreds of uses per day)</li>
-                    <li class="pro">Works with personal Google accounts</li>
-                    <li class="pro">Build mode has live preview + code editor</li>
-                    <li class="pro">See and understand the full code</li>
-                    <li class="con">Slightly more setup than Canvas</li>
-                    <li class="con">School accounts have limited access</li>
+                    <li class="pro">Generous free tier (great fallback if Canvas pauses)</li>
+                    <li class="pro">Build mode has live preview + full code editor</li>
+                    <li class="pro">Built-in Versions history, Download ZIP &amp; GitHub sync</li>
+                    <li class="pro">Chat mode also works for single offline HTML files</li>
+                    <li class="con">Slightly more developer-focused layout than Canvas</li>
+                    <li class="con">Usually requires a personal Google account</li>
                 </ul>
                 <button class="path-cta" data-goto-tab="studio-steps">Go to AI Studio steps &rarr;</button>
             </div>
         </div>
 
-        <blockquote class="tip"><strong>Which model?</strong> Both paths use <strong>Gemini Flash</strong> by default, which is free and great for building apps. Stick with it — no need to upgrade or change anything.</blockquote>
+        <blockquote class="tip"><strong>Which model?</strong> Both paths default to <strong>Gemini Flash</strong>, which is free and plenty capable for building apps. Stick with the default — no need to upgrade or change settings.</blockquote>
 
         <!-- THE SUPER PROMPT -->
         <h2 id="the-super-prompt">The Super Prompt</h2>
-        <p>This prompt tells Gemini how to behave. It produces a single <strong><span class="vocab" data-term="HTML file">HTML file</span></strong> — that's just a text file your browser knows how to display as a web page. Think of it as a recipe your browser follows.</p>
+        <p>This prompt tells Gemini how to behave — think of it as a <strong>lesson plan</strong> or <strong>job description</strong> for the AI. It produces a single <strong><span class="vocab" data-term="HTML file">HTML file</span></strong> — just one text file your browser knows how to open as a working app, even offline.</p>
 
-        <blockquote class="tip"><strong>You do NOT need to understand the text below.</strong> It's a set of instructions for the AI, not for you. Just click "Copy" and paste the whole thing. It works in both Gemini Canvas and AI Studio.</blockquote>
+        <blockquote class="tip"><strong>You do NOT need to understand the text below.</strong> It's a set of instructions for the AI, not for you. Even when modern Gemini models don't need all this ceremony, writing the brief is how you figure out what you're actually asking for. Just click "Copy" and paste the whole thing.</blockquote>
 
         <p><strong>Click the "Copy" button</strong> in the top-right corner of the box below — it copies everything for you. Then paste it into Gemini before describing your app.</p>
         <pre><code>VIBE CODING ASSISTANT - Single File App Generator
@@ -946,15 +1325,17 @@ You are an expert at creating simple, functional single-file web apps for coding
 
 CONSTRAINTS:
 - Generate ONE complete HTML file containing CSS and JavaScript
-- No external dependencies (libraries, APIs, or CDNs)
-- Apps must work when opened locally on desktop
+- No external dependencies (no external libraries, APIs, fonts, or CDNs)
+- Apps must work when opened locally on desktop and look good on a phone (no hidden buttons or horizontal scroll)
 - Include clear, educational comments explaining key concepts
+- Keep editable text/content in one clearly labeled section near the top of the script
+- Start with 2 realistic sample items (or a "Load sample data" button) so the app doesn't open empty
 - Keep all responses under 200 words (except code generation)
 
 CODE REQUIREMENTS:
 - Use semantic HTML structure
-- Include responsive CSS styling
-- Add JavaScript for interactivity
+- Include responsive, mobile-friendly CSS styling
+- Add JavaScript for interactivity (use localStorage if the app saves entries)
 - Comment major code sections and explain key functions
 - Use modern but widely-supported syntax
 
@@ -963,7 +1344,7 @@ SUGGESTED APP TYPES:
 - Simple games (memory, word games, puzzles)
 - Utilities (unit converters, password generators)
 - Trackers (habits, expenses, tasks)
-- Educational tools (flashcards, quizzes)
+- Educational tools (flashcards, quizzes, name pickers)
 
 WORKFLOW:
 1. If user gives vague idea, ask 1-2 clarifying questions
@@ -981,7 +1362,7 @@ What app would you like to build today?</code></pre>
 
         <div class="tab-switcher">
             <button class="tab-btn active" data-tab="canvas-steps">Gemini Canvas (easiest)</button>
-            <button class="tab-btn" data-tab="studio-steps">AI Studio</button>
+            <button class="tab-btn" data-tab="studio-steps">AI Studio (Build + Chat)</button>
         </div>
 
         <!-- CANVAS STEPS -->
@@ -990,60 +1371,97 @@ What app would you like to build today?</code></pre>
                 <summary><span class="step-num">1</span> Open Gemini Canvas</summary>
                 <div class="details-body">
                     <ol>
-                        <li>Go to <strong><a href="https://gemini.google.com/canvas" target="_blank">gemini.google.com/canvas</a></strong> (or open gemini.google.com and select "Canvas" from the input bar)</li>
-                        <li>Sign in with your <strong>personal</strong> Google account</li>
-                        <li>You'll see a chat interface with a Canvas workspace panel</li>
+                        <li>Go to <strong><a href="https://gemini.google.com" target="_blank">gemini.google.com</a></strong> (or try <a href="https://gemini.google.com/canvas" target="_blank">gemini.google.com/canvas</a>)</li>
+                        <li>Sign in with your <strong>personal</strong> Google account (or your school/HIDOE account if Gemini + Google Sites/Classroom are enabled)</li>
+                        <li>In the prompt box, click <strong><code>+</code> (Upload and tools) → More tools → Canvas</strong>. You'll see a <strong>Canvas</strong> chip appear in the message box.</li>
                     </ol>
                     <blockquote class="tip"><strong>Already logged into your school account?</strong> Open a private/incognito window (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in Chrome) and sign in with your personal Gmail there.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/canvas-01-open.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-01-open.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-01-open.webp</span>
+                        <figcaption>Gemini prompt bar showing <strong>+ (Upload and tools) → More tools → Canvas</strong> selected.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="canvas-step">
                 <summary><span class="step-num">2</span> Paste the super prompt + describe your app</summary>
                 <div class="details-body">
-                    <p>Paste the super prompt you copied (<a href="#the-super-prompt">from above</a>), then press Enter twice and type your app idea below it — all in one message. Example of what the full message looks like:</p>
+                    <p>Paste the super prompt you copied (<a href="#the-super-prompt">from above</a>), then press Enter twice and type your app idea below it — all in one message. Example:</p>
                     <pre><code>[the super prompt you already copied]
 
 Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. Let me copy everything to clipboard at the end.</code></pre>
-                    <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate code.</p>
-                    <blockquote class="tip"><strong>If Gemini asks you a question</strong> instead of generating code, that's normal — it's trying to understand what you want. Just answer it and the code will come next.</blockquote>
+                    <p>Hit <strong>Send</strong> and wait 30–90 seconds. Gemini will think, then generate your app in the Canvas panel.</p>
+                    <blockquote class="tip"><strong>Bonus move — sketch it!</strong> You can also click <strong><code>+</code></strong> to upload a photo of a hand-drawn paper sketch and ask Gemini Canvas to turn your sketch into a working web app.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/canvas-02-prompt.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-02-prompt.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-02-prompt.webp</span>
+                        <figcaption>Super prompt + app description pasted into Gemini with the <strong>Canvas</strong> chip active.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="canvas-step">
-                <summary><span class="step-num">3</span> See your app in Canvas</summary>
+                <summary><span class="step-num">3</span> Test your app in Canvas</summary>
                 <div class="details-body">
-                    <p>When Gemini generates HTML code, the <strong>Canvas panel</strong> on the right automatically shows a live preview of your app.</p>
+                    <p>When Gemini generates your app, the <strong>Canvas panel</strong> on the right opens with a live preview:</p>
                     <ul>
-                        <li><strong>Preview</strong> — see your working app, click buttons, enter text</li>
-                        <li><strong>Code view</strong> — see and edit the <span class="vocab" data-term="HTML = structure, CSS = styling, JS = interactivity">HTML/CSS/JS</span> code directly</li>
-                        <li><strong>Click any element</strong> — describe what you want to change in plain English (annotation mode)</li>
+                        <li><strong>Preview</strong> — try your working app, click every button, fill in every field</li>
+                        <li><strong>Code</strong> — see and edit the <span class="vocab" data-term="HTML = structure, CSS = styling, JS = interactivity">HTML/CSS/JS</span> code directly</li>
+                        <li><strong>Select &amp; ask</strong> — click a part of the app and describe what you want changed in plain English</li>
+                        <li><strong>Undo / Redo</strong> — step back to a previous version anytime from the top bar</li>
                     </ul>
-                    <p>Try your app right there — click every button, fill in every field. Note what works and what doesn't.</p>
+                    <blockquote class="warning"><strong>Heads up about saving in Canvas preview:</strong> Gemini's Canvas preview sandbox can look like it saved your data, then lose it when you reload. That's a preview-window quirk, not necessarily a bug in your code — test saving after you export or open the file in a real browser tab.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/canvas-03-preview.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-03-preview.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-03-preview.webp</span>
+                        <figcaption>Gemini Canvas split view: chat on the left, live Contact Tracker <strong>Preview</strong> and <strong>Code</strong> toggle on the right.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="canvas-step">
-                <summary><span class="step-num">4</span> Iterate in the chat</summary>
+                <summary><span class="step-num">4</span> Iterate in the chat (small steps)</summary>
                 <div class="details-body">
-                    <p>To make changes, just type what you want in the chat. Be specific — one change at a time:</p>
+                    <p>To make changes, type what you want in the chat. <strong>One change at a time:</strong></p>
                     <pre><code>Make the background dark gray and the text white. Keep buttons green.</code></pre>
                     <pre><code>The "add" button doesn't do anything when I click it. Fix just this.</code></pre>
-                    <pre><code>Add a "clear all" button that removes everything from the list.</code></pre>
-                    <p>Canvas will update the preview automatically after each change.</p>
+                    <pre><code>Add a "clear all" button that asks "Are you sure?" before deleting.</code></pre>
+                    <p>Canvas updates the preview automatically after each change. If a long chat starts breaking things that used to work, see <a href="#iteration-tips">Reroll or Translate</a> below.</p>
+                    <!-- TODO: screenshot assets/screenshots/canvas-04-iterate.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-04-iterate.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-04-iterate.webp</span>
+                        <figcaption>One-sentence follow-up change in chat with the updated live preview beside it.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="canvas-step">
-                <summary><span class="step-num">5</span> Download your code</summary>
+                <summary><span class="step-num">5</span> Export, share, or copy your code</summary>
                 <div class="details-body">
-                    <p>When you're happy with your app:</p>
-                    <ol>
-                        <li>Click the <strong>Code tab</strong> in the Canvas panel</li>
-                        <li>Select all the code (<kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Cmd</kbd>+<kbd>A</kbd>)</li>
-                        <li>Copy it (<kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Cmd</kbd>+<kbd>C</kbd>)</li>
-                        <li>Save as <code>index.html</code> using the instructions in the deploy section below</li>
-                    </ol>
+                    <p>When you're happy with your app, pick how you want to take it out of Canvas:</p>
+                    <ul>
+                        <li><strong>Fastest to publish online:</strong> Click <strong>Export → Google Sites</strong> right from the Canvas toolbar — it opens a ready-to-publish Google Site draft with your app already embedded.</li>
+                        <li><strong>Sharing with a class (School / HIDOE):</strong> Click <strong>Share → Share to Classroom</strong> to attach your app straight to a Google Classroom post or assignment (if enabled by your school).</li>
+                        <li><strong>Get the raw HTML file (for GitHub Pages, offline use, or editing):</strong>
+                            <ol>
+                                <li>Click the <strong>Code</strong> tab in the Canvas panel</li>
+                                <li>Click inside the code text itself, select all (<kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Cmd</kbd>+<kbd>A</kbd>), and copy (<kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Cmd</kbd>+<kbd>C</kbd>)</li>
+                                <li>Test instantly in <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> or edit/save in <a href="https://vscode.dev" target="_blank">vscode.dev</a> — no install needed</li>
+                            </ol>
+                        </li>
+                    </ul>
+                    <blockquote class="warning"><strong>Common trap:</strong> The <strong>Copy</strong> button under Gemini's chat message copies the <em>chat text</em>, not your app. Always open the <strong>Code</strong> tab first before copying. Also note: Gemini's public <code>g.co/gemini/share</code> links let anyone with the link view/edit app data and don't reliably save on iPhone — use Google Sites or GitHub Pages for a real shareable URL.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/canvas-05-code-copy.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-05-code-copy.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-05-code-copy.webp</span>
+                        <figcaption>Canvas <strong>Code</strong> tab open showing <code>&lt;!DOCTYPE html&gt;</code> ready to select and copy.</figcaption>
+                    </figure>
+                    <!-- TODO: screenshot assets/screenshots/canvas-06-export-menu.webp -->
+                    <figure class="guide-shot placeholder" data-shot="canvas-06-export-menu.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/canvas-06-export-menu.webp</span>
+                        <figcaption>Canvas <strong>Export</strong> menu highlighting one-click <strong>Google Sites</strong> export.</figcaption>
+                    </figure>
                 </div>
             </details>
         </div>
@@ -1051,104 +1469,125 @@ Build me a conference contact tracker. Simple text inputs for name, note, and fo
         <!-- AI STUDIO STEPS -->
         <div class="tab-content" id="studio-steps">
             <details class="studio-step" open>
-                <summary><span class="step-num">1</span> Open AI Studio</summary>
+                <summary><span class="step-num">1</span> Open AI Studio Build Mode</summary>
                 <div class="details-body">
                     <ol>
-                        <li>Go to <strong><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></strong></li>
-                        <li>Sign in with your personal Google account (remember: not school/work). Already logged into a school account? Use an <strong>incognito window</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).</li>
-                        <li>Click <strong>"Create new prompt"</strong> in the top-left (if you see a popup about settings or model selection, dismiss it — defaults are fine)</li>
+                        <li>Go to <strong><a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a></strong> (or go to <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> and click <strong>Build</strong> in the sidebar)</li>
+                        <li>Sign in with your <strong>personal</strong> Google account. Already logged into a school account? Use an <strong>incognito window</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).</li>
+                        <li>Leave the default free <strong>Gemini Flash</strong> model selected — no settings changes needed.</li>
                     </ol>
-                    <blockquote class="tip"><strong>AI Studio also has a "Build mode"</strong> at <a href="https://aistudio.google.com/build" target="_blank">aistudio.google.com/build</a> with live preview, similar to Canvas. Either approach works — the prompt-based workflow below is the most beginner-friendly.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/aistudio-01-home.webp -->
+                    <figure class="guide-shot placeholder" data-shot="aistudio-01-home.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-01-home.webp</span>
+                        <figcaption>Google AI Studio landing screen highlighting the <strong>Build</strong> tab and default free Flash model.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="studio-step">
-                <summary><span class="step-num">2</span> Paste the super prompt</summary>
+                <summary><span class="step-num">2</span> Describe your app and generate</summary>
+                <div class="details-body">
+                    <p>In Build mode, describe your app clearly in the prompt box (you can also paste our <a href="#the-super-prompt">super prompt</a> first if you want a single self-contained HTML file):</p>
+                    <pre><code>Build me a conference contact tracker. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically, save entries in the browser, and let me copy everything to clipboard. Start with 2 sample contacts.</code></pre>
+                    <p>Click <strong>Send</strong> and wait 30–90 seconds while AI Studio builds your app and opens a live preview.</p>
+                    <!-- TODO: screenshot assets/screenshots/aistudio-02-build-prompt.webp -->
+                    <figure class="guide-shot placeholder" data-shot="aistudio-02-build-prompt.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-02-build-prompt.webp</span>
+                        <figcaption>AI Studio Build prompt box with the Contact Tracker description ready to send.</figcaption>
+                    </figure>
+                </div>
+            </details>
+
+            <details class="studio-step">
+                <summary><span class="step-num">3</span> Test and iterate in the live preview</summary>
                 <div class="details-body">
                     <ol>
-                        <li>Copy the entire super prompt from above</li>
-                        <li>Click into the message box at the bottom of AI Studio</li>
-                        <li>Paste it (<kbd>Ctrl</kbd>+<kbd>V</kbd> / <kbd>Cmd</kbd>+<kbd>V</kbd>)</li>
+                        <li>Test every button and input right in the <strong>Preview</strong> pane</li>
+                        <li>Switch to the <strong>Code</strong> tab anytime to inspect the files AI Studio wrote</li>
+                        <li>Ask for improvements in the chat panel — <strong>one small change at a time</strong></li>
+                        <li>If an edit breaks something, open <strong>Settings → Versions</strong> to roll back to an earlier snapshot</li>
                     </ol>
-                    <blockquote class="warning"><strong>Important:</strong> Click the <strong>save icon</strong> (floppy disk) in the top bar after pasting. AI Studio doesn't always auto-save.</blockquote>
+                    <!-- TODO: screenshot assets/screenshots/aistudio-03-build-preview.webp -->
+                    <figure class="guide-shot placeholder" data-shot="aistudio-03-build-preview.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-03-build-preview.webp</span>
+                        <figcaption>AI Studio Build split workspace with chat on the left and live Preview / Code tabs on the right.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="studio-step">
-                <summary><span class="step-num">3</span> Describe your app and generate</summary>
+                <summary><span class="step-num">4</span> Export or sync your code</summary>
                 <div class="details-body">
-                    <p>After the super prompt sends, type your app description in the next message:</p>
-                    <pre><code>Conference app to track people I meet. Simple text inputs for name, note, and follow-up action. Add a timestamp automatically. At the end, let me copy everything to clipboard.</code></pre>
-                    <p>Click <strong>Send</strong> and wait 30–90 seconds. You'll see Gemini "thinking" first — that's normal.</p>
-                    <blockquote class="tip"><strong>If Gemini asks a question</strong> instead of generating code, just answer it — the code will come next. When it's done, you'll see a big block of code.</blockquote>
+                    <p>Don't leave your work trapped in a browser tab — download or sync your code before closing:</p>
+                    <ul>
+                        <li><strong>Push straight to GitHub:</strong> Open <strong>Settings → GitHub</strong> to create a new GitHub repo (or link an existing one) and sync your app with one click.</li>
+                        <li><strong>Download a copy:</strong> Use the <strong>Download ZIP</strong> option in the toolbar/settings to save the whole project to your computer.</li>
+                        <li><strong>Need one single <code>index.html</code> file?</strong> Ask Build mode (or use Chat mode below) to output a single self-contained HTML file, then copy from the Code tab.</li>
+                    </ul>
+                    <!-- TODO: screenshot assets/screenshots/aistudio-04-export.webp -->
+                    <figure class="guide-shot placeholder" data-shot="aistudio-04-export.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-04-export.webp</span>
+                        <figcaption>AI Studio Build export &amp; GitHub sync controls.</figcaption>
+                    </figure>
                 </div>
             </details>
 
             <details class="studio-step">
-                <summary><span class="step-num">4</span> Save the code as an HTML file</summary>
+                <summary><span class="step-num">5</span> Alternative: Single-file HTML in AI Studio Chat + local save</summary>
                 <div class="details-body">
-                    <p>Copy the generated code — from <code>&lt;!DOCTYPE html&gt;</code> to <code>&lt;/html&gt;</code>.</p>
+                    <p>Want one offline <code>index.html</code> file you can double-click anywhere (no ZIP, no build step)? Use AI Studio <strong>Chat</strong> mode with our <a href="#the-super-prompt">super prompt</a>, then copy the generated <code>&lt;!DOCTYPE html&gt;</code> block:</p>
+                    <blockquote class="tip"><strong>Fastest way to test without saving a file:</strong> Paste your HTML straight into <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> to preview it in your browser, or edit and save it in <a href="https://vscode.dev" target="_blank">vscode.dev</a> with zero installs.</blockquote>
+                    <p>To save <code>index.html</code> to your Desktop:</p>
 
                     <details>
-                        <summary><strong>Mac instructions</strong></summary>
+                        <summary><strong>Mac instructions (TextEdit)</strong></summary>
                         <div class="details-body">
                             <ol>
                                 <li>Open <strong>TextEdit</strong> (Cmd+Space, type "TextEdit")</li>
                                 <li>Go to <strong>Format → Make Plain Text</strong> (critical!)</li>
                                 <li>Paste your code (<kbd>Cmd</kbd>+<kbd>V</kbd>)</li>
                                 <li><strong>File → Save</strong>, name it <code>index.html</code>, save to Desktop</li>
-                                <li>A dialog pops up asking about the file extension — click <strong>"Don't Append"</strong> (this keeps the <code>.html</code> extension instead of adding <code>.txt</code>)</li>
+                                <li>When asked about the file extension, click <strong>"Don't Append"</strong> so it stays <code>.html</code> (not <code>.txt</code>)</li>
                             </ol>
                         </div>
                     </details>
 
                     <details>
-                        <summary><strong>Windows instructions</strong></summary>
+                        <summary><strong>Windows instructions (Notepad)</strong></summary>
                         <div class="details-body">
                             <ol>
                                 <li>Open <strong>Notepad</strong> (search in Start menu)</li>
                                 <li>Paste your code (<kbd>Ctrl</kbd>+<kbd>V</kbd>)</li>
                                 <li><strong>File → Save As</strong></li>
                                 <li>Change "Save as type" to <strong>"All Files (*.*)"</strong></li>
-                                <li>Name it <code>index.html</code></li>
-                                <li>Save to Desktop</li>
+                                <li>Name it <code>index.html</code> and save to Desktop</li>
                             </ol>
                         </div>
                     </details>
 
                     <details>
-                        <summary><strong>VS Code (either platform — easiest)</strong></summary>
+                        <summary><strong>VS Code or vscode.dev (either platform — easiest)</strong></summary>
                         <div class="details-body">
                             <ol>
-                                <li>Open VS Code (free at <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a>)</li>
+                                <li>Open <a href="https://vscode.dev" target="_blank">vscode.dev</a> in Chrome (zero install) or desktop <a href="https://code.visualstudio.com" target="_blank">VS Code</a></li>
                                 <li>New file: <kbd>Ctrl</kbd>+<kbd>N</kbd> / <kbd>Cmd</kbd>+<kbd>N</kbd></li>
                                 <li>Paste your code</li>
                                 <li>Save: <kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Cmd</kbd>+<kbd>S</kbd>, name it <code>index.html</code></li>
                             </ol>
                         </div>
                     </details>
-                </div>
-            </details>
 
-            <details class="studio-step">
-                <summary><span class="step-num">5</span> Open and test your app</summary>
-                <div class="details-body">
-                    <ol>
-                        <li>Find <code>index.html</code> on your Desktop</li>
-                        <li>Double-click it — it opens in your browser</li>
-                        <li>Try every feature: click every button, fill every field</li>
-                        <li>Note what works and what doesn't</li>
-                    </ol>
-                </div>
-            </details>
-
-            <details class="studio-step">
-                <summary><span class="step-num">6</span> Iterate — make it better</summary>
-                <div class="details-body">
-                    <p>Go back to AI Studio and ask for specific changes. <strong>One change at a time. Paste your full code.</strong></p>
-                    <pre><code>Here's my current code: [paste code]
-The "add" button doesn't work. Fix just this issue, don't change anything else.</code></pre>
-                    <p>After each new version: copy the new code → paste into your file (replace all) → save → refresh browser.</p>
+                    <p style="margin-top: 0.75rem;">Double-click <code>index.html</code> on your Desktop to test it in Chrome or Safari. When iterating in Chat mode, copy your working code back into the prompt so Gemini doesn't lose track of earlier changes.</p>
+                    <!-- TODO: screenshot assets/screenshots/aistudio-05-chat-fallback.webp -->
+                    <figure class="guide-shot placeholder" data-shot="aistudio-05-chat-fallback.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/aistudio-05-chat-fallback.webp</span>
+                        <figcaption>AI Studio Chat mode showing the generated <code>&lt;!DOCTYPE html&gt;</code> block and its top-right Copy button.</figcaption>
+                    </figure>
+                    <!-- TODO: screenshot assets/screenshots/tools-01-html-playground.webp -->
+                    <figure class="guide-shot placeholder" data-shot="tools-01-html-playground.webp">
+                        <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-01-html-playground.webp</span>
+                        <figcaption>Testing copied HTML instantly in HTML Playground (<code>lpcode808.github.io/HTML-previewer</code>).</figcaption>
+                    </figure>
                 </div>
             </details>
         </div>
@@ -1195,19 +1634,50 @@ The "add" button doesn't work. Fix just this issue, don't change anything else.<
         </table>
 
         <!-- ITERATION TIPS -->
-        <h2 id="iteration-tips">Prompting & Iteration Tips</h2>
-        <p>The first version is never perfect — that's expected. The loop:</p>
+        <h2 id="iteration-tips">Prompting &amp; Iteration Tips</h2>
+        <p>The first version is never perfect — that's expected. <strong>The rate of feedback is your speed limit:</strong> small steps, small rerolls.</p>
         <pre><code>Write prompt → Generate → Test → Find problem → Improve prompt → Repeat</code></pre>
+
+        <h3 id="reroll-or-translate">Reroll, or Translate?</h3>
+        <div class="mini-grid">
+            <div class="mini-card accent-blue">
+                <h4>01 · Reroll (Stay in Gemini)</h4>
+                <p><strong>Behavior is broken</strong> (button does nothing, won't save)? Describe what you expected in one sentence and run again. If a long chat starts breaking things that used to work (<strong>context rot</strong>), copy your working code into a <strong>fresh chat</strong> and keep going.</p>
+            </div>
+            <div class="mini-card accent-teal">
+                <h4>02 · Translate (Leave Gemini)</h4>
+                <p><strong>It works, just a typo, label, or color is off?</strong> Don't reroll for a typo. Open your HTML file in <a href="https://vscode.dev" target="_blank">vscode.dev</a> (free in your browser, no install) and change that one word or color yourself.</p>
+            </div>
+        </div>
+
+        <h3 id="two-moves">Two Moves Past Prompting</h3>
+        <div class="mini-grid">
+            <div class="mini-card accent-yellow">
+                <h4>Have the AI interview you</h4>
+                <p>Idea still fuzzy? Don't try to write one perfect prompt. Ask: <em>"Ask me 5 quick questions to help me design a simple web app for [my idea] before you write any code."</em></p>
+            </div>
+            <div class="mini-card accent-green">
+                <h4>Point, don't describe</h4>
+                <p>Paste a <strong>screenshot</strong> of what looks wrong (or a photo of a paper sketch) and point at the exact thing you want changed.</p>
+            </div>
+        </div>
 
         <h3 id="golden-rules">Golden Rules</h3>
         <ul>
             <li><strong>One change at a time.</strong> Don't ask for 5 things at once.</li>
-            <li><strong>Always paste your full code</strong> when asking for changes (AI Studio). Canvas remembers context.</li>
             <li><strong>Be specific.</strong> "Fix the button" → "The Add Entry button doesn't respond when clicked. Fix just this."</li>
             <li><strong>Describe what you see vs. what you expect.</strong> "When I click Submit, nothing happens. I expected it to add a new row to the list."</li>
+            <li><strong>Test it with a real person.</strong> Hand your app to a classmate or colleague, bite your tongue while they try it, ask <em>"Say more…"</em>, then decide what to fix.</li>
         </ul>
 
         <h3 id="prompt-templates">Useful Prompt Templates</h3>
+
+        <details>
+            <summary>Have Gemini interview you first</summary>
+            <div class="details-body">
+                <pre><code>I want to build a simple single-file web app to help with [your problem]. Before writing any code, ask me 5 short questions (one at a time or in a quick list) so we can nail down the 3 core features.</code></pre>
+            </div>
+        </details>
 
         <details>
             <summary>Fix a bug</summary>
@@ -1238,22 +1708,55 @@ The "add" button doesn't work. Fix just this issue, don't change anything else.<
         </details>
 
         <details>
-            <summary>Start over</summary>
+            <summary>Start over in a fresh chat</summary>
             <div class="details-body">
-                <pre><code>Start over. New version with these changes: [list what you want different].</code></pre>
+                <pre><code>Here is my working HTML app: [paste working code]. Start fresh from this version and make one change: [describe the change]. Keep everything else working.</code></pre>
             </div>
         </details>
 
         <!-- UNDERSTAND YOUR CODE -->
         <h2 id="understand-your-code">Peek Under the Hood (Optional)</h2>
-        <p>Curious how your app works? These prompts help you explore — totally optional. Pick whichever sounds useful:</p>
+        <p>Your app is a file you own and can read. Want to understand how it works? Start with <strong>4 quick moves</strong> in <a href="https://vscode.dev" target="_blank">vscode.dev</a> — or use the 3 copy-paste prompts below.</p>
+
+        <div class="moves-strip">
+            <div class="move-chip">
+                <div class="move-num">01</div>
+                <div class="move-title">Find it</div>
+                <div class="move-desc">Search your HTML file (Ctrl/Cmd+F) for a button label or feature you asked for.</div>
+            </div>
+            <div class="move-chip">
+                <div class="move-num">02</div>
+                <div class="move-title">Predict</div>
+                <div class="move-desc">Before changing a line (a color, title, or number), say out loud what you expect to happen.</div>
+            </div>
+            <div class="move-chip">
+                <div class="move-num">03</div>
+                <div class="move-title">Break it</div>
+                <div class="move-desc">Change or remove one line on purpose, watch what stops working, then undo it.</div>
+            </div>
+            <div class="move-chip">
+                <div class="move-num">04</div>
+                <div class="move-title">Reflect</div>
+                <div class="move-desc">What did you ask for, what did you keep or change, and what could make it fail?</div>
+            </div>
+        </div>
+
+        <!-- TODO: screenshot assets/screenshots/tools-02-vscodedev.webp -->
+        <figure class="guide-shot placeholder" data-shot="tools-02-vscodedev.webp">
+            <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-02-vscodedev.webp</span>
+            <figcaption>Opening <code>index.html</code> in <strong>vscode.dev</strong> to make a safe small edit (color, title, or label) without installing anything.</figcaption>
+        </figure>
+
+        <blockquote class="tip"><strong>Also works in Gemini Notebook (NotebookLM):</strong> Upload your <code>index.html</code> to <a href="https://notebook.google.com" target="_blank">notebook.google.com</a> and ask it to <em>"Explain this app like I'm in 7th grade"</em> or generate an audio overview of how it works.</blockquote>
+
+        <p>Or paste one of these 3 prompts into Gemini:</p>
         <ul>
             <li><strong>Just got it working?</strong> → Try Prompt 1 for a plain-English overview</li>
             <li><strong>Want to tinker?</strong> → Try Prompt 2 for safe things to change in your code</li>
             <li><strong>Need to fix or add something?</strong> → Jump to Prompt 3</li>
         </ul>
 
-        <blockquote><strong>Where's my code?</strong> Canvas users: click the Code tab in the Canvas panel and copy everything. AI Studio users: open your saved <code>index.html</code> file in a text editor and copy everything.</blockquote>
+        <blockquote><strong>Where's my code?</strong> Canvas or AI Studio Build users: click the <strong>Code</strong> tab and copy everything. Local file users: open your saved <code>index.html</code> in <a href="https://vscode.dev" target="_blank">vscode.dev</a> or a text editor and copy everything.</blockquote>
 
         <details class="prompt-card">
             <summary>Prompt 1: "What Did I Build?" — The Big Picture</summary>
@@ -1425,52 +1928,106 @@ My question / what I want to change:
         <p>Your app works — now <span class="vocab" data-term="deploy">put it on the internet</span> so anyone can open it with a link.</p>
 
         <details class="deploy-step" open>
-            <summary>Option A: Google Sites — Easiest (5 min, no new accounts)</summary>
+            <summary>Option A: Google Sites — Easiest (2–5 min, no new accounts)</summary>
             <div class="details-body">
+                <p><strong>Fastest (Gemini Canvas users — 1 click):</strong></p>
                 <ol>
-                    <li>Go to <strong><a href="https://sites.google.com" target="_blank">sites.google.com</a></strong></li>
-                    <li>Click <strong>"Blank site"</strong> (the + button)</li>
-                    <li>Name your site (top left)</li>
-                    <li>Click <strong>Insert → Embed</strong> in the right sidebar</li>
-                    <li>Click the <strong>"Embed code"</strong> tab</li>
-                    <li>Paste your entire <code>index.html</code> code</li>
-                    <li>Click <strong>Next → Insert</strong></li>
-                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → Publish</li>
+                    <li>In Gemini Canvas, click <strong>Export → Google Sites</strong> on your interactive app</li>
+                    <li>Your app opens directly in a new Google Sites draft — already embedded and interactive</li>
+                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → <strong>Publish</strong></li>
                 </ol>
+                <!-- TODO: screenshot assets/screenshots/deploy-01-sites-from-gemini.webp -->
+                <figure class="guide-shot placeholder" data-shot="deploy-01-sites-from-gemini.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-01-sites-from-gemini.webp</span>
+                    <figcaption>Auto-created Google Sites draft opened via Gemini's <strong>Export → Google Sites</strong> with the Publish button ready.</figcaption>
+                </figure>
+
+                <blockquote class="tip"><strong>School / Hawaii DOE (Google Classroom):</strong> In Gemini Canvas, you can also click <strong>Share → Share to Classroom</strong> to attach your app straight to a Classroom post or assignment (if enabled by your school).</blockquote>
+
+                <p><strong>Manual embed (AI Studio or local <code>index.html</code> files):</strong></p>
+                <ol>
+                    <li>Go to <strong><a href="https://sites.google.com" target="_blank">sites.google.com</a></strong> → click <strong>"Blank site"</strong> (the + button) and name your site</li>
+                    <li>Click <strong>Insert → Embed → Embed code</strong> tab (or <strong>Pages → + → Full page embed</strong> so your app fills the screen)</li>
+                    <li>Paste your entire <code>index.html</code> code → click <strong>Next → Insert</strong></li>
+                    <li>Click <strong>Publish</strong> (top right) → choose a URL slug → <strong>Publish</strong></li>
+                </ol>
+                <!-- TODO: screenshot assets/screenshots/deploy-02-sites-manual-embed.webp -->
+                <figure class="guide-shot placeholder" data-shot="deploy-02-sites-manual-embed.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-02-sites-manual-embed.webp</span>
+                    <figcaption>Google Sites manual embed (<strong>Insert → Embed → Embed code</strong> or <strong>Full page embed</strong>).</figcaption>
+                </figure>
+
                 <p>Your URL: <code>https://sites.google.com/view/YOUR-SITE-NAME</code></p>
-                <blockquote class="warning"><strong>Heads up:</strong> If your app saves data between visits (like a to-do list that remembers your items), that feature might not work inside Google Sites. If it seems broken after embedding, try GitHub Pages instead — it's more reliable.</blockquote>
+                <blockquote class="warning"><strong>Test on a phone before you share:</strong> An embed doesn't always behave identically to the standalone file, and saving data between visits (<code>localStorage</code>) may not persist inside Google Sites. If saving seems broken after embedding, use GitHub Pages below — it's more reliable.</blockquote>
+                <!-- TODO: screenshot assets/screenshots/deploy-03-sites-published.webp -->
+                <figure class="guide-shot placeholder" data-shot="deploy-03-sites-published.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-03-sites-published.webp</span>
+                    <figcaption>Published Google Site tested on a mobile viewport (390×844) before sharing the link.</figcaption>
+                </figure>
             </div>
         </details>
 
         <details class="deploy-step">
             <summary>Option B: GitHub Pages — More robust (10–15 min, needs GitHub account)</summary>
             <div class="details-body">
+                <blockquote class="tip"><strong>Using AI Studio Build mode?</strong> You can skip steps 2–3 by opening <strong>Settings → GitHub</strong> inside AI Studio to create a repo and push your code directly, then enable Pages in step 4.</blockquote>
                 <ol>
                     <li><strong>Create a GitHub account</strong> at <a href="https://github.com/signup" target="_blank">github.com/signup</a> (use a personal email, pick a username you'll keep — it's part of your URL)</li>
                     <li><strong>Create a new <span class="vocab" data-term="repository">project folder</span>:</strong> Click <strong>+</strong> → New repository → name it lowercase, no spaces (e.g. <code>my-app</code>) → Public → check "Add a README" → Create</li>
-                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → click <strong><span class="vocab" data-term="commit">Save</span></strong></li>
+                    <li><strong>Upload your file:</strong> Click <strong>Add file → Upload files</strong> → drag in <code>index.html</code> → click <strong><span class="vocab" data-term="commit">Commit changes</span></strong></li>
                     <li><strong>Enable Pages:</strong> Settings → Pages → Source: "Deploy from a branch" → Branch: main → folder: / (root) → Save</li>
                     <li><strong>Wait 2 minutes</strong>, then refresh the Pages settings — look for the green banner with your URL</li>
                 </ol>
                 <p>Your URL: <code>https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/</code></p>
                 <p><strong>To update:</strong> Click the file on GitHub → pencil icon → replace code → Commit → wait 1–2 min → hard refresh (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>)</p>
+                <!-- TODO: screenshot assets/screenshots/deploy-04-github-upload.webp -->
+                <figure class="guide-shot placeholder" data-shot="deploy-04-github-upload.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-04-github-upload.webp</span>
+                    <figcaption>GitHub <strong>Add file → Upload files</strong> screen with <code>index.html</code> ready to commit.</figcaption>
+                </figure>
+                <!-- TODO: screenshot assets/screenshots/deploy-05-github-pages.webp -->
+                <figure class="guide-shot placeholder" data-shot="deploy-05-github-pages.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/deploy-05-github-pages.webp</span>
+                    <figcaption>GitHub <strong>Settings → Pages</strong> showing <code>Deploy from a branch (main / root)</code> and the live URL banner.</figcaption>
+                </figure>
             </div>
         </details>
 
         <details class="deploy-step">
-            <summary>Option C: Just email the file</summary>
+            <summary>Option C: Just send the file directly</summary>
             <div class="details-body">
-                <p>Email <code>index.html</code> as an attachment. Recipient downloads it, double-clicks, and it opens in their browser. No accounts, no hosting.</p>
+                <p>Email or AirDrop <code>index.html</code> as an attachment. Anyone can download it, double-click it, and run it offline in Chrome or Safari — or paste it into <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a>. No accounts, no hosting.</p>
+                <blockquote class="tip"><strong>Safety tip:</strong> Got someone else's HTML file? Before opening it, you can paste it into a chatbot you trust and ask: <em>"Anything sketchy in here?"</em></blockquote>
             </div>
         </details>
 
         <!-- TROUBLESHOOTING -->
         <h2 id="troubleshooting">Troubleshooting</h2>
 
+        <h3 id="if-it-goes-sideways">If It Goes Sideways (Quick Rescue)</h3>
+        <div class="mini-grid">
+            <div class="mini-card accent-red">
+                <h4>It got confused (context rot)</h4>
+                <p>Each fix starts breaking things that used to work? Copy your last working code into a <strong>brand-new chat</strong> and ask for one change from there.</p>
+            </div>
+            <div class="mini-card accent-yellow">
+                <h4>It stopped answering (usage limit)</h4>
+                <p>Canvas free limits refresh every 5 hours. Switch to <strong><a href="https://aistudio.google.com/build" target="_blank">Google AI Studio</a></strong> (or pair up with a neighbor) and paste your working code to keep going.</p>
+            </div>
+            <div class="mini-card accent-blue">
+                <h4>Gemini is off on my school/HIDOE account</h4>
+                <p>Open an incognito window (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>) and sign in with a <strong>personal Gmail</strong>. Keep real student names and private info out of prompts.</p>
+            </div>
+            <div class="mini-card accent-teal">
+                <h4>I'm on a phone</h4>
+                <p>You can build and test in Gemini on your phone, but download or export the final file from a laptop or Chromebook later for full editing controls.</p>
+            </div>
+        </div>
+
         <details class="troubleshoot">
             <summary>I have no idea what to build</summary>
             <div class="details-body">
-                <p>Check the <a href="#app-ideas">App Ideas table</a> above for a full list of starter projects by category. Pick one that solves a problem you actually have — you'll be more motivated to finish it.</p>
+                <p>Check the <a href="#app-ideas">App Ideas table</a> above for a full list of starter projects by category, or ask Gemini to <strong>interview you</strong> with 5 quick questions about a daily annoyance.</p>
             </div>
         </details>
 
@@ -1478,6 +2035,7 @@ My question / what I want to change:
             <summary>File opened as text, not a web page</summary>
             <div class="details-body">
                 <ul>
+                    <li><strong>Fastest skip:</strong> Paste your HTML into <a href="https://lpcode808.github.io/HTML-previewer" target="_blank">HTML Playground</a> or save it using <a href="https://vscode.dev" target="_blank">vscode.dev</a>.</li>
                     <li><strong>Mac TextEdit:</strong> You forgot <strong>Format → Make Plain Text</strong>. Save again.</li>
                     <li><strong>Windows:</strong> You saved as <code>.txt</code>. Rename the file and change <code>.txt</code> to <code>.html</code>.</li>
                     <li><strong>Either:</strong> Right-click the file → Open With → Chrome (or Firefox)</li>
@@ -1489,10 +2047,15 @@ My question / what I want to change:
             <summary>App doesn't do anything when I click buttons</summary>
             <div class="details-body">
                 <ul>
-                    <li>Make sure you copied ALL the code — scroll to the bottom of Gemini's response and verify you got <code>&lt;/html&gt;</code></li>
-                    <li>Open browser console: press <kbd>F12</kbd> → Console tab → look for red errors</li>
-                    <li>Copy the error text and paste it back to Gemini: "I'm getting this error: [paste]. Fix it."</li>
+                    <li>Make sure you copied ALL the code from the <strong>Code</strong> tab (not the chat reply!) — verify you got <code>&lt;!DOCTYPE html&gt;</code> at the start and <code>&lt;/html&gt;</code> at the end</li>
+                    <li>Open browser console: press <kbd>F12</kbd> (Mac: <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>J</kbd>) → <strong>Console</strong> tab → look for red errors</li>
+                    <li>Copy the red error text and paste it back to Gemini: "I'm getting this error: [paste]. Fix it."</li>
                 </ul>
+                <!-- TODO: screenshot assets/screenshots/tools-03-devtools-console.webp -->
+                <figure class="guide-shot placeholder" data-shot="tools-03-devtools-console.webp">
+                    <span class="shot-todo-badge">TODO · Screenshot</span><span class="shot-file">assets/screenshots/tools-03-devtools-console.webp</span>
+                    <figcaption>Browser DevTools (<strong>F12 → Console</strong>) showing a red error message to copy and paste back into Gemini.</figcaption>
+                </figure>
             </div>
         </details>
 
@@ -1510,7 +2073,8 @@ My question / what I want to change:
             <summary>Google Sites shows a blank app</summary>
             <div class="details-body">
                 <ul>
-                    <li>Make sure you pasted the FULL code including <code>&lt;!DOCTYPE html&gt;</code> at the start</li>
+                    <li>If you built in Gemini Canvas, try one-click <strong>Export → Google Sites</strong> instead of manual copy-paste</li>
+                    <li>If embedding manually, verify you pasted the FULL code from <code>&lt;!DOCTYPE html&gt;</code> to <code>&lt;/html&gt;</code></li>
                     <li>Try a hard refresh: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></li>
                     <li>Some apps won't work inside Sites — try GitHub Pages instead</li>
                 </ul>
@@ -1532,9 +2096,9 @@ My question / what I want to change:
             <summary>I want to start completely over</summary>
             <div class="details-body">
                 <ul>
-                    <li>Start a <strong>new chat</strong> (don't reuse the same one)</li>
-                    <li>Paste the super prompt again</li>
-                    <li>Describe the same app differently, or try a new idea</li>
+                    <li>Start a <strong>new chat</strong> (don't reuse a confused thread)</li>
+                    <li>Paste the super prompt again (or paste your last working code)</li>
+                    <li>Describe the same app more simply, or try a new idea</li>
                 </ul>
             </div>
         </details>
@@ -1562,7 +2126,7 @@ My question / what I want to change:
         <span class="prompt-label copy-me">Copy this entire block into a new AI chat</span>
         <pre><code>INTERACTIVE WORKSHOP COACH — Build Your First App with AI
 
-You are a friendly, patient workshop coach helping a complete beginner build their first web app using AI. You have deep knowledge of the workshop material below. Your job is NOT to build the app yourself — it's to guide the participant through the process step by step.
+You are a friendly, patient workshop coach helping a middle/high school student, teacher, or Hawaii DOE educator build their first web app using AI. You have deep knowledge of the workshop material below. Your job is NOT to build the app yourself — it's to guide the participant through the process step by step.
 
 YOUR STYLE:
 - Warm, encouraging, zero jargon
@@ -1575,15 +2139,15 @@ THE WORKSHOP FLOW:
 You'll guide them through these phases. Don't skip ahead — go at their pace.
 
 PHASE 1: PICK AN IDEA (2 min)
-- Ask what problem they'd like to solve, or what would be useful in their day
+- Ask what problem they'd like to solve, or what would be useful in their school/day
 - Help them fill in: "I need a way to ___ so that ___"
 - Narrow to 3 core features max
 - If stuck, offer these categories: Calculate | Track | Organize | Time | Classroom | Fun
 - Example ideas: tip calculator, habit tracker, pomodoro timer, random name picker, contact tracker
 
 PHASE 2: GENERATE THE APP
-- Tell them to open gemini.google.com/canvas OR aistudio.google.com (their choice)
-- If they're unsure which: Canvas = easiest (live preview in chat), AI Studio = more usage/control
+- Tell them to open gemini.google.com (+ → More tools → Canvas) OR aistudio.google.com/build (their choice)
+- If they're unsure which: Canvas = easiest (live preview + 1-click Export to Google Sites), AI Studio Build = generous free tier + ZIP/GitHub export
 - Give them this super prompt to paste first:
 
 ---
@@ -1593,15 +2157,17 @@ You are an expert at creating simple, functional single-file web apps for coding
 
 CONSTRAINTS:
 - Generate ONE complete HTML file containing CSS and JavaScript
-- No external dependencies (libraries, APIs, or CDNs)
-- Apps must work when opened locally on desktop
+- No external dependencies (no external libraries, APIs, fonts, or CDNs)
+- Apps must work when opened locally on desktop and look good on a phone (no hidden buttons or horizontal scroll)
 - Include clear, educational comments explaining key concepts
+- Keep editable text/content in one clearly labeled section near the top of the script
+- Start with 2 realistic sample items (or a "Load sample data" button) so the app doesn't open empty
 - Keep all responses under 200 words (except code generation)
 
 CODE REQUIREMENTS:
 - Use semantic HTML structure
-- Include responsive CSS styling
-- Add JavaScript for interactivity
+- Include responsive, mobile-friendly CSS styling
+- Add JavaScript for interactivity (use localStorage if the app saves entries)
 - Comment major code sections and explain key functions
 - Use modern but widely-supported syntax
 
@@ -1616,37 +2182,38 @@ USER INSTRUCTION: Simply describe what kind of app you want to build, even if yo
 What app would you like to build today?
 ---
 
-- Then tell them to describe their app idea after the prompt
-- Remind them: "You're the project manager. The AI is your developer."
+- Then tell them to describe their app idea after the prompt (or upload a photo of a paper sketch!)
+- Remind them: "Make first, code later. You're the project manager — the AI is your developer."
 
 PHASE 3: TEST AND TWEAK
-- Canvas users: try the app right in the preview panel
-- AI Studio users: walk them through saving as index.html and opening in browser
+- Have them test every button in the live preview (and remind Canvas users that browser storage should be tested after exporting)
 - Ask: "What works? What's missing? What's broken?"
 - Teach iteration rules:
-  * One change at a time
+  * One change at a time ("small steps, small rerolls")
   * Be specific ("The Add button doesn't respond" not "fix it")
-  * Describe what you see vs. what you expected
-  * For AI Studio: always paste your full code when asking for changes
+  * Reroll vs. Translate: ask Gemini when behavior is broken; edit in vscode.dev for a simple typo or color change
+  * Context rot: if a long chat starts breaking things that used to work, copy working code into a fresh chat
+  * Test with a real person: hand it to someone, listen, then decide what to fix
 
 PHASE 4: UNDERSTAND (optional but valuable)
-- If they want to learn what they built, offer these options:
+- Offer the 4 quick file moves (Find it → Predict → Break it → Reflect) or these 3 follow-up prompts:
   A) "Want a big-picture overview of what your app does?" (no code)
   B) "Want a guided tour of the code with safe things to try changing?" (beginner-friendly)
   C) "Want help fixing or adding something specific?" (tutor mode)
-- Guide them to paste their code + the appropriate follow-up prompt
+- Remind them they can also drop their HTML into Gemini Notebook (notebook.google.com) for a plain-English explanation
 
 PHASE 5: DEPLOY
-- Ask if they want to share it with a URL
-- Two options:
-  A) Google Sites (5 min, no accounts): sites.google.com > Blank site > Insert > Embed > paste code > Publish
-  B) GitHub Pages (10 min): github.com/signup > new repo > upload index.html > Settings > Pages > main branch
+- Ask how they want to share it:
+  A) Google Sites (fastest): In Gemini Canvas click Export > Google Sites > Publish. Or manually at sites.google.com > Insert > Embed (or Pages > Full page embed) > paste HTML > Publish. Test on a phone!
+  B) Google Classroom (school/HIDOE): In Gemini Canvas click Share > Share to Classroom (if admin-enabled).
+  C) GitHub Pages (most robust): github.com/signup > new repo > upload index.html (or push from AI Studio Settings > GitHub) > Settings > Pages > main branch.
 - Walk through whichever they pick, one step at a time
 
 IMPORTANT NOTES:
-- Use a personal Google account (not school/work) — school accounts have sharing restrictions
-- Gemini Flash (the default free model) is great for this — no need to upgrade
-- If they get an error, don't panic — copy the error text and paste it back to Gemini
+- A personal Google account avoids the most restrictions; never put real student names or private info in prompts
+- Gemini Flash (the default free model) is plenty — no need to upgrade
+- Always copy code from the Code tab (not the chat reply Copy button)
+- If they get an error, copy the red error from browser DevTools (F12 > Console) and paste it back to Gemini
 - If code gets cut off, say "Continue from where you left off"
 
 START THE CONVERSATION:
@@ -1701,12 +2268,12 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
         <!-- FOOTER -->
         <hr>
         <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
-            Remember: you describe what you want, the AI builds it. Have fun!
+            Remember: make first, code later. You describe what you want, the AI builds it. Have fun!
         </p>
         <p style="text-align: center; margin-top: 1.5rem;">
             <a href="guide-map.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: var(--accent-blue); text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, background 0.2s;" onmouseover="this.style.borderColor='var(--accent-blue)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
                 View as Journey Map &rarr;
-                <span style="font-size: 0.7rem; color: var(--text-muted);">pan &middot; zoom &middot; explore</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">visual roadmap &middot; 4 phases</span>
             </a>
         </p>
 
@@ -2188,8 +2755,35 @@ Introduce yourself briefly (2-3 sentences), then ask what they'd like to build t
             });
         }
 
+        // ===== THEME SWITCHER =====
+        function initThemeSwitcher() {
+            const buttons = document.querySelectorAll('[data-set-theme]');
+            function applyTheme(theme) {
+                if (theme === 'paper' || theme === 'arcade') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                } else {
+                    theme = 'studio';
+                    document.documentElement.removeAttribute('data-theme');
+                }
+                buttons.forEach(btn => {
+                    const isActive = btn.getAttribute('data-set-theme') === theme;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+                });
+                try { localStorage.setItem('codeaithon-theme', theme); } catch (e) {}
+            }
+
+            const current = document.documentElement.getAttribute('data-theme') || 'studio';
+            applyTheme(current);
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-set-theme')));
+            });
+        }
+
         // ===== INIT =====
         function init() {
+            initThemeSwitcher();
             generateTOC();
             attachCopyButtons();
             attachVocabTaps();
