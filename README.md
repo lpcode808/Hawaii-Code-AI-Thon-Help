@@ -3,7 +3,7 @@
 **Build your first web app with AI — no coding experience needed.**
 
 > **→ [Open the Interactive Guide](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/gemini-guide.html)**
-> **▶ Two 60-second films:** [Part 1: why make things](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/prequel-animation.html) (for educators deciding whether to come) · [Part 2: how it works](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/promo-animation.html) (for people who signed up). Videos: [`code-aithon-why-60s.mp4`](assets/video/code-aithon-why-60s.mp4), [`code-aithon-60s.mp4`](assets/video/code-aithon-60s.mp4)
+> **▶ Two one-minute films:** [Part 1: why make things](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/prequel-animation.html) (for educators deciding whether to come) · [Part 2: how it works](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/promo-animation.html) (for people who signed up). Videos: [`code-aithon-why-60s.mp4`](assets/video/code-aithon-why-60s.mp4), [`code-aithon-60s.mp4`](assets/video/code-aithon-60s.mp4)
 
 ---
 
@@ -30,8 +30,8 @@ The process: **Research → Generate → Tweak → Deploy**
 |------|-----|---------|
 | **`gemini-guide.html`** | Participants | Interactive guide: Canvas + AI Studio Build paths, super prompt, app ideas, iteration tips, deploy, troubleshooting, AI Workshop Coach |
 | `guide-map.html` | Participants + Facilitators | Scrollable 4-phase visual journey map |
-| `prequel-animation.html` | Educators deciding whether to come | 60-second film, part 1: writing the code used to be the work; now the middle is cheap, and knowing what to make and whether it works (testing) is the job. From the KS EdTech 2026 vibe talk |
-| `promo-animation.html` | Facilitators (projected) | 60-second intro to how it works: frame it, generate, test & steer, ship. Works offline; `Space` play/pause, `R` replay, `L` loop, `F` full screen |
+| `prequel-animation.html` | Educators deciding whether to come | One-minute film, part 1: writing the code used to be the work; now the middle is cheap, and knowing what to make and whether it works (testing) is the job. From the KS EdTech 2026 vibe talk |
+| `promo-animation.html` | Facilitators (projected) | One-minute film, part 2: how it works. Frame it, generate, test & steer, ship. Works offline; `Space` play/pause, `R` replay, `L` loop, `F` full screen |
 | `assets/video/code-aithon-why-60s.mp4`, `code-aithon-60s.mp4` | Facilitators | The two films as 1080p videos, for Slides, Sites, email or Classroom |
 | `promo/` | Maintainers | Build scripts for both films (soundtrack, video, checks); see `promo/README.md` |
 | `README.md` | Facilitators | This file — event overview, agenda, facilitation notes |

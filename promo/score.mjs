@@ -56,30 +56,42 @@ for (const seg of plan) {
   }
   // lay it in: starts at seg.at (s), from seg.from (s into the take), ends at seg.until, with fades.
   //   tapeStop (s): the last stretch before seg.until plays slower and slower to a stop, as a tape does when the motor is cut.
-  //   damage: [{ t, depth, cents, keep, dull }]: at t the music stalls (the level dips by depth, the pitch sags by cents for
-  //   about a third of a second), then comes back with keep of that sag for good, and duller (a low-pass falling to dull Hz).
+  //   damage: [{ t, depth, cents, wow, dull }]: at t the music chokes. A copy of that instant plays slower and slower
+  //   (its pitch sagging by cents) while the level dips by depth, then the music comes back exactly on the beat, as
+  //   if nothing was lost: no stall ever moves the music off the picture's grid. Each one can also leave the tape
+  //   wobbling a little more (wow, cents of slow pitch wobble that averages out) and duller (a low-pass falling to dull Hz).
   const at = Math.round((seg.at || 0) * SR), from = Math.round((seg.from || 0) * SR), until = Math.min(N0, Math.round((seg.until == null ? DUR : seg.until) * SR));
   const fi = Math.max(1, Math.round((seg.fadeIn || 0) * SR)), fo = Math.max(1, Math.round((seg.fadeOut || 0) * SR)), g = seg.gain == null ? 1 : Math.pow(10, seg.gain / 20);
   const ts = Math.round((seg.tapeStop || 0) * SR), tsAt = until - ts;
-  const dmg = (seg.damage || []).map(d => Object.assign({ depth: .5, cents: -60, keep: .3, dull: 0 }, d));
-  const dip = u => u < 0 ? 0 : u < .03 ? u / .03 : u < .16 ? 1 : u < .38 ? 1 - (u - .16) / .22 : 0;
-  const centsAt = tt => dmg.reduce((c, d) => { const u = tt - d.t; return u < 0 ? c : c + d.cents * (dip(u) * (1 - d.keep) + d.keep * Math.min(1, u / .3)); }, 0);
-  const levelAt = tt => dmg.reduce((v, d) => v * (1 - d.depth * dip(tt - d.t)), 1);
+  const dmg = (seg.damage || []).map(d => Object.assign({ depth: .5, cents: -60, wow: 0, dull: 0 }, d, { q: null }));
+  const STALL = .4;
+  const dip = u => u < 0 ? 0 : u < .03 ? u / .03 : u < .16 ? 1 : u < .38 ? 1 - (u - .16) / .22 : 0;          // the level
+  const mixIn = u => u < 0 ? 0 : u < .02 ? u / .02 : u < .22 ? 1 : u < STALL ? 1 - (u - .22) / (STALL - .22) : 0;   // the choking copy
+  const wowAt = tt => dmg.reduce((a, d) => a + (tt >= d.t ? d.wow * Math.min(1, (tt - d.t) / .3) : 0), 0);
   const cutoffAt = tt => { let f = 18000; for (const d of dmg) if (d.dull && tt >= d.t) f = f + (d.dull - f) * Math.min(1, (tt - d.t) / .3); return f; };
   const lp = [{ x1: 0, x2: 0, y1: 0, y2: 0 }, { x1: 0, x2: 0, y1: 0, y2: 0 }]; let co = null;
   const biq = f => { const w = 2 * Math.PI * Math.min(f, SR * .45) / SR, cs = Math.cos(w), al = Math.sin(w) / (2 * .707), a0 = 1 + al; return { b0: (1 - cs) / 2 / a0, b1: (1 - cs) / a0, b2: (1 - cs) / 2 / a0, a1: -2 * cs / a0, a2: (1 - al) / a0 }; };
   const run = (st, x) => { const y = co.b0 * x + co.b1 * st.x1 + co.b2 * st.x2 - co.a1 * st.y1 - co.a2 * st.y2; st.x2 = st.x1; st.x1 = x; st.y2 = st.y1; st.y1 = y; return y; };
+  const read = (A, p) => { const j0 = Math.floor(p), fr = p - j0; return j0 + 1 < A.length && j0 >= 0 ? A[j0] + (A[j0 + 1] - A[j0]) * fr : 0; };
+  const dull = dmg.some(d => d.dull);
   let pos = from;
   for (let i = at; i < until; i++) {
     const tt = i / SR, slow = ts > 0 && i >= tsAt;
-    const rate = (dmg.length ? Math.pow(2, centsAt(tt) / 1200) : 1) * (slow ? 1 - (i - tsAt) / ts : 1);
-    const j0 = Math.floor(pos), fr = pos - j0; if (j0 + 1 >= L.length) break;
-    let k = Math.min(1, (i - at) / fi, (until - i) / fo) * g * (dmg.length ? levelAt(tt) : 1);
+    if (pos + 1 >= L.length) break;
+    let l = read(L, pos), r = read(R, pos), lev = 1;
+    for (const d of dmg) {
+      const u = tt - d.t; if (u < 0 || u >= STALL) continue;
+      if (d.q === null) d.q = pos;
+      const w = mixIn(u), cl = read(L, d.q), cr = read(R, d.q);
+      l = l * (1 - w) + cl * w; r = r * (1 - w) + cr * w; lev *= 1 - d.depth * dip(u);
+      d.q += Math.pow(2, d.cents * Math.min(1, u / .12) / 1200);
+    }
+    let k = Math.min(1, (i - at) / fi, (until - i) / fo) * g * lev;
     if (slow) k *= Math.min(1, (until - i) / (ts * .35));
-    let l = L[j0] + (L[j0 + 1] - L[j0]) * fr, r = R[j0] + (R[j0 + 1] - R[j0]) * fr;
-    if (dmg.some(d => d.dull)) { if ((i - at) % 32 === 0) co = biq(cutoffAt(tt)); l = run(lp[0], l); r = run(lp[1], r); }
+    if (dull) { if ((i - at) % 32 === 0) co = biq(cutoffAt(tt)); l = run(lp[0], l); r = run(lp[1], r); }
     mL[i] += l * k; mR[i] += r * k;
-    pos += rate;
+    const wow = dmg.length ? wowAt(tt) : 0;
+    pos += (wow ? Math.pow(2, wow * Math.sin(2 * Math.PI * .9 * tt) / 1200) : 1) * (slow ? 1 - (i - tsAt) / ts : 1);
   }
 }
 
