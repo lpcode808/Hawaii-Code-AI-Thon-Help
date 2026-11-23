@@ -41,6 +41,7 @@
   #bigplay svg { width: 2.6em; height: 2.6em; margin-left: .35em; }
   #veil .lead { font-weight: 700; font-size: 1.6em; letter-spacing: .01em; }
   #veil .hint { color: var(--sub); font-size: 1.05em; }
+  #veil a { color: var(--teal); font-weight: 700; }
   #veil kbd, #ui kbd { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: .9em; padding: .1em .4em;
     border: 1px solid var(--line); border-bottom-width: 2px; border-radius: .35em; background: rgba(42,42,68,.8); color: var(--text); }
 
@@ -86,6 +87,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="#fff"/></svg>
         </button>
         <div class="lead" id="veil-lead">Play · 60 seconds · sound on</div>
+        <div class="hint">Part 2 of 2 · <a href="prequel-animation.html">Part 1: why make things</a></div>
         <div class="hint"><kbd>Space</kbd> play/pause · <kbd>R</kbd> replay · <kbd>L</kbd> loop · <kbd>M</kbd> sound · <kbd>F</kbd> full screen</div>
       </div>
     </div>
@@ -126,6 +128,8 @@ const W = 1920, H = 1080, DUR = 60;
 const BPM = 96, BEAT = 60 / BPM, BAR = 4 * BEAT, T0 = 0.04;
 const bar = k => T0 + (k - 1) * BAR;           // downbeat of bar k
 const MUSIC = { stringsIn: bar(8), lift: bar(15), choir: bar(21), lastChord: bar(23) };
+// what promo/score.mjs writes from Audio-in-the-Cloud's Stock Library: family, engine options, and where it starts
+const MUSIC_PLAN = [{ family: 'inspire', opt: { length: 60 }, at: 0 }];
 const SCENES = [
   { id: 'hook',     t0: 0,       t1: bar(4),  label: 'You can build a real app' },
   { id: 'mindset',  t0: bar(4),  t1: bar(7),  label: 'Make first. Code later.' },
@@ -1302,7 +1306,7 @@ async function boot() {
   if (render) document.body.classList.add('render');
   await loadFonts();
   window.renderAt = renderAt;
-  window.PROMO = { DUR, SCENES, MUSIC, BEAT, BAR, bar, cues, QA, TYPED };
+  window.PROMO = { DUR, SCENES, MUSIC, MUSIC_PLAN, BEAT, BAR, bar, cues, QA, TYPED };
   if (render) { renderAt(+Q.get('t') || 0); window.__ready = true; return; }
   P.loop = Q.has('loop') ? Q.get('loop') !== '0' : store.get('loop') === '1';
   P.muted = store.get('muted') === '1';

@@ -1,5 +1,5 @@
 // Checks promo-animation.html against the brief, in headless Chromium.
-//   node promo/check.mjs [--sheet t1,t2,...] [--player]
+//   node promo/check.mjs [--film intro|prequel] [--sheet t1,t2,...] [--player]
 // 1. No console errors or page errors.
 // 2. Every word on screen (alpha >= 0.6, not mid-transition) is at least 28 px tall at 1080p,
 //    and no visible word runs off the 1920x1080 frame. Swept every 0.05 s.
@@ -9,10 +9,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
-import { PAGE, OUT } from './assets.mjs';
+import { OUT as OUT0, film } from './assets.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
+const F = film(), PAGE = F.page, OUT = path.join(OUT0, F.name);
 const args = process.argv.slice(2);
 const want = k => args.includes(k);
 const argv = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; };
@@ -48,7 +49,7 @@ const fail = m => { failed++; console.log('FAIL ' + m); };
   for (const x of uniq(res.small, x => x.s)) fail(`small text at ${x.t}s: "${x.s}" ${x.px}px`);
   for (const x of uniq(res.off, x => x.s)) fail(`text off frame at ${x.t}s: "${x.s}" x ${x.x0}..${x.x1} y ${x.y}`);
   if (want('--sheet')) {
-    const list = (argv('--sheet') || '').split(',').filter(Boolean).map(Number);
+    const raw = argv('--sheet'), list = raw && !raw.startsWith('--') ? raw.split(',').filter(Boolean).map(Number) : [];
     const times = list.length ? list : await page.evaluate(() => PROMO.SCENES.flatMap(s => [s.t0 + (s.t1 - s.t0) * .35, s.t0 + (s.t1 - s.t0) * .85]));
     const dir = path.join(OUT, 'sheet'); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
     for (let i = 0; i < times.length; i++) {

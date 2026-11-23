@@ -18,7 +18,8 @@ Workshop materials for a **beginner AI vibe-coding hackathon** for **middle & hi
 | `gemini-guide.html` | **Primary deliverable** — interactive guide with TOC, search, copy blocks, expandable steps, screenshot placeholders, and AI Workshop Coach prompt. Links to journey map at hero & footer. | Participants (self-paced or projected) |
 | `guide-map.html` | **Journey map** — scrollable vertical roadmap with 4 phases, fork/fan SVG connectors, 13 clickable cards deep-linking into `gemini-guide.html`, and 3 help/reference cards. | Participants + Facilitators (for projection) |
 | `promo-animation.html` | **60-second intro animation** — 8 beats on a 1920×1080 canvas, drawn by `renderAt(t)` from the time alone. Music + effects, fonts and QR embedded, so it runs offline. Built and checked by `promo/` (see `promo/README.md`). | Facilitators (projected at kickoff, hallway loop) |
-| `assets/video/code-aithon-60s.mp4` | The same intro rendered to H.264 1080p30 with sound (`promo/video.mjs`) | Facilitators |
+| `prequel-animation.html` | **Part 1 film (persuade)** — 60 s for educators: the KS EdTech talk's 21A → 21 argument (writing the code used to be the work → the middle got cheap → what to make + testing are the job), a testing beat, "moves we already teach", permission, CTA. Same engine and player as `promo-animation.html`. | Educators deciding whether to come (students watching too) |
+| `assets/video/code-aithon-60s.mp4`, `code-aithon-why-60s.mp4` | The two films rendered to H.264 1080p30 with sound (`promo/video.mjs`) | Facilitators |
 | `index.html` | **Redirect only** — `<meta refresh>` to `gemini-guide.html`. Root URL goes straight to the guide. | — |
 | `README.md` | Facilitator event guide — 5-phase agenda, setup checklist, teaching notes | Facilitators |
 | `superprompt.md` | The core prompt to paste into Gemini before describing an app | Participants |
@@ -100,13 +101,17 @@ Single-file HTML, no build step, GitHub Pages-ready. Redesigned (commit `4b2478a
 
 ---
 
-## promo-animation.html Notes
+## Films Notes (promo-animation.html, prequel-animation.html)
 
-- **Audience:** people who have already signed up. It explains the process, not why to come (a prequel/recruiting cut is a separate piece).
+- **Two parts.** Part 1 `prequel-animation.html` persuades educators; part 2 `promo-animation.html` walks signed-up people through the day. Each start screen links the other; part 1 ends on "Next: how the day works".
+- **Part 1's source** is `lpcode808/KSEDTECH-26-present` `vibe/` (slides 21A/21, 22, 20, 05B, 04) and Justin's spoken version of 21A/21 in `mpi-vibe/practice-2026-07-20.md`. Read it; don't edit that repo from here.
+- **Part 1's music** is two Stock Library cues cut at the snap: "Cold Room" (suspense loop, 88 bpm) under the old way, stopped dead at 19.09 s, a 0.45 s silence, a snap, then "Whiteboard Morning" (ukulele, moved to E major, 112 bpm) whose last chord lands at 56.0 s. The room turns from Paper Press cream to Studio navy at the snap, as the deck turns from cream to blue.
+- **Shared code is copied, not linked** (each page is one offline file): helpers, shapes and the player in part 1 came from part 2. A player fix goes into both.
+- **Audience (part 2):** people who have already signed up. It explains the process, not why to come.
 - **Timeline:** scene cuts sit on the bar lines of the music (96 bpm, bar = 2.5 s, bar 1 at 0.04 s): Hook 0–7.5, Mindset –15, Frame –22.5, Generate –32.5, Test & steer –42.5, Ship –50, Ideas –55, CTA –60. That is up to 1.5 s off the brief's times, by choice.
 - **Music** is "Further Up" from `Audio-in-the-Cloud/stock-library` written out at 60 s; its strings enter during Frame, its drum lift lands as the bug is fixed (35.04 s), and its last chord lands on the CTA (55.04 s). Effects come from the page's own `cues()` list. Rebuild with `node promo/score.mjs` after changing timings.
 - **Embedded assets** live in one `<script>` at the bottom between `/* @asset name */ … /* @end */` markers. Edit the code above them; `promo/build.mjs` (fonts, QR) and `promo/score.mjs` (audio) rewrite the markers.
-- **Checks:** `node promo/check.mjs --sheet --player` (no console errors, no visible text under 28 px or off frame, player controls at three sizes).
+- **Checks:** `node promo/check.mjs [--film prequel] --sheet --player` (no console errors, no visible text under 28 px or off frame, player controls at three sizes). Every `promo/` script takes `--film intro|prequel` (default intro).
 
 ## Content Decisions
 

@@ -1,16 +1,20 @@
-// Writes the soundtrack and embeds it in promo-animation.html.
-//   node promo/score.mjs [--reuse-music]
-// Music: "Further Up", the inspirational build from Audio-in-the-Cloud's Stock Library (stock-library/engine.js
-// on the shared instruments), written out at 60 s: 96 bpm, D major, 22 bars and a last chord on bar 23 (55.04 s).
-// Sound effects: synthesized here from the page's own cue list (cues() in promo-animation.html), so every click,
-// pop and whoosh sits on the frame that causes it. The two are added, peaks over -1.5 dBFS are rounded by a curve
-// with no memory, and the result goes into ASSETS.audio as a 128 kb/s MP3. promo/out/score.wav keeps the full mix
-// for promo/video.mjs.
+// Writes a film's soundtrack and embeds it in its page.
+//   node promo/score.mjs [--film intro|prequel] [--reuse-music]
+// Music: the page's MUSIC_PLAN, a list of Stock Library cues from Audio-in-the-Cloud (stock-library/engine.js on
+// the shared instruments), each written out with the engine's own options and laid at its time, with optional
+// fades and a cut-off. The intro is "Further Up" at 60 s; the prequel is "Cold Room" (suspense loop) up to the
+// snap, a beat of silence, then "Whiteboard Morning" (corporate cut) in E major.
+// Sound effects: synthesized here from the page's own cue list (cues()), so every click, pop and whoosh sits on
+// the frame that causes it. Music and effects are added, peaks over -1.5 dBFS are rounded by a curve with no
+// memory, and the result goes into ASSETS.audio as a 128 kb/s MP3. promo/out/<film>/score.wav keeps the full mix
+// for promo/video.mjs. Rendered cues are cached in promo/out/music-*.f32 (--reuse-music uses them).
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
-import { PAGE, OUT, AUDIO_REPO, writeAsset } from './assets.mjs';
+import crypto from 'node:crypto';
+import { OUT as OUT0, AUDIO_REPO, writeAsset, film } from './assets.mjs';
+const F = film(), PAGE = F.page, OUT = path.join(OUT0, F.name);
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
@@ -22,9 +26,9 @@ const browser = await chromium.launch();
 const page = await browser.newPage();
 await page.goto('file://' + PAGE + '?render=1');
 await page.waitForFunction(() => window.__ready, null, { timeout: 60000 });
-const { DUR, cues } = await page.evaluate(() => ({ DUR: PROMO.DUR, cues: PROMO.cues() }));
+const { DUR, cues, plan } = await page.evaluate(() => ({ DUR: PROMO.DUR, cues: PROMO.cues(), plan: PROMO.MUSIC_PLAN }));
 await page.close();
-console.log(`${cues.length} cues over ${DUR} s`);
+console.log(`${F.name}: ${cues.length} cues over ${DUR} s, ${plan.length} music cue(s)`);
 
 const harness = path.join(AUDIO_REPO, 'stock-library', 'tests', 'harness.html');
 if (!fs.existsSync(harness)) throw new Error('Audio-in-the-Cloud not found at ' + AUDIO_REPO + ' (set AUDIO_REPO)');
@@ -33,19 +37,31 @@ lab.on('pageerror', e => console.log('ERR', e.message));
 await lab.goto('file://' + harness);
 const f32 = b64 => { const b = Buffer.from(b64, 'base64'); return new Float32Array(b.buffer, b.byteOffset, b.length / 4); };
 
-// the music (about 45 s to write in headless Chromium on four cores)
-const cache = path.join(OUT, 'music.f32');
-let mL, mR;
-if (process.argv.includes('--reuse-music') && fs.existsSync(cache)) {
-  const all = new Float32Array(fs.readFileSync(cache).buffer.slice(0)); mL = all.subarray(0, all.length / 2); mR = all.subarray(all.length / 2);
-  console.log('music: reused ' + cache);
-} else {
-  const t0 = Date.now();
-  const r = await lab.evaluate(() => take('inspire', { length: 60 }));
-  if (r.sr !== SR) throw new Error('music came back at ' + r.sr + ' Hz');
-  mL = f32(r.L); mR = f32(r.R);
-  const all = new Float32Array(mL.length * 2); all.set(mL, 0); all.set(mR, mL.length); fs.writeFileSync(cache, Buffer.from(all.buffer));
-  console.log(`music: "${r.cue.title}", ${r.cue.tempo} bpm, ${r.cue.key.name}, ${r.cue.bars} bars, last chord at ${r.cue.chart.at(-1).t} s (${((Date.now() - t0) / 1000).toFixed(0)} s to write)`);
+// the music: each cue in the plan, written (or reused from the cache), then laid into one bed
+const N0 = Math.round(DUR * SR), mL = new Float32Array(N0), mR = new Float32Array(N0);
+for (const seg of plan) {
+  const key = crypto.createHash('sha1').update(JSON.stringify([seg.family, seg.opt])).digest('hex').slice(0, 10);
+  const cache = path.join(OUT0, `music-${seg.family}-${key}.f32`);
+  let L, R;
+  if (process.argv.includes('--reuse-music') && fs.existsSync(cache)) {
+    const all = new Float32Array(fs.readFileSync(cache).buffer.slice(0)); L = all.subarray(0, all.length / 2); R = all.subarray(all.length / 2);
+    console.log(`music: ${seg.family} reused from ${cache}`);
+  } else {
+    const t0 = Date.now();
+    const r = await lab.evaluate(([f, o]) => take(f, o), [seg.family, seg.opt]);
+    if (r.sr !== SR) throw new Error('music came back at ' + r.sr + ' Hz');
+    L = f32(r.L); R = f32(r.R);
+    const all = new Float32Array(L.length * 2); all.set(L, 0); all.set(R, L.length); fs.writeFileSync(cache, Buffer.from(all.buffer));
+    console.log(`music: "${r.cue.title}" (${seg.family} ${r.cue.kind}), ${r.cue.tempo} bpm, ${r.cue.key.name}, ${r.cue.bars} bars, ${r.cue.length} s, last chord at ${r.cue.chart.at(-1).t} s (${((Date.now() - t0) / 1000).toFixed(0)} s to write)`);
+  }
+  // lay it in: starts at seg.at (s), from seg.from (s into the take), ends at seg.until, with fades
+  const at = Math.round((seg.at || 0) * SR), from = Math.round((seg.from || 0) * SR), until = Math.min(N0, Math.round((seg.until == null ? DUR : seg.until) * SR));
+  const fi = Math.max(1, Math.round((seg.fadeIn || 0) * SR)), fo = Math.max(1, Math.round((seg.fadeOut || 0) * SR)), g = seg.gain == null ? 1 : Math.pow(10, seg.gain / 20);
+  for (let i = at; i < until; i++) {
+    const j = from + i - at; if (j >= L.length) break;
+    const k = Math.min(1, (i - at) / fi, (until - i) / fo) * g;
+    mL[i] += L[j] * k; mR[i] += R[j] * k;
+  }
 }
 
 // the sound effects
@@ -120,6 +136,24 @@ const sfx = await lab.evaluate(async ({ cues, DUR }) => {
         s.connect(bp).connect(g).connect(bus(0));
         break;
       }
+      case 'snap': {   // fingers: a sharp crack of noise with a short body, and a touch more room
+        const g = ac.createGain(); env(g, t, .0005, .5 * v, .05); noise(t, .08).connect(filt('bandpass', 2300, 1.6)).connect(g).connect(bus(0));
+        const g2 = ac.createGain(); env(g2, t, .0005, .25 * v, .012); noise(t, .02).connect(filt('highpass', 5000, .7)).connect(g2).connect(bus(0));
+        tone('sine', 1300, t, .0005, .1 * v, .03, 0, 700);
+        break;
+      }
+      case 'stamp': {  // a rubber stamp: a dull thud and a slap
+        tone('sine', 140, t, .002, .3 * v, .12, 0, 70);
+        const g = ac.createGain(); env(g, t, .001, .14 * v, .05); noise(t, .06).connect(filt('lowpass', 1800, .7)).connect(g).connect(bus(0));
+        break;
+      }
+      case 'strike': { // a marker line drawn across a word
+        const d = .22, s = noise(t, d), bp = filt('bandpass', 1500, 2), g = ac.createGain();
+        bp.frequency.setValueAtTime(1200, t); bp.frequency.linearRampToValueAtTime(2400, t + d);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1 * v, t + .03); g.gain.setValueAtTime(.1 * v, t + d - .05); g.gain.linearRampToValueAtTime(0, t + d);
+        s.connect(bp).connect(g).connect(bus(-.2));
+        break;
+      }
       case 'bloom': {
         const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = mtof(50);
         g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1, t + .45); g.gain.exponentialRampToValueAtTime(.0001, t + 2.4);
@@ -160,5 +194,5 @@ fs.writeFileSync(path.join(OUT, 'sfx.f32'), Buffer.concat([Buffer.from(sL.buffer
 execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wavPath, '-c:a', 'libmp3lame', '-b:a', '128k', mp3Path]);
 const loud = execFileSync('ffmpeg', ['-hide_banner', '-nostats', '-i', wavPath, '-af', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).toString();
 const mp3 = fs.readFileSync(mp3Path);
-const size = writeAsset('audio', mp3.toString('base64'));
+const size = writeAsset('audio', mp3.toString('base64'), PAGE);
 console.log(`mix: peak before rounding ${(20 * Math.log10(peakIn)).toFixed(1)} dBFS, ${(rounded / SR * 1000).toFixed(0)} ms rounded; mp3 ${(mp3.length / 1024).toFixed(0)} KB; page ${(size / 1024).toFixed(0)} KB`);
