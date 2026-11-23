@@ -3,6 +3,7 @@
 **Build your first web app with AI — no coding experience needed.**
 
 > **→ [Open the Interactive Guide](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/gemini-guide.html)**
+> **▶ [Watch the 60-second intro](https://lpcode808.github.io/Hawaii-Code-AI-Thon-Help/promo-animation.html)** (or download [`assets/video/code-aithon-60s.mp4`](assets/video/code-aithon-60s.mp4))
 
 ---
 
@@ -29,6 +30,9 @@ The process: **Research → Generate → Tweak → Deploy**
 |------|-----|---------|
 | **`gemini-guide.html`** | Participants | Interactive guide: Canvas + AI Studio Build paths, super prompt, app ideas, iteration tips, deploy, troubleshooting, AI Workshop Coach |
 | `guide-map.html` | Participants + Facilitators | Scrollable 4-phase visual journey map |
+| `promo-animation.html` | Facilitators (projected) | 60-second intro to how the day works: frame it, generate, test & steer, ship. Works offline; `Space` play/pause, `R` replay, `L` loop, `F` full screen |
+| `assets/video/code-aithon-60s.mp4` | Facilitators | The same intro as a 1080p video, for Slides, Sites or Classroom |
+| `promo/` | Maintainers | Build scripts for the intro (soundtrack, video, checks); see `promo/README.md` |
 | `README.md` | Facilitators | This file — event overview, agenda, facilitation notes |
 | `superprompt.md` | Participants | The prompt to paste into Gemini before describing an app |
 | `quick-start.md` | Participants | Step-by-step walkthrough with Google Doc template |
@@ -86,6 +90,7 @@ The process: **Research → Generate → Tweak → Deploy**
 - [ ] Shared Drive folder link visible to participants (on screen or QR code)
 - [ ] Super prompt ready to paste (in `gemini-guide.html` or a shared Doc)
 - [ ] You've confirmed Gemini works on venue WiFi
+- [ ] Intro queued for kickoff: `promo-animation.html`, press `F` for full screen (for a silent hallway loop, open it with `?loop=1&autoplay=1`)
 
 ### Backup / Contingency Plan
 

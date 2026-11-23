@@ -17,6 +17,8 @@ Workshop materials for a **beginner AI vibe-coding hackathon** for **middle & hi
 |------|---------|---------|
 | `gemini-guide.html` | **Primary deliverable** — interactive guide with TOC, search, copy blocks, expandable steps, screenshot placeholders, and AI Workshop Coach prompt. Links to journey map at hero & footer. | Participants (self-paced or projected) |
 | `guide-map.html` | **Journey map** — scrollable vertical roadmap with 4 phases, fork/fan SVG connectors, 13 clickable cards deep-linking into `gemini-guide.html`, and 3 help/reference cards. | Participants + Facilitators (for projection) |
+| `promo-animation.html` | **60-second intro animation** — 8 beats on a 1920×1080 canvas, drawn by `renderAt(t)` from the time alone. Music + effects, fonts and QR embedded, so it runs offline. Built and checked by `promo/` (see `promo/README.md`). | Facilitators (projected at kickoff, hallway loop) |
+| `assets/video/code-aithon-60s.mp4` | The same intro rendered to H.264 1080p30 with sound (`promo/video.mjs`) | Facilitators |
 | `index.html` | **Redirect only** — `<meta refresh>` to `gemini-guide.html`. Root URL goes straight to the guide. | — |
 | `README.md` | Facilitator event guide — 5-phase agenda, setup checklist, teaching notes | Facilitators |
 | `superprompt.md` | The core prompt to paste into Gemini before describing an app | Participants |
@@ -97,6 +99,14 @@ Single-file HTML, no build step, GitHub Pages-ready. Redesigned (commit `4b2478a
 - Responsive: fork/fan rows stack cleanly on mobile with fallback vertical connectors
 
 ---
+
+## promo-animation.html Notes
+
+- **Audience:** people who have already signed up. It explains the process, not why to come (a prequel/recruiting cut is a separate piece).
+- **Timeline:** scene cuts sit on the bar lines of the music (96 bpm, bar = 2.5 s, bar 1 at 0.04 s): Hook 0–7.5, Mindset –15, Frame –22.5, Generate –32.5, Test & steer –42.5, Ship –50, Ideas –55, CTA –60. That is up to 1.5 s off the brief's times, by choice.
+- **Music** is "Further Up" from `Audio-in-the-Cloud/stock-library` written out at 60 s; its strings enter during Frame, its drum lift lands as the bug is fixed (35.04 s), and its last chord lands on the CTA (55.04 s). Effects come from the page's own `cues()` list. Rebuild with `node promo/score.mjs` after changing timings.
+- **Embedded assets** live in one `<script>` at the bottom between `/* @asset name */ … /* @end */` markers. Edit the code above them; `promo/build.mjs` (fonts, QR) and `promo/score.mjs` (audio) rewrite the markers.
+- **Checks:** `node promo/check.mjs --sheet --player` (no console errors, no visible text under 28 px or off frame, player controls at three sizes).
 
 ## Content Decisions
 

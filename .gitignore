@@ -10,3 +10,6 @@ Thumbs.db
 
 # Misc
 *.log
+
+# promo build scratch (frames, WAVs)
+promo/out/
