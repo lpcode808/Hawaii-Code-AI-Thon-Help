@@ -2,8 +2,8 @@
 //   node promo/score.mjs [--film intro|prequel] [--reuse-music]
 // Music: the page's MUSIC_PLAN, a list of Stock Library cues from Audio-in-the-Cloud (stock-library/engine.js on
 // the shared instruments), each written out with the engine's own options and laid at its time, with optional
-// fades and a cut-off. The intro is "Further Up" at 60 s; the prequel is "Cold Room" (suspense loop) up to the
-// snap, a beat of silence, then "Whiteboard Morning" (corporate cut) in E major.
+// fades, a cut-off and an optional tape stop. The intro is "Further Up" at 60 s; the prequel is "Tape Left Running"
+// (lo-fi loop) in E major, wound down like a tape, a snap, then "Whiteboard Morning" (corporate cut) in E major.
 // Sound effects: synthesized here from the page's own cue list (cues()), so every click, pop and whoosh sits on
 // the frame that causes it. Music and effects are added, peaks over -1.5 dBFS are rounded by a curve with no
 // memory, and the result goes into ASSETS.audio as a 128 kb/s MP3. promo/out/<film>/score.wav keeps the full mix
@@ -54,13 +54,19 @@ for (const seg of plan) {
     const all = new Float32Array(L.length * 2); all.set(L, 0); all.set(R, L.length); fs.writeFileSync(cache, Buffer.from(all.buffer));
     console.log(`music: "${r.cue.title}" (${seg.family} ${r.cue.kind}), ${r.cue.tempo} bpm, ${r.cue.key.name}, ${r.cue.bars} bars, ${r.cue.length} s, last chord at ${r.cue.chart.at(-1).t} s (${((Date.now() - t0) / 1000).toFixed(0)} s to write)`);
   }
-  // lay it in: starts at seg.at (s), from seg.from (s into the take), ends at seg.until, with fades
+  // lay it in: starts at seg.at (s), from seg.from (s into the take), ends at seg.until, with fades. tapeStop (s):
+  // the last stretch before seg.until plays slower and slower to a stop, as a tape does when the motor is cut
   const at = Math.round((seg.at || 0) * SR), from = Math.round((seg.from || 0) * SR), until = Math.min(N0, Math.round((seg.until == null ? DUR : seg.until) * SR));
   const fi = Math.max(1, Math.round((seg.fadeIn || 0) * SR)), fo = Math.max(1, Math.round((seg.fadeOut || 0) * SR)), g = seg.gain == null ? 1 : Math.pow(10, seg.gain / 20);
+  const ts = Math.round((seg.tapeStop || 0) * SR), tsAt = until - ts;
+  let pos = 0;
   for (let i = at; i < until; i++) {
-    const j = from + i - at; if (j >= L.length) break;
-    const k = Math.min(1, (i - at) / fi, (until - i) / fo) * g;
-    mL[i] += L[j] * k; mR[i] += R[j] * k;
+    const slow = ts > 0 && i >= tsAt;
+    if (!slow) pos = from + i - at; else pos += 1 - (i - tsAt) / ts;
+    const j0 = Math.floor(pos), fr = pos - j0; if (j0 + 1 >= L.length) break;
+    let k = Math.min(1, (i - at) / fi, (until - i) / fo) * g;
+    if (slow) k *= Math.min(1, (until - i) / (ts * .35));
+    mL[i] += (L[j0] + (L[j0 + 1] - L[j0]) * fr) * k; mR[i] += (R[j0] + (R[j0 + 1] - R[j0]) * fr) * k;
   }
 }
 
